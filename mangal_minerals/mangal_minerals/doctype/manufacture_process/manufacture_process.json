@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-05-28 12:51:48.148557",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_5ilq",
+  "amended_from",
+  "process_name",
+  "warehouse",
+  "column_break_hkvt",
+  "date",
+  "voucher_number",
+  "section_break_elcy",
+  "material_input",
+  "column_break_nvir",
+  "material_output",
+  "section_break_tmmk",
+  "remarks",
+  "naming_series"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_5ilq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Manufacture Process",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "process_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Process Name",
+   "options": "Process Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_hkvt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "material_input",
+   "fieldtype": "Table",
+   "label": "Material Input",
+   "options": "Material Input"
+  },
+  {
+   "fieldname": "material_output",
+   "fieldtype": "Table",
+   "label": "Material Output",
+   "options": "Material Output"
+  },
+  {
+   "fieldname": "section_break_elcy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_nvir",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_tmmk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "voucher_number",
+   "fieldtype": "Data",
+   "label": "Voucher Number",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-05-31 15:59:33.307667",
+ "modified_by": "Administrator",
+ "module": "Mangal Minerals",
+ "name": "Manufacture Process",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

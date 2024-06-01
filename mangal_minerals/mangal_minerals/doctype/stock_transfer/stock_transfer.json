@@ -1,0 +1,132 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-05-28 16:00:03.781452",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_apf9",
+  "amended_from",
+  "default_from_warehouse",
+  "column_break_rdmw",
+  "default_to_warehouse",
+  "reference_no",
+  "column_break_yenb",
+  "date_sdfs",
+  "voucher_number",
+  "items_section",
+  "items",
+  "remarks",
+  "naming_series"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_apf9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Stock Transfer",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "default_from_warehouse",
+   "fieldtype": "Link",
+   "label": "Default From Warehouse",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "default_to_warehouse",
+   "fieldtype": "Link",
+   "label": "Default To Warehouse",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "options": "Warehouse"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date_sdfs",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "column_break_rdmw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_yenb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "hide_border": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series"
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Reference No.",
+   "options": "Manufacture Process"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Stock Transfer Item"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "voucher_number",
+   "fieldtype": "Data",
+   "label": "Voucher Number",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-06-01 12:25:14.004412",
+ "modified_by": "Administrator",
+ "module": "Mangal Minerals",
+ "name": "Stock Transfer",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

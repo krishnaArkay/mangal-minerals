@@ -123,10 +123,11 @@ app_license = "mit"
 # Hook on document methods and events
 
 # doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
+# 	"Manufacture Process": {
+#         "on_submit": "mangal_minerals.mangal_minerals.doctype.api.on_sales_order_submit",
+		# "on_update": "method",
+		# "on_cancel": "method",
+		# "on_trash": "method"
 # 	}
 # }
 
