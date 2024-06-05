@@ -77,3 +77,18 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                 jumbo_bag_entry.submit()
                 
                 frappe.msgprint(f"Stock deducted from {mangal_bag_item} due to negative stock of {item_code}.")
+
+def item_validation(doc,method):
+    if doc.item_group == "Jumbo Bag":
+        doc.allow_negative_stock = 1
+        
+        if doc.custom_mangals_bag:
+            item_exists = frappe.db.exists({
+            'doctype': 'Item',
+            'item_group': 'Jumbo Bag',
+            'custom_mangals_bag': 1
+            })
+        
+            if item_exists:
+                # Logic if the item exists
+                frappe.throw("An item with 'Mangal's Bag' already exists.")

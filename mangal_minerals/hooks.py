@@ -45,7 +45,7 @@ app_license = "mit"
 # home_page = "login"
 
 # website user home page (by Role)
-# role_home_page = {
+# role_home_page = {f
 # 	"Role": "home_page"
 # }
 
@@ -122,14 +122,15 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"Manufacture Process": {
-#         "on_submit": "mangal_minerals.mangal_minerals.doctype.api.on_sales_order_submit",
+doc_events = {
+	"Item": {
+        "before_save": "mangal_minerals.mangal_minerals.doctype.api.item_validation"
+        # "on_submit": "mangal_minerals.mangal_minerals.doctype.api.on_sales_order_submit",
 		# "on_update": "method",
 		# "on_cancel": "method",
 		# "on_trash": "method"
-# 	}
-# }
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -227,4 +228,5 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
 
