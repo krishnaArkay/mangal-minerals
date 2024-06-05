@@ -5,8 +5,6 @@ import frappe
 from frappe.model.document import Document
 from mangal_minerals.mangal_minerals.doctype.api import create_stock_transfer_entry, cancel_stock_entry
 
-
-
 class StoreManagement(Document):
 	def on_submit(self):
 		if self.entry_type == "Stock In":
@@ -35,8 +33,20 @@ class StoreManagement(Document):
 						"item_code": item.item,
 						"qty": item.quantity,
 						"s_warehouse": self.warehouse,  # Assuming "Stores" is the source warehouse
-						# "t_warehouse": self.warehouse
 					} for item in items_with_purpose]
 					stock_entry_name = create_stock_transfer_entry(stock_entry_items, stock_entry_type)
 					purposes[row.purpose] = stock_entry_name  # Track the created stock entry
 					frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully for purpose {row.purpose}.")
+
+			for row in self.items:
+				row.voucher_number = purposes.get(row.purpose, '')
+
+			self.save()				
+	
+	def on_cancel(self):
+		if self.entry_type == "Stock In":
+			cancel_stock_entry(self.voucher_number)
+		else:
+			for row in self.items:
+				if row.voucher_number:
+					cancel_stock_entry(row.voucher_number)

@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class ScheduledTable(Document):
+class OpenOrderSchedulerItem(Document):
 	pass

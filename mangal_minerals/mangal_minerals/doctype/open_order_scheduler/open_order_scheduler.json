@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-04 14:30:20.854986",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_s2xf",
+  "amended_from",
+  "open_order",
+  "total_trucks_required",
+  "column_break_ewuv",
+  "date",
+  "total_quantity",
+  "section_break_cvam",
+  "items",
+  "section_break_zcoi",
+  "total_delivered_mt",
+  "column_break_enzg",
+  "total_remaining_mt"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_s2xf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Open Order Scheduler",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "open_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Open Order",
+   "options": "Blanket Order",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_trucks_required",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Trucks Required",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ewuv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Quantity",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_cvam",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Scheduler Items",
+   "options": "Open Order Scheduler Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_zcoi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_delivered_mt",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Delivered MT",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_enzg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_remaining_mt",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Remaining MT",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-06-04 14:38:03.743782",
+ "modified_by": "Administrator",
+ "module": "Mangal Minerals",
+ "name": "Open Order Scheduler",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

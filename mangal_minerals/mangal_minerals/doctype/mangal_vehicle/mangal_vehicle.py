@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class JumboBag(Document):
+class MangalVehicle(Document):
 	pass

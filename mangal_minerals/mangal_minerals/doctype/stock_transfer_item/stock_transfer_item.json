@@ -9,6 +9,8 @@
   "item",
   "quantity",
   "transporter_name",
+  "vehicle",
+  "vehicle_type",
   "column_break_ifiy",
   "trip_cycle",
   "from_warehouse",
@@ -16,6 +18,7 @@
  ],
  "fields": [
   {
+   "columns": 1,
    "fieldname": "item",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -59,7 +62,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "From Warehouse",
-   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"],[\"Warehouse\",\"is_group\",\"=\",0]]",
    "options": "Warehouse",
    "reqd": 1
   },
@@ -70,15 +73,32 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "To Warehouse",
-   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"],[\"Warehouse\",\"is_group\",\"=\",0]]",
    "options": "Warehouse",
    "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Vehicle",
+   "options": "Mangal Vehicle",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "vehicle.vehicle_type",
+   "fieldname": "vehicle_type",
+   "fieldtype": "Data",
+   "label": "Vehicle Type",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-01 12:05:18.441900",
+ "modified": "2024-06-04 14:23:11.591032",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Stock Transfer Item",

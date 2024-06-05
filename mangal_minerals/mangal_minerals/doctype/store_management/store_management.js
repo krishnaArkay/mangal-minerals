@@ -32,6 +32,8 @@ frappe.ui.form.on("Store Management", {
                 };
             });
         }
+        frm.clear_table("items"); 
+        frm.refresh_fields("items");
         setPurposeFilter(frm);
 	},
 
@@ -44,8 +46,17 @@ frappe.ui.form.on('Store Management Items', {
     items_add: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (frm.doc.entry_type === "Stock In") {
+            if(!frm.doc.entry_for){
+                frm.clear_table("items"); 
+                frm.refresh_fields("items");
+                // frm.get_field('entry_for').$wrapper.find('input').focus();
+                frappe.throw('<span style="color: red;">Please first select an Entry For.</span>')
+            }
             console.log("stock in")
             row.purpose = frm.doc.entry_for;
+        }
+        if(frm.doc.person_responsible){
+            row.person_name = frm.doc.person_responsible
         }
 
         setPurposeQuery(frm);

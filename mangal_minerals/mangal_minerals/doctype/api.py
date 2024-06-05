@@ -1,22 +1,4 @@
 import frappe
-# def create_stock_entry(items):
-#     # Create a new Stock Entry document
-#     stock_entry = frappe.get_doc({
-#         "doctype": "Stock Entry",
-#         "stock_entry_type": stock_entry_type,
-#         "items": [{
-#             "item_code": item_code,
-#             "qty": qty,
-#             "t_warehouse": target_warehouse
-#         }]
-#     })
-
-    # Insert the document into the database
-    # stock_entry.save()
-    # # Submit the document to make it a valid entry
-    # stock_entry.submit()
-    
-    # return stock_entry.name
 
 def create_stock_transfer_entry(items,stock_entry_type):
     doc = frappe.get_doc({
@@ -24,13 +6,11 @@ def create_stock_transfer_entry(items,stock_entry_type):
         "stock_entry_type": stock_entry_type,
         "items": items
     })
-    
     doc.save()
     doc.submit()
     return doc.name
 
 def create_stock_entry_manufacture(input_items, output_items, target_warehouse, stock_entry_type):
-    # Initialize stock entry items list
     items = []
     
     # Add items from Material Input with s_warehouse set
@@ -48,7 +28,7 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
             "item_code": item,
             "qty": qty,
             "t_warehouse": target_warehouse,
-            "is_finished_item": is_finished_good  # Directly using row.is_finished_good
+            "is_finished_item": is_finished_good  
         })
     
     # Create stock entry document
@@ -64,7 +44,36 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
     
     return stock_entry.name
 
-def cancel_stock_entry(stock_entry_name):
-    stock_entry = frappe.get_doc("Stock Entry", stock_entry_name)
-    if stock_entry.docstatus == 1:  # Check if the stock entry is submitted
-        stock_entry.cancel()
+def cancel_stock_entry(self):
+    if self.voucher_number:
+        frappe.get_doc("Stock Entry", self.voucher_number).cancel()
+
+# Jumbo Bag Stock Effect
+@frappe.whitelist(allow_guest=True)
+def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal_warehouse):
+    jumbo_bag = frappe.get_doc("Jumbo Bag Management", jumbo_bag_name)
+
+    for item in jumbo_bag.items:
+        if item.mangals_bag == 0:
+            item_code = item.item
+
+            stock = frappe.get_value("Bin", {"item_code": item_code, "warehouse": warehouse}, "actual_qty")
+            
+            if stock < 0:
+                # Create Jumbo Bag document
+                jumbo_bag_entry = frappe.get_doc({
+                    "doctype": "Jumbo Bag Management",
+                    "entry_purpose":entry_purpose,
+                    "warehouse": mangal_warehouse,
+                    "jumbo_bag_reference": jumbo_bag_name,
+                    "remarks": f"{item_code} - this item has negative value that's why Mangal Minerals {mangal_bag_item} bag Stock Effect. Reference of Jumbo Bag {jumbo_bag_name}",
+                    "items": [{
+                        "item": mangal_bag_item,
+                        "quantity": -stock,  # Deduct the negative stock from the Mangal Bag item
+                    }]
+                })
+
+                jumbo_bag_entry.save()
+                jumbo_bag_entry.submit()
+                
+                frappe.msgprint(f"Stock deducted from {mangal_bag_item} due to negative stock of {item_code}.")

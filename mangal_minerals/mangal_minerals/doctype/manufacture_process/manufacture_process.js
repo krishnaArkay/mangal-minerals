@@ -3,6 +3,11 @@
 
 frappe.ui.form.on("Manufacture Process", {
 	refresh: function(frm) {
+        if (frm.is_new()) {
+            frm.doc.voucher_number = "";
+            frm.doc.jumbo_bag = "";
+            frm.doc.remarks = ""
+        }
        if(frm.doc.docstatus === 1){
             // Add a custom button for the Stock Ledger report
             frm.add_custom_button(__('Stock Ledger'), function() {
@@ -21,16 +26,21 @@ frappe.ui.form.on("Manufacture Process", {
         }
     },
     before_save: function(frm) {
+        let total_percentage = 0;
+    
         frm.doc.material_output.forEach(function(row) {
+            total_percentage += row.percentage;
+    
             // Check if percentage is 0
-            if (row.percentage === 0) {
-                // Remove row from Material Output table
-                var index = frm.doc.material_output.findIndex(item => item.name === row.name);
-                if (index !== -1) {
-                    frm.doc.material_output.splice(index, 1);
-                }
-            }
+            // if (row.percentage === 0) {
+            //     // Remove row from Material Output table
+            //     frm.doc.material_output = frm.doc.material_output.filter(item => item.name !== row.name);
+            // }
         });
+    
+        if (total_percentage !== 100) {
+            frappe.throw("The total percentage must be 100%.");
+        }
     }
 });
 
@@ -52,8 +62,8 @@ frappe.ui.form.on('Material Output', {
         });
 
         if (total_percentage > 100) {
-            frappe.msgprint("Total percentage cannot exceed 100%. Please adjust.");
-            frappe.model.set_value(cdt, cdn, 'percentage', 0);
+            frappe.throw("Total percentage cannot exceed 100%. Please adjust.");
+            // frappe.model.set_value(cdt, cdn, 'percentage', 0);
             return;
         }
     }

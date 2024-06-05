@@ -2,16 +2,20 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2024-05-28 17:08:23.887039",
+ "creation": "2024-06-03 10:57:58.279479",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_8ijf",
   "amended_from",
-  "entry_type",
+  "entry_purpose",
   "warehouse",
   "column_break_opum",
   "date",
+  "reference_doctype",
+  "reference_number",
+  "jumbo_bag_reference",
+  "voucher_number",
   "section_break_ushp",
   "items",
   "remarks",
@@ -27,18 +31,10 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Jumbo Bag",
+   "options": "Jumbo Bag Management",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
-  },
-  {
-   "fieldname": "entry_type",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Entry Type",
-   "options": "Stock Entry Type",
-   "reqd": 1
   },
   {
    "fieldname": "warehouse",
@@ -76,29 +72,68 @@
    "label": "Remarks"
   },
   {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series"
+  },
+  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Jumbo Bag",
+   "options": "Jumbo Bag Management",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
   },
   {
-   "fieldname": "naming_series",
+   "fieldname": "entry_purpose",
    "fieldtype": "Select",
-   "hidden": 1,
-   "label": "Naming Series"
+   "in_list_view": 1,
+   "label": "Entry Purpose",
+   "options": "\nInward\nFilled\nDamage\nDelivered",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "reference_number",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Number",
+   "options": "reference_doctype",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "voucher_number",
+   "fieldtype": "Data",
+   "label": "Voucher Number",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Doctype",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "jumbo_bag_reference",
+   "fieldtype": "Link",
+   "label": "Jumbo Bag Reference",
+   "options": "Jumbo Bag Management",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-28 17:12:42.412232",
+ "modified": "2024-06-05 11:49:14.875917",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
- "name": "Jumbo Bag",
+ "name": "Jumbo Bag Management",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [

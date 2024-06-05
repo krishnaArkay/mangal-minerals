@@ -7,7 +7,8 @@
  "engine": "InnoDB",
  "field_order": [
   "item",
-  "quantity"
+  "quantity",
+  "mangals_bag"
  ],
  "fields": [
   {
@@ -27,12 +28,19 @@
    "in_standard_filter": 1,
    "label": "Quantity",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "item.custom_mangals_bag",
+   "fieldname": "mangals_bag",
+   "fieldtype": "Check",
+   "label": "Mangal's Bag"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-28 17:40:55.597059",
+ "modified": "2024-06-04 17:26:51.960354",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Jumbo Bag Items",

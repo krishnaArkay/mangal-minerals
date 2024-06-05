@@ -15,6 +15,7 @@
   "voucher_number",
   "section_break_elcy",
   "material_input",
+  "jumbo_bag_items",
   "column_break_nvir",
   "material_output",
   "section_break_tmmk",
@@ -61,7 +62,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Warehouse",
-   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"],[\"Warehouse\",\"is_group\",\"=\",0]]",
    "options": "Warehouse",
    "reqd": 1
   },
@@ -69,13 +70,15 @@
    "fieldname": "material_input",
    "fieldtype": "Table",
    "label": "Material Input",
-   "options": "Material Input"
+   "options": "Material Input",
+   "reqd": 1
   },
   {
    "fieldname": "material_output",
    "fieldtype": "Table",
    "label": "Material Output",
-   "options": "Material Output"
+   "options": "Material Output",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_elcy",
@@ -97,7 +100,6 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Naming Series"
   },
   {
@@ -106,12 +108,18 @@
    "fieldtype": "Data",
    "label": "Voucher Number",
    "read_only": 1
+  },
+  {
+   "fieldname": "jumbo_bag_items",
+   "fieldtype": "Table",
+   "label": "Jumbo Bag Items",
+   "options": "Jumbo Bag Items"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-31 15:59:33.307667",
+ "modified": "2024-06-03 12:50:03.655321",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Manufacture Process",
