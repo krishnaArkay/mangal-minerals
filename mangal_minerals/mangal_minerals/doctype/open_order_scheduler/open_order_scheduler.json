@@ -12,6 +12,7 @@
   "column_break_ewuv",
   "date",
   "total_quantity",
+  "per_truck_mt",
   "section_break_cvam",
   "items",
   "section_break_zcoi",
@@ -103,12 +104,19 @@
    "in_list_view": 1,
    "label": "Total Remaining MT",
    "read_only": 1
+  },
+  {
+   "default": "42",
+   "fieldname": "per_truck_mt",
+   "fieldtype": "Float",
+   "label": "Per Truck MT",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-04 14:38:03.743782",
+ "modified": "2024-06-06 17:54:27.583788",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler",

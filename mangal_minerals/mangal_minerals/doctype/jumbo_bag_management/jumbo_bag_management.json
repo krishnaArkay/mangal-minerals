@@ -41,6 +41,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Warehouse",
+   "link_filters": "[[\"Warehouse\",\"is_group\",\"=\",0]]",
    "options": "Warehouse",
    "reqd": 1
   },
@@ -130,7 +131,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-05 11:49:14.875917",
+ "modified": "2024-06-06 17:31:17.640237",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Jumbo Bag Management",
