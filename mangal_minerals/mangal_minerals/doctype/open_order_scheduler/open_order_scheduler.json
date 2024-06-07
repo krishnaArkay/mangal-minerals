@@ -41,6 +41,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Open Order",
+   "link_filters": "[[\"Blanket Order\",\"docstatus\",\"=\",\"1\"]]",
    "options": "Blanket Order",
    "reqd": 1
   },
@@ -116,7 +117,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-06 17:54:27.583788",
+ "modified": "2024-06-07 12:42:46.626902",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler",

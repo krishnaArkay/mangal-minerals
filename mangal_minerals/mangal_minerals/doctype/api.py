@@ -110,6 +110,8 @@ def delivery_note_on_submit(doc, method):
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
+    add_delivered_qty(doc, method)
+    
     
 #Purchase reciept
 def purchase_receipt_on_submit(doc, method):
@@ -128,6 +130,8 @@ def purchase_receipt_on_submit(doc, method):
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
+
+   
             
 
 def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, jumbo_bag_items, jumbo_bag_warehouse):    # Create a new Jumbo Bag document
@@ -146,3 +150,107 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
     # Save and submit the Jumbo Bag document
     jumbo_bag_doc.insert()
     jumbo_bag_doc.submit()
+    
+
+# Open Order
+def add_delivered_qty(doc, method):
+        delivery_date = doc.posting_date
+        delivery_note_item_qty = doc.items[0].qty
+
+        # Get the blanket order linked to the delivery note
+        blanket_order_name = frappe.db.get_value("Sales Order Item",
+                                                  filters={"parent": doc.items[0].against_sales_order},
+                                                  fieldname="blanket_order")
+
+        if blanket_order_name:
+             open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
+
+             for scheduler in open_order_schedulers:
+                total_qty = frappe.db.get_value("Open Order Scheduler", scheduler.name, "total_quantity")
+                per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
+                
+                # Update delivered quantity, remaining_mt and reference number in open order scheduler items
+                frappe.db.sql("""
+                    UPDATE `tabOpen Order Scheduler Item`
+                    SET delivered_mt = delivered_mt + %(qty)s,
+                        reference_number = CONCAT_WS(', ', reference_number, %(ref_num)s)
+                    WHERE parent = %(parent)s AND date = %(delivery_date)s
+                """, {
+                    'qty': delivery_note_item_qty,
+                    'ref_num': doc.name,
+                    'parent': scheduler.name,
+                    'delivery_date': delivery_date
+                })
+                frappe.db.sql("""
+                    UPDATE `tabOpen Order Scheduler Item`
+                    SET remaining_mt = %(total_qty)s - (
+                            SELECT COALESCE(SUM(delivered_mt), 0)
+                            FROM `tabOpen Order Scheduler Item`
+                        ),
+                        difference = planned_mt - (delivered_mt),
+                        actual_truck = delivered_mt/%(per_truck_mt)s
+                    WHERE parent = %(parent)s AND date = %(delivery_date)s
+                """, {
+                    'qty': delivery_note_item_qty,
+                    'total_qty': total_qty,
+                    'parent': scheduler.name,
+                    'delivery_date': delivery_date,
+                    'per_truck_mt': per_truck_mt,
+                })
+
+             frappe.db.sql("""
+                UPDATE `tabOpen Order Scheduler`
+                SET total_delivered_mt = (
+                    SELECT COALESCE(SUM(delivered_mt), 0) 
+                    FROM `tabOpen Order Scheduler Item`
+                    WHERE parent = %(parent)s
+                ),
+                total_remaining_mt =%(total_qty)s- total_delivered_mt
+            """, {
+                'parent': scheduler.name,
+                'total_qty':total_qty
+            })
+
+
+def deduct_delivered_qty(doc, method):
+    delivery_note_item_qty = doc.items[0].qty
+    blanket_order_name = frappe.db.get_value("Sales Order Item",
+                                                  filters={"parent": doc.items[0].against_sales_order},
+                                                  fieldname="blanket_order")
+
+    if blanket_order_name:
+             open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
+            
+             for scheduler in open_order_schedulers:
+                 total_qty = frappe.db.get_value("Open Order Scheduler", scheduler.name, "total_quantity")
+                 per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
+                    # Update delivered quantity and reference number in open order scheduler for cancelled delivery note
+                 frappe.db.sql("""
+                        UPDATE `tabOpen Order Scheduler Item`
+                        SET delivered_mt = delivered_mt - %(qty)s, 
+                              difference = planned_mt - delivered_mt, 
+                              actual_truck = delivered_mt/%(per_truck_mt)s, 
+                              reference_number = REPLACE(reference_number, %(ref_num)s, ''), 
+                              remaining_mt = remaining_mt +%(qty)s
+                        WHERE reference_number LIKE CONCAT('%%', %(ref_num)s, '%%')
+                        # WHERE reference_number = %(ref_num)s
+                    """, {
+                        'qty': delivery_note_item_qty,
+                        'ref_num': doc.name,
+                        'per_truck_mt':per_truck_mt,
+
+                    })   
+
+                 frappe.db.sql("""
+                            UPDATE `tabOpen Order Scheduler`
+                            SET total_delivered_mt = (
+                                SELECT COALESCE(SUM(delivered_mt), 0) 
+                                FROM `tabOpen Order Scheduler Item`
+                                WHERE parent = %(parent)s
+                            ),
+                              total_remaining_mt =%(total_qty)s- total_delivered_mt
+                        """, {
+                            'parent': scheduler.name,
+                            'total_qty':total_qty
+                        })
+       

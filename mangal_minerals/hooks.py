@@ -134,10 +134,10 @@ doc_events = {
 		# "on_trash": "method"
 	},
     "Delivery Note": {
-        # "before_save": "mangal_minerals.mangal_minerals.doctype.api.item_validation"
+        # "before_save": "mangal_minerals.mangal_minerals.doctype.api.update_delivered_qty",
          "on_submit": "mangal_minerals.mangal_minerals.doctype.api.delivery_note_on_submit",
 		# "on_update": "method",
-		# "on_cancel": "method",
+		 "on_cancel": "mangal_minerals.mangal_minerals.doctype.api.deduct_delivered_qty",
 		# "on_trash": "method"
 	},
     "Purchase Receipt":{

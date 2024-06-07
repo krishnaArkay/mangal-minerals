@@ -53,6 +53,7 @@
    "label": "Difference"
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fieldname": "actual_truck",
    "fieldtype": "Int",
@@ -61,6 +62,7 @@
    "label": "Actual Truck"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "delivered_mt",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -68,6 +70,7 @@
    "label": "Delivered MT"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "remaining_mt",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -75,10 +78,10 @@
    "label": "Remaining MT"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "reference_number",
-   "fieldtype": "Link",
-   "label": "Reference Number",
-   "options": "Delivery Note"
+   "fieldtype": "Data",
+   "label": "Reference Number"
   },
   {
    "fieldname": "column_break_jttu",
@@ -88,7 +91,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-04 14:36:54.893733",
+ "modified": "2024-06-07 12:29:24.387649",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler Item",

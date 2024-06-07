@@ -17,5 +17,8 @@ frappe.ui.form.on('Open Order Scheduler Item', {
         row.planned_mt = row.planned_truck*frm.doc.per_truck_mt
         refresh_field('planned_mt', row.name, row.parentfield);
     },
+    delivered_mt(frm,cdt,cdn){
+        console.log("delive mt changed")
+    }
 
 })
