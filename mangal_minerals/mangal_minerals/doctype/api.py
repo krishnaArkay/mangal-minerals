@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import now_datetime, add_days,nowdate,getdate
 from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
 
 def create_stock_transfer_entry(items,stock_entry_type):
@@ -7,7 +8,7 @@ def create_stock_transfer_entry(items,stock_entry_type):
         "stock_entry_type": stock_entry_type,
         "items": items
     })
-    doc.save()
+    doc.save(ignore_permissions=True)
     doc.submit()
     return doc.name
 
@@ -40,7 +41,7 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
     })
     
     # Save and submit stock entry
-    stock_entry.save()
+    stock_entry.save(ignore_permissions=True)
     stock_entry.submit()
     
     return stock_entry.name
@@ -73,7 +74,7 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                     }]
                 })
 
-                jumbo_bag_entry.save()
+                jumbo_bag_entry.save(ignore_permissions=True)
                 jumbo_bag_entry.submit()
                 
                 frappe.msgprint(f"Stock updated to {mangal_bag_item} due to negative stock of {item_code}.")
@@ -110,7 +111,7 @@ def delivery_note_on_submit(doc, method):
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
-    add_delivered_qty(doc, method)
+    update_delivered_qty(doc, method)
     
     
 #Purchase reciept
@@ -131,10 +132,8 @@ def purchase_receipt_on_submit(doc, method):
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
 
-   
-            
-
-def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, jumbo_bag_items, jumbo_bag_warehouse):    # Create a new Jumbo Bag document
+ # Create a new Jumbo Bag document  
+def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, jumbo_bag_items, jumbo_bag_warehouse):    
     jumbo_bag_doc = frappe.new_doc("Jumbo Bag Management")
     # Set any relevant fields for the Jumbo Bag document
     jumbo_bag_doc.reference_doctype = reference_doctype
@@ -152,24 +151,21 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
     jumbo_bag_doc.submit()
     
 
-# Open Order
-def add_delivered_qty(doc, method):
-        delivery_date = doc.posting_date
-        delivery_note_item_qty = doc.items[0].qty
+def update_delivered_qty(doc, method):
+    delivery_note_item_qty = doc.items[0].qty
+    blanket_order_name = frappe.db.get_value("Sales Order Item",
+                                             filters={"parent": doc.items[0].against_sales_order},
+                                             fieldname="blanket_order")
 
-        # Get the blanket order linked to the delivery note
-        blanket_order_name = frappe.db.get_value("Sales Order Item",
-                                                  filters={"parent": doc.items[0].against_sales_order},
-                                                  fieldname="blanket_order")
+    if blanket_order_name:
+        open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
 
-        if blanket_order_name:
-             open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
+        for scheduler in open_order_schedulers:
+            total_qty = frappe.db.get_value("Open Order Scheduler", scheduler.name, "total_quantity")
+            per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
 
-             for scheduler in open_order_schedulers:
-                total_qty = frappe.db.get_value("Open Order Scheduler", scheduler.name, "total_quantity")
-                per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
-                
-                # Update delivered quantity, remaining_mt and reference number in open order scheduler items
+            if method == "on_submit":
+                # Update delivered quantity, remaining_mt and reference number in open order scheduler items for submitted delivery note
                 frappe.db.sql("""
                     UPDATE `tabOpen Order Scheduler Item`
                     SET delivered_mt = delivered_mt + %(qty)s,
@@ -179,78 +175,102 @@ def add_delivered_qty(doc, method):
                     'qty': delivery_note_item_qty,
                     'ref_num': doc.name,
                     'parent': scheduler.name,
-                    'delivery_date': delivery_date
+                    'delivery_date': doc.posting_date
                 })
+                
+                frappe.db.sql("""
+                UPDATE `tabOpen Order Scheduler Item`
+                SET remaining_mt = %(total_qty)s - (
+                                SELECT COALESCE(SUM(delivered_mt), 0)
+                                FROM `tabOpen Order Scheduler Item`
+                                WHERE parent = %(parent)s
+                            ),
+                    difference = planned_mt - (delivered_mt),
+                    actual_truck = delivered_mt/%(per_truck_mt)s
+                WHERE parent = %(parent)s AND date = %(delivery_date)s
+            """, {
+                'qty': delivery_note_item_qty,
+                'total_qty': total_qty,
+                'parent': scheduler.name,
+                'delivery_date':doc.posting_date,
+                'per_truck_mt': per_truck_mt,
+            })
+
+            elif method == "on_cancel":
+                # Update delivered quantity and reference number in open order scheduler for cancelled delivery note
                 frappe.db.sql("""
                     UPDATE `tabOpen Order Scheduler Item`
-                    SET remaining_mt = %(total_qty)s - (
-                            SELECT COALESCE(SUM(delivered_mt), 0)
-                            FROM `tabOpen Order Scheduler Item`
-                        ),
-                        difference = planned_mt - (delivered_mt),
-                        actual_truck = delivered_mt/%(per_truck_mt)s
-                    WHERE parent = %(parent)s AND date = %(delivery_date)s
+                    SET delivered_mt = delivered_mt - %(qty)s, 
+                        difference = planned_mt - delivered_mt, 
+                        actual_truck = delivered_mt/%(per_truck_mt)s, 
+                        reference_number = REPLACE(reference_number, %(ref_num)s, ''), 
+                        remaining_mt = remaining_mt + %(qty)s
+                    WHERE reference_number LIKE CONCAT('%%', %(ref_num)s, '%%')
                 """, {
                     'qty': delivery_note_item_qty,
-                    'total_qty': total_qty,
-                    'parent': scheduler.name,
-                    'delivery_date': delivery_date,
-                    'per_truck_mt': per_truck_mt,
+                    'ref_num': doc.name,
+                    'per_truck_mt': per_truck_mt
                 })
 
-             frappe.db.sql("""
+            # Update total delivered and remaining quantities in the parent scheduler
+            frappe.db.sql("""
                 UPDATE `tabOpen Order Scheduler`
                 SET total_delivered_mt = (
                     SELECT COALESCE(SUM(delivered_mt), 0) 
                     FROM `tabOpen Order Scheduler Item`
                     WHERE parent = %(parent)s
                 ),
-                total_remaining_mt =%(total_qty)s- total_delivered_mt
+                total_remaining_mt = %(total_qty)s - total_delivered_mt
+                WHERE name = %(parent)s
             """, {
                 'parent': scheduler.name,
-                'total_qty':total_qty
+                'total_qty': total_qty
             })
-
-
-def deduct_delivered_qty(doc, method):
-    delivery_note_item_qty = doc.items[0].qty
-    blanket_order_name = frappe.db.get_value("Sales Order Item",
-                                                  filters={"parent": doc.items[0].against_sales_order},
-                                                  fieldname="blanket_order")
-
-    if blanket_order_name:
-             open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
             
-             for scheduler in open_order_schedulers:
-                 total_qty = frappe.db.get_value("Open Order Scheduler", scheduler.name, "total_quantity")
-                 per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
-                    # Update delivered quantity and reference number in open order scheduler for cancelled delivery note
-                 frappe.db.sql("""
-                        UPDATE `tabOpen Order Scheduler Item`
-                        SET delivered_mt = delivered_mt - %(qty)s, 
-                              difference = planned_mt - delivered_mt, 
-                              actual_truck = delivered_mt/%(per_truck_mt)s, 
-                              reference_number = REPLACE(reference_number, %(ref_num)s, ''), 
-                              remaining_mt = remaining_mt +%(qty)s
-                        WHERE reference_number LIKE CONCAT('%%', %(ref_num)s, '%%')
-                        # WHERE reference_number = %(ref_num)s
-                    """, {
-                        'qty': delivery_note_item_qty,
-                        'ref_num': doc.name,
-                        'per_truck_mt':per_truck_mt,
+# Schedular at 12:01 AM
+def update_OPS_truck():
+    try:
+        diff_truck = None
+        yesterday = getdate(add_days(nowdate(), -1))
+        print(f"yesterday {yesterday}")
+        parent_docs = frappe.get_all('Open Order Scheduler', fields=['name'], filters={'docstatus': 1})
+        for doc in parent_docs:
+            parent_doc = frappe.get_doc('Open Order Scheduler', doc.name)
+            per_truck_mt = parent_doc.per_truck_mt
+            for item in parent_doc.items:
+                print(f"item {item.date}")
+                if str(item.date) == str(yesterday):
+                    print(f"date")
+                    if item.planned_truck > item.actual_truck:
+                        diff_truck = item.planned_truck - item.actual_truck
+            
+             # If diff_mt is calculated, find the first item with date > yesterday
+            if diff_truck is not None:
+                for item in parent_doc.items:
+                    if item.date > yesterday:
+                        item.planned_truck += diff_truck
+                        item.planned_mt = item.planned_truck * per_truck_mt
+                        parent_doc.save(ignore_permissions=True)
+                        print(f"Updated item {item.idx} on {item.date} with new planned_truck: {item.planned_truck}")
+                        break
+                    else:
+                        print("else")
+                        new_item = parent_doc.append("items", {})
+                        new_item.date = frappe.utils.nowdate()
+                        new_item.planned_truck = 0
+                        new_item.planned_mt = 0
+                        new_item.actual_truck = diff_truck
+                        new_item.actual_mt = new_item.planned_truck * per_truck_mt
+                        new_item.delivered_mt = 0
+                        parent_doc.save(ignore_permissions=True)
+                        print("Added new item for today")
+                        break
+    except Exception as e:
+        frappe.log_error(f"Error in update_OPS_truck: {str(e)}", title="Scheduler_Error")
 
-                    })   
+@frappe.whitelist()
+def get_items_from_blanket_order(blanket_order):
+    items = frappe.get_all('Blanket Order Item', filters={'parent': blanket_order}, fields=['item_code'])
+    return [item['item_code'] for item in items]
 
-                 frappe.db.sql("""
-                            UPDATE `tabOpen Order Scheduler`
-                            SET total_delivered_mt = (
-                                SELECT COALESCE(SUM(delivered_mt), 0) 
-                                FROM `tabOpen Order Scheduler Item`
-                                WHERE parent = %(parent)s
-                            ),
-                              total_remaining_mt =%(total_qty)s- total_delivered_mt
-                        """, {
-                            'parent': scheduler.name,
-                            'total_qty':total_qty
-                        })
-       
+    

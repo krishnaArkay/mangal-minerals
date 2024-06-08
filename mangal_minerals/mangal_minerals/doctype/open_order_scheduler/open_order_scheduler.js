@@ -1,11 +1,33 @@
 // Copyright (c) 2024, Arkay Apps and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Open Order Scheduler", {
-// 	refresh(frm) {
+frappe.ui.form.on("Open Order Scheduler", {
+	refresh(frm) {
        
-// 	}
-// });
+	},
+    open_order(frm){
+        if (frm.doc.open_order) {
+            frappe.call({
+                method: 'mangal_minerals.mangal_minerals.doctype.api.get_items_from_blanket_order',
+                args: {
+                    blanket_order: frm.doc.open_order
+                },
+                callback: function(r) {
+                    if (r.message) {
+                        var item_codes = r.message;
+                        frm.set_query('item', function() {
+                            return {
+                                filters: [
+                                    ['Item', 'item_code', 'in', item_codes]
+                                ]
+                            };
+                        });
+                    }
+                }
+            });
+        }
+    }
+});
 
 frappe.ui.form.on('Open Order Scheduler Item', {
 	// refresh(frm) {

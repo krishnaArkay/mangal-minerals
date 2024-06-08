@@ -18,6 +18,7 @@
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "columns": 1,
    "fieldname": "date",
    "fieldtype": "Date",
@@ -27,6 +28,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fieldname": "planned_truck",
    "fieldtype": "Int",
@@ -37,6 +39,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "planned_mt",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -45,6 +48,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "columns": 1,
    "fieldname": "difference",
    "fieldtype": "Float",
@@ -91,7 +95,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-07 12:29:24.387649",
+ "modified": "2024-06-08 10:58:16.314036",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler Item",

@@ -137,24 +137,32 @@ doc_events = {
         # "before_save": "mangal_minerals.mangal_minerals.doctype.api.update_delivered_qty",
          "on_submit": "mangal_minerals.mangal_minerals.doctype.api.delivery_note_on_submit",
 		# "on_update": "method",
-		 "on_cancel": "mangal_minerals.mangal_minerals.doctype.api.deduct_delivered_qty",
+		 "on_cancel": "mangal_minerals.mangal_minerals.doctype.api.update_delivered_qty",
 		# "on_trash": "method"
 	},
     "Purchase Receipt":{
         "before_submit": "mangal_minerals.mangal_minerals.doctype.api.purchase_receipt_on_submit",
+	},
+    "Open Order Scheduler":{
+        "on_update":"mangal_minerals.mangal_minerals.doctype.api.submit_sche"
 	}
 }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
+    "cron": {
+        "1 0 * * *": [
+            "mangal_minerals.mangal_minerals.doctype.api.update_OPS_truck"
+        ]
+    }
 # 	"all": [
 # 		"mangal_minerals.tasks.all"
 # 	],
-# 	"daily": [
-# 		"mangal_minerals.tasks.daily"
-# 	],
+	# "daily": [
+	# 	"mangal_minerals.tasks.update_OPS_truck"
+	# ],
 # 	"hourly": [
 # 		"mangal_minerals.tasks.hourly"
 # 	],
@@ -164,7 +172,7 @@ doc_events = {
 # 	"monthly": [
 # 		"mangal_minerals.tasks.monthly"
 # 	],
-# }
+}
 
 # Testing
 # -------
