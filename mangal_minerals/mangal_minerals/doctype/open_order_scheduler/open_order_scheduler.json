@@ -82,6 +82,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Scheduler Items",
@@ -142,7 +143,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-08 16:22:43.210001",
+ "modified": "2024-06-10 12:31:48.155525",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler",

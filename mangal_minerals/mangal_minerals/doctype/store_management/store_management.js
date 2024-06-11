@@ -62,6 +62,7 @@ frappe.ui.form.on('Store Management Items', {
         setPurposeQuery(frm);
     },
     item: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn]
         setPurposeQuery(frm);
     }
 });

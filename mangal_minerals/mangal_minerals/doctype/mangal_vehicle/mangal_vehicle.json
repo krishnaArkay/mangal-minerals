@@ -7,24 +7,36 @@
  "engine": "InnoDB",
  "field_order": [
   "vehicle_type",
-  "vehicle_number"
+  "vehicle_number",
+  "uom"
  ],
  "fields": [
   {
    "fieldname": "vehicle_type",
-   "fieldtype": "Data",
-   "label": "Vehicle Type"
+   "fieldtype": "Link",
+   "label": "Vehicle Type",
+   "options": "Vehicle Type"
   },
   {
    "fieldname": "vehicle_number",
    "fieldtype": "Data",
    "label": "Vehicle Number",
    "unique": 1
+  },
+  {
+   "description": "This UOM used in Diesel Report",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "link_filters": "[[\"UOM\",\"uom_name\",\"in\",[\"Hour\",\"Kilometer\"]]]",
+   "options": "UOM",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-04 14:16:30.428169",
+ "modified": "2024-06-10 14:42:35.544518",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Mangal Vehicle",

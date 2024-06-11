@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "autoname": "field:vehicle_type",
+ "creation": "2024-06-10 14:41:12.210390",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "vehicle_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "vehicle_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vehicle Type",
+   "reqd": 1,
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-10 14:41:50.199004",
+ "modified_by": "Administrator",
+ "module": "Mangal Minerals",
+ "name": "Vehicle Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

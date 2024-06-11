@@ -3,7 +3,15 @@
 
 frappe.ui.form.on("Open Order Scheduler", {
 	refresh(frm) {
-       
+        if (frappe.user.has_role('System Manager')) {
+            // User has the System Manager role
+            frm.set_df_property('items', 'allow_on_submit', 1)
+            console.log('User has the System Manager role');
+        } else {
+            frm.set_df_property('items', 'allow_on_submit', 0)
+            // User does not have the System Manager role
+            console.log('User does not have the System Manager role');
+        }
 	},
     open_order(frm){
         if (frm.doc.open_order) {

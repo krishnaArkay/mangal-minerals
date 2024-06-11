@@ -229,44 +229,43 @@ def update_delivered_qty(doc, method):
             
 # Schedular at 12:01 AM
 def update_OPS_truck():
-    try:
-        diff_truck = None
-        yesterday = getdate(add_days(nowdate(), -1))
-        print(f"yesterday {yesterday}")
-        parent_docs = frappe.get_all('Open Order Scheduler', fields=['name'], filters={'docstatus': 1})
-        for doc in parent_docs:
-            parent_doc = frappe.get_doc('Open Order Scheduler', doc.name)
-            per_truck_mt = parent_doc.per_truck_mt
+ 
+    diff_truck = None
+    yesterday = getdate(add_days(nowdate(), -1))
+    print(f"yesterday {yesterday}")
+    parent_docs = frappe.get_all('Open Order Scheduler', fields=['name'], filters={'docstatus': 1})
+    for doc in parent_docs:
+        parent_doc = frappe.get_doc('Open Order Scheduler', doc.name)
+        per_truck_mt = parent_doc.per_truck_mt
+        for item in parent_doc.items:
+            print(f"item {item.date}")
+            if str(item.date) == str(yesterday):
+                print(f"date")
+                if item.planned_truck > item.actual_truck:
+                    diff_truck = item.planned_truck - item.actual_truck
+        
+            # If diff_mt is calculated, find the first item with date > yesterday
+        if diff_truck is not None:
             for item in parent_doc.items:
-                print(f"item {item.date}")
-                if str(item.date) == str(yesterday):
-                    print(f"date")
-                    if item.planned_truck > item.actual_truck:
-                        diff_truck = item.planned_truck - item.actual_truck
-            
-             # If diff_mt is calculated, find the first item with date > yesterday
-            if diff_truck is not None:
-                for item in parent_doc.items:
-                    if item.date > yesterday:
-                        item.planned_truck += diff_truck
-                        item.planned_mt = item.planned_truck * per_truck_mt
-                        parent_doc.save(ignore_permissions=True)
-                        print(f"Updated item {item.idx} on {item.date} with new planned_truck: {item.planned_truck}")
-                        break
-                    else:
-                        print("else")
-                        new_item = parent_doc.append("items", {})
-                        new_item.date = frappe.utils.nowdate()
-                        new_item.planned_truck = 0
-                        new_item.planned_mt = 0
-                        new_item.actual_truck = diff_truck
-                        new_item.actual_mt = new_item.planned_truck * per_truck_mt
-                        new_item.delivered_mt = 0
-                        parent_doc.save(ignore_permissions=True)
-                        print("Added new item for today")
-                        break
-    except Exception as e:
-        frappe.log_error(f"Error in update_OPS_truck: {str(e)}", title="Scheduler_Error")
+                if item.date > yesterday:
+                    item.planned_truck += diff_truck
+                    item.planned_mt = item.planned_truck * per_truck_mt
+                    parent_doc.save(ignore_permissions=True)
+                    print(f"Updated item {item.idx} on {item.date} with new planned_truck: {item.planned_truck}")
+                    break
+                else:
+                    print("else")
+                    new_item = parent_doc.append("items", {})
+                    new_item.date = frappe.utils.nowdate()
+                    new_item.planned_truck = 0
+                    new_item.planned_mt = 0
+                    new_item.actual_truck = diff_truck
+                    new_item.actual_mt = new_item.planned_truck * per_truck_mt
+                    new_item.delivered_mt = 0
+                    parent_doc.save(ignore_permissions=True)
+                    print("Added new item for today")
+                    break
+
 
 @frappe.whitelist()
 def get_items_from_blanket_order(blanket_order):
