@@ -39,14 +39,14 @@
    "fieldname": "default_from_warehouse",
    "fieldtype": "Link",
    "label": "Default From Warehouse",
-   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"],[\"Warehouse\",\"is_group\",\"=\",0]]",
    "options": "Warehouse"
   },
   {
    "fieldname": "default_to_warehouse",
    "fieldtype": "Link",
    "label": "Default To Warehouse",
-   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"]]",
+   "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"],[\"Warehouse\",\"is_group\",\"=\",1]]",
    "options": "Warehouse"
   },
   {
@@ -103,7 +103,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-01 12:25:14.004412",
+ "modified": "2024-06-12 12:14:57.821774",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Stock Transfer",

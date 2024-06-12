@@ -17,8 +17,8 @@ def execute(filters=None):
 def get_columns():
     return [
         {"fieldname": "date", "label": _("<b>Date</b>"), "fieldtype": "Data", "width": 120},
-        {"fieldname": "process_name", "label": _("<b>Process Name</b>"), "fieldtype": "Data", "width": 150},
-        {"fieldname": "warehouse", "label": _("<b>Warehouse</b>"), "fieldtype": "Data", "width": 250},
+        {"fieldname": "process_name", "label": _("<b>Process Name</b>"), "fieldtype": "Data", "width": 200},
+        {"fieldname": "warehouse", "label": _("<b>Warehouse</b>"), "fieldtype": "Data", "width": 230},
         {"fieldname": "material_input_item", "label": _("<b>MI Item</b>"), "fieldtype": "Data", "width": 150},
         {"fieldname": "material_input_qty", "label": _("<b>MI Qty</b>"), "fieldtype": "Data", "width": 100},
         {"fieldname": "material_output_item", "label": _("<b>MO Item</b>"), "fieldtype": "Data", "width": 150},
@@ -31,7 +31,7 @@ def get_columns():
 def get_data(filters):
     data = []
     filter_conditions = get_filters(filters)
-    manufacture_processes = frappe.get_all("Manufacture Process", filters=filter_conditions, fields=["name", "date", "process_name", "warehouse"])
+    manufacture_processes = frappe.get_all("Manufacture Process", filters=filter_conditions, fields=["name", "date", "process_name", "warehouse"],order_by="modified desc")
 
     for process in manufacture_processes:
         entry = frappe.get_doc("Manufacture Process", process.name)
@@ -48,10 +48,10 @@ def get_data(filters):
                 "date": entry.date.strftime("%d-%m-%Y") if i == 0 else f'<span style="color:white">{entry.date.strftime("%d-%m-%Y")}</span>',
                 "process_name": entry.process_name if i == 0 else f'<span style="color:white">{entry.process_name}</span>',
                 "warehouse": entry.warehouse if i == 0 else f'<span style="color:white">{entry.warehouse}</span>',
-                "material_input_item": f'<span style="color:#007200;font-weight:bold">{material_input.get("item", "")}</span>',
-                "material_input_qty": f'<span style="color:#007200;font-weight:bold">{material_input.get("quantity", "")}</span>',
-                "material_output_item":f'<span style="color:#fb6107;font-weight:bold">{material_output.get("item", "")}</span>' ,
-                "material_output_qty": f'<span style="color:#fb6107;font-weight:bold">{material_output.get("quantity", "")}</span>' ,
+                "material_input_item": f'<span style="color:#fb6107;font-weight:bold">{material_input.get("item", "")}</span>',
+                "material_input_qty": f'<span style="color:#fb6107;font-weight:bold">{material_input.get("quantity", "")}</span>',
+                "material_output_item":f'<span style="color:#007200;font-weight:bold">{material_output.get("item", "")}</span>' ,
+                "material_output_qty": f'<span style="color:#007200;font-weight:bold">{material_output.get("quantity", "")}</span>' ,
                 "jumbo_bag_item": f'<span style="color:#124076;font-weight:bold">{jumbo_bag.get("item", "")}</span>',
                 "jumbo_bag_qty":f'<span style="color:#124076;font-weight:bold">{jumbo_bag.get("quantity", "")}</span>',
                 # "id": entry.name if i == 0 else f'<span style="color:white">{entry.name}</span>'
@@ -67,6 +67,7 @@ def get_filters(filters):
     
     if filters.get("process_name"):
         filter_conditions["process_name"] = filters.get("process_name")
+        
     if filters.get("period"):
         start_date, end_date = calculate_date_range(filters["period"])
         filter_conditions["date"] = ["between", [start_date, end_date]]

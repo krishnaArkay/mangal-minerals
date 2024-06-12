@@ -3,18 +3,24 @@
 
 frappe.query_reports["Jumbo Bag"] = {
 	"filters": [
+        {
+            "fieldname": "period",
+            "label": __("Period"),
+            "fieldtype": "Select",
+            "options": "\nWeekly\nMonthly\nQuarterly\nYearly",
+            "default": "Monthly",
+            "reqd": 0
+        }, 
 		{
             "fieldname": "date",
             "label": __("From Date"),
             "fieldtype": "Date",
-            "default": frappe.datetime.get_today(),
             "reqd": 0
         },
         {
             "fieldname": "to_date",
             "label": __("To Date"),
             "fieldtype": "Date",
-            "default": frappe.datetime.get_today(),
             "reqd": 0,
         },
         {

@@ -8,10 +8,8 @@ from datetime import datetime, timedelta
 def execute(filters=None):
 
     columns = [
-        {"fieldname": "date", "label": "<b>" + _("Date") + "</b>", "fieldtype": "Date", "width": 120},
         {"fieldname": "vehicle_type", "label": "<b>" + _("Vehicle Type") + "</b>", "fieldtype": "Data", "width": 150},
         {"fieldname": "vehicle", "label": "<b>" + _("Vehicle") + "</b>", "fieldtype": "Data", "width": 150},
-        # {"fieldname": "item", "label": "<b>" + _("Item") + "</b>", "fieldtype": "Link", "options": "Item", "width": 150},
         {"fieldname": "qty", "label": "<b>" + _("Liter") + "</b>", "fieldtype": "Float", "width": 100},
         {"fieldname": "reading", "label": "<b>" + _("HRS/KM") + "</b>", "fieldtype": "Float", "width": 100},
         {"fieldname": "avg", "label": "<b>" + _("Average") + "</b>", "fieldtype": "Float", "width": 100},
@@ -23,9 +21,9 @@ def execute(filters=None):
 
     filters = get_filters(filters)
 
-    stock_outs = frappe.get_all("Store Management",filters=filters,  fields=["name", "date","entry_type","remarks"],order_by="date desc")
-     # if entry.remarks:
-                #     entry_purpose_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks}</span>'
+    stock_outs = frappe.get_all("Store Management", filters=filters, fields=["name", "entry_type", "remarks"], order_by="date desc")
+
+    vehicle_data = {}
 
     for stock_out in stock_outs:
         entry = frappe.get_doc("Store Management", stock_out.name)
@@ -34,26 +32,34 @@ def execute(filters=None):
             if item.item == "Diesel":
                 qty = item.quantity or 0.0
                 reading = item.reading or 0.0
-                avg =qty / reading
-                
-                entry_purpose_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks or ""}</span>'
+                avg = qty / reading if reading else 0
 
-                data.append({
-                    "date": entry.date,
-                    "vehicle_type": item.vehicle_type,
-                    "vehicle":item.vehicle,
-                    # "item": item.item,
-                    "qty": item.quantity,
-                    "reading": item.reading,
-                    "avg": avg,
-                    "remarks": entry_purpose_text
-                })
+                entry_purpose_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks}</span>, ' if entry.remarks else ''
+
+
+                if item.vehicle not in vehicle_data:
+                    vehicle_data[item.vehicle] = {
+                        "vehicle_type": item.vehicle_type,
+                        "vehicle": item.vehicle,
+                        "qty": 0,
+                        "reading": 0,
+                        "avg": 0,
+                        "remarks": entry_purpose_text
+                    }
+
+                vehicle_data[item.vehicle]["qty"] += qty
+                vehicle_data[item.vehicle]["reading"] += reading
+                vehicle_data[item.vehicle]["avg"] = vehicle_data[item.vehicle]["qty"] / vehicle_data[item.vehicle]["reading"] if vehicle_data[item.vehicle]["reading"] else 0
+                vehicle_data[item.vehicle]["remarks"] += f"{entry_purpose_text}"
+
+    for vehicle, vehicle_info in vehicle_data.items():
+        data.append(vehicle_info)
 
     return columns, data
 
 def get_filters(filters):
-    stock_filters = {"entry_type": "stock out"}
-    stock_filters = {"docstatus": 1}
+    stock_filters = {"entry_type": "stock out", "docstatus": 1}
+    
     if filters.get("period"):
         start_date, end_date = calculate_date_range(filters["period"])
         stock_filters["date"] = ["between", [start_date, end_date]]
@@ -65,11 +71,11 @@ def get_filters(filters):
         stock_filters["date"] = ["<=", filters["to_date"]]
 
     if filters.get("vehicle"):
-        stock_filters["vehicle"]=filters["vehicle"]
+        stock_filters["vehicle"] = filters["vehicle"]
 
     if filters.get("vehicle_type"):
-        stock_filters["vehicle_type"]=filters["vehicle_type"]
-        
+        stock_filters["vehicle_type"] = filters["vehicle_type"]
+
     return stock_filters
 
 def calculate_date_range(period):

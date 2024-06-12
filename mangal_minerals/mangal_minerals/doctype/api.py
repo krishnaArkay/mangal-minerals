@@ -272,4 +272,11 @@ def get_items_from_blanket_order(blanket_order):
     items = frappe.get_all('Blanket Order Item', filters={'parent': blanket_order}, fields=['item_code'])
     return [item['item_code'] for item in items]
 
+def before_delete(doc,method):
+    if doc.item_code == "Diesel":
+        frappe.throw("You cannot delete this item.")
+
+def before_rename(doc, method,old_name, new_name, merge=False):
+    if old_name == "Diesel":
+        frappe.throw("You cannot rename this item.")
     

@@ -127,11 +127,12 @@ doctype_js = {"Purchase Receipt" : "public/js/purchase_receipt_custom.js",
 
 doc_events = {
 	"Item": {
-        "before_save": "mangal_minerals.mangal_minerals.doctype.api.item_validation"
+        "before_save": "mangal_minerals.mangal_minerals.doctype.api.item_validation",
         # "on_submit": "mangal_minerals.mangal_minerals.doctype.api.on_sales_order_submit",
 		# "on_update": "method",
 		# "on_cancel": "method",
-		# "on_trash": "method"
+		"on_trash": "mangal_minerals.mangal_minerals.doctype.api.before_delete",
+        "before_rename": "mangal_minerals.mangal_minerals.doctype.api.before_rename"
 	},
     "Delivery Note": {
         # "before_save": "mangal_minerals.mangal_minerals.doctype.api.update_delivered_qty",
