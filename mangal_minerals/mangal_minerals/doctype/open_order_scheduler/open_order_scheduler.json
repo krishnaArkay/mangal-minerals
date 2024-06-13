@@ -66,6 +66,7 @@
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Date",
    "reqd": 1
   },
@@ -143,7 +144,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-10 12:31:48.155525",
+ "modified": "2024-06-13 15:25:16.095624",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler",

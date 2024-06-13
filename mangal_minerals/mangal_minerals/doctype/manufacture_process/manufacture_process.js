@@ -11,7 +11,6 @@ frappe.ui.form.on("Manufacture Process", {
        if(frm.doc.docstatus === 1){
             // Add a custom button for the Stock Ledger report
             frm.add_custom_button(__('Stock Ledger'), function() {
-                // Open Stock Ledger report with the specified filters
                 frappe.set_route('query-report', 'Stock Ledger', {
                     voucher_no: frm.doc.voucher_number,
                     from_date: frm.doc.date,
@@ -43,6 +42,21 @@ frappe.ui.form.on("Manufacture Process", {
         }
     }
 });
+frappe.ui.form.on('Material Input', {
+    material_input_add: function(frm,cdt,cdn){
+        clear_table(frm)
+    },
+    material_input_remove: function(frm,cdt,cdn){
+        console.log("Material Item Removed:", frm.doc.material_output);
+        clear_table(frm);
+    },
+    item: function(frm,cdt,cdn){
+        clear_table(frm)
+    },
+    quantity: function(frm,cdt,cdn){
+        clear_table(frm)
+    }
+})
 
 frappe.ui.form.on('Material Output', {
     percentage: function(frm, cdt, cdn) {
@@ -68,6 +82,13 @@ frappe.ui.form.on('Material Output', {
         }
     }
 });
+function clear_table(frm){
+    if (frm.doc.material_output && frm.doc.material_output.length > 0) {
+        cur_frm.clear_table("material_output"); 
+        cur_frm.refresh_fields();
+        console.log("Table 'material_output' cleared");
+    }
+}
 
 function create_stock_transfer(frm) {
     // Create a new Stock Transfer document

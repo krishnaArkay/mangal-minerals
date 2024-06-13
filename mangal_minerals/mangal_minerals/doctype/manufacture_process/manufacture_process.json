@@ -41,6 +41,7 @@
    "fieldname": "process_name",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Process Name",
    "options": "Process Type",
    "reqd": 1
@@ -54,6 +55,7 @@
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Date",
    "reqd": 1
   },
@@ -61,6 +63,7 @@
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Warehouse",
    "link_filters": "[[\"Warehouse\",\"warehouse_name\",\"!=\",\"Stores\"],[\"Warehouse\",\"is_group\",\"=\",0]]",
    "options": "Warehouse",
@@ -119,7 +122,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-03 12:50:03.655321",
+ "modified": "2024-06-13 15:08:56.786067",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Manufacture Process",

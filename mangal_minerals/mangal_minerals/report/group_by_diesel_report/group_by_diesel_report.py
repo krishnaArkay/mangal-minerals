@@ -46,6 +46,7 @@ def execute(filters=None):
                         "avg": 0,
                         "remarks": entry_purpose_text
                     }
+                frappe.msgprint(f"{qty}")
 
                 vehicle_data[item.vehicle]["qty"] += qty
                 vehicle_data[item.vehicle]["reading"] += reading
