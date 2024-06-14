@@ -150,13 +150,12 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
     jumbo_bag_doc.insert()
     jumbo_bag_doc.submit()
     
-
 def update_delivered_qty(doc, method):
     delivery_note_item_qty = doc.items[0].qty
     blanket_order_name = frappe.db.get_value("Sales Order Item",
                                              filters={"parent": doc.items[0].against_sales_order},
                                              fieldname="blanket_order")
-
+    
     if blanket_order_name:
         open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
 
@@ -265,7 +264,6 @@ def update_OPS_truck():
                     parent_doc.save(ignore_permissions=True)
                     print("Added new item for today")
                     break
-
 
 @frappe.whitelist()
 def get_items_from_blanket_order(blanket_order):

@@ -52,8 +52,8 @@ def execute(filters=None):
     return columns, data
 
 def get_filters(filters):
-    stock_filters = {"entry_type": "stock out"}
-    stock_filters = {"docstatus": 1}
+
+    stock_filters = {"entry_type": "stock out","docstatus": 1}
     if filters.get("period"):
         start_date, end_date = calculate_date_range(filters["period"])
         stock_filters["date"] = ["between", [start_date, end_date]]

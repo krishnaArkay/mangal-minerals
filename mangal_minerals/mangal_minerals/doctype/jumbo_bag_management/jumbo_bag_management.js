@@ -9,6 +9,16 @@ frappe.ui.form.on("Jumbo Bag Management", {
             frm.doc.reference_number= ""
             frm.doc.jumbo_bag_reference = ""
             frm.doc.remarks = ""
+            if(frm.doc.entry_purpose === "Damage"){
+                frm.set_value("warehouse","Rejected Warehouse - MGSS")
+                frm.set_df_property("warehouse","read_only",1)
+            }else if(frm.doc.entry_purpose === "Inward"){
+                frm.set_value("warehouse","Jumbo Bag Inward - MGSS")
+                frm.set_df_property("warehouse","read_only",1)
+            }else{
+                frm.set_value("warehouse","")
+                frm.set_df_property("warehouse","read_only",0)
+            }
         }
         if(frm.doc.docstatus === 1 && frm.doc.voucher_number){
             // Add a custom button for the Stock Ledger report
@@ -22,4 +32,16 @@ frappe.ui.form.on("Jumbo Bag Management", {
             });
         }
 	},
+    entry_purpose(frm){
+        if(frm.doc.entry_purpose === "Damage"){
+            frm.set_value("warehouse","Rejected Warehouse - MGSS")
+            frm.set_df_property("warehouse","read_only",1)
+        }else if(frm.doc.entry_purpose === "Inward"){
+            frm.set_value("warehouse","Jumbo Bag Inward - MGSS")
+            frm.set_df_property("warehouse","read_only",1)
+        }else{
+            frm.set_value("warehouse","")
+            frm.set_df_property("warehouse","read_only",0)
+        } 
+    }
 });

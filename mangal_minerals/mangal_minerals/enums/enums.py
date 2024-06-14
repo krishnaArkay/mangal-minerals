@@ -5,3 +5,6 @@ class JumboBagEntryPurpose(Enum):
     DAMAGE = 'Damage'
     FILLED = 'Filled'
     DELIVERED = 'Delivered'
+class JumboBagWarehouse(Enum):
+    INWARD = 'Jumbo Bag Inward - MGSS'
+    DAMAGE = 'Rejected Warehouse - MGSS'

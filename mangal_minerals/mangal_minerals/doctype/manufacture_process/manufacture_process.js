@@ -17,7 +17,6 @@ frappe.ui.form.on("Manufacture Process", {
                     to_date: frm.doc.date,
                 });
             });
-           
             // Add a custom button for Stock Transfer
             frm.add_custom_button(__('Stock Transfer'), function() {
                 create_stock_transfer(frm);
@@ -29,8 +28,6 @@ frappe.ui.form.on("Manufacture Process", {
     
         frm.doc.material_output.forEach(function(row) {
             total_percentage += row.percentage;
-    
-            // Check if percentage is 0
             // if (row.percentage === 0) {
             //     // Remove row from Material Output table
             //     frm.doc.material_output = frm.doc.material_output.filter(item => item.name !== row.name);
@@ -47,7 +44,6 @@ frappe.ui.form.on('Material Input', {
         clear_table(frm)
     },
     material_input_remove: function(frm,cdt,cdn){
-        console.log("Material Item Removed:", frm.doc.material_output);
         clear_table(frm);
     },
     item: function(frm,cdt,cdn){
@@ -86,7 +82,7 @@ function clear_table(frm){
     if (frm.doc.material_output && frm.doc.material_output.length > 0) {
         cur_frm.clear_table("material_output"); 
         cur_frm.refresh_fields();
-        console.log("Table 'material_output' cleared");
+        console.log("Table Material Output cleared");
     }
 }
 

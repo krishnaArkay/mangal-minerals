@@ -34,7 +34,7 @@ def execute(filters=None):
                 reading = item.reading or 0.0
                 avg = qty / reading if reading else 0
 
-                entry_purpose_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks}</span>, ' if entry.remarks else ''
+                entry_remarks_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks}</span>, ' if entry.remarks else ''
 
 
                 if item.vehicle not in vehicle_data:
@@ -44,14 +44,13 @@ def execute(filters=None):
                         "qty": 0,
                         "reading": 0,
                         "avg": 0,
-                        "remarks": entry_purpose_text
+                        "remarks": entry_remarks_text
                     }
-                frappe.msgprint(f"{qty}")
 
                 vehicle_data[item.vehicle]["qty"] += qty
                 vehicle_data[item.vehicle]["reading"] += reading
                 vehicle_data[item.vehicle]["avg"] = vehicle_data[item.vehicle]["qty"] / vehicle_data[item.vehicle]["reading"] if vehicle_data[item.vehicle]["reading"] else 0
-                vehicle_data[item.vehicle]["remarks"] += f"{entry_purpose_text}"
+                vehicle_data[item.vehicle]["remarks"] += f"{entry_remarks_text}"
 
     for vehicle, vehicle_info in vehicle_data.items():
         data.append(vehicle_info)
