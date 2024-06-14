@@ -17,7 +17,7 @@ def execute(filters=None):
     ]
 
     data = []
-    entry_purpose_text = ""
+    entry_remarks_text = ""
 
     filters = get_filters(filters)
 
