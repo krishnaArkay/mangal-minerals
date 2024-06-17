@@ -9,6 +9,8 @@ from datetime import datetime,timedelta
 def execute(filters=None):
     columns = get_columns()
     data = get_data(filters)
+    
+    
     return columns, data
 def get_columns():
     return [
@@ -22,6 +24,11 @@ def get_columns():
     ]
 def get_data(filters):
     data = []
+    total_quantity_in = 0
+    total_qty_in= 0
+    total_quantity_out = 0
+    total_qty_out = 0
+    total = "Total"
     filter_conditions = get_filters(filters)
     store_management_entries = frappe.get_list("Store Management", filters=filter_conditions, fields=["name", "date", "entry_type"],order_by="date desc")
 
@@ -50,6 +57,28 @@ def get_data(filters):
                 "remarks": store_management_doc.remarks,
                 "id": store_management_doc.name
             })
+            qty_in= int(in_qty)
+            qty_out = int(out_qty)
+            
+            total_quantity_in += qty_in
+            total_quantity_out += qty_out      
+                 
+    if total_quantity_in != 0:
+        total = f'<span style=" font-weight: bold;">Total</span>'
+        total_qty_in = f'<span style=" font-weight: bold;">{total_quantity_in}</span>'
+    if total_quantity_out != 0:
+        total = f'<span style=" font-weight: bold;">Total</span>'
+        total_qty_out = f'<span style=" font-weight:bold;">{total_quantity_out}</span>'
+
+    data.append({
+            "date": "",
+            "item_name": total,
+            "purpose": "",
+            "in_qty": total_qty_in,
+            "out_qty": total_qty_out,
+            "remarks": "",
+            "id": ""
+        })
 
     return data
 

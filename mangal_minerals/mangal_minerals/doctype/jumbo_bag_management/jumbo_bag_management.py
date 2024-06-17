@@ -69,25 +69,15 @@ class JumboBagManagement(Document):
 
 		if self.entry_purpose == JumboBagEntryPurpose.DELIVERED.value or self.entry_purpose == JumboBagEntryPurpose.DAMAGE.value or self.entry_purpose == JumboBagEntryPurpose.FILLED.value:
 			entry_purpose=JumboBagEntryPurpose.DELIVERED.value
-		# elif self.entry_purpose == JumboBagEntryPurpose.DAMAGE.value:
-		# 	entry_purpose=JumboBagEntryPurpose.DAMAGE.value
-		# elif self.entry_purpose == JumboBagEntryPurpose.FILLED.value:
-		# 	entry_purpose=JumboBagEntryPurpose.FILLED.value
-		# else:
-		# 	pass
-
-			warehouse = self.warehouse  
+		else:
+			entry_purpose = None
+		if entry_purpose:
+			if self.entry_purpose == JumboBagEntryPurpose.DELIVERED.value and self.reference_number: 
+				warehouse = self.warehouse
+			else:
+				warehouse = JumboBagWarehouse.INWARD.value
 			mangal_bag_item = frappe.get_value("Item", {"custom_mangals_bag": 1}, "name")
-			# mangal_warehouse = frappe.db.sql("""
-			# 				SELECT warehouse 
-			# 				FROM `tabBin` 
-			# 				WHERE item_code = %s AND actual_qty > 0 
-			# 				LIMIT 1
-			# 			""", mangal_bag_item, as_dict=True)
 			mangal_warehouse = JumboBagWarehouse.INWARD.value
-			# if mangal_warehouse:
-			# 	mangal_warehouse = mangal_warehouse[0]["warehouse"]
-			# 	frappe.msgprint(mangal_warehouse)
 			if any(item.mangals_bag == 0 for item in self.items):
 				deduct_stock(self.name, warehouse, mangal_bag_item,entry_purpose,mangal_warehouse)
 	

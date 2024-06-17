@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils import now_datetime, add_days,nowdate,getdate
 from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
-
+#------------------------------------------------------------------------------------------------------------------#
 def create_stock_transfer_entry(items,stock_entry_type):
     doc = frappe.get_doc({
         "doctype": "Stock Entry",
@@ -12,6 +12,7 @@ def create_stock_transfer_entry(items,stock_entry_type):
     doc.submit()
     return doc.name
 
+#------------------------------------------------------------------------------------------------------------------#
 def create_stock_entry_manufacture(input_items, output_items, target_warehouse, stock_entry_type):
     items = []
     
@@ -45,11 +46,13 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
     stock_entry.submit()
     
     return stock_entry.name
+#------------------------------------------------------------------------------------------------------------------#
 
 def cancel_stock_entry(voucher_number):
     stock_entry = frappe.get_doc("Stock Entry", voucher_number)
     if stock_entry.docstatus == 1:  # Check if the stock entry is submitted
         stock_entry.cancel()
+#------------------------------------------------------------------------------------------------------------------#
 
 # Jumbo Bag Stock Effect
 @frappe.whitelist(allow_guest=True)
@@ -78,6 +81,7 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                 jumbo_bag_entry.submit()
                 
                 frappe.msgprint(f"Stock updated to {mangal_bag_item} due to negative stock of {item_code}.")
+#------------------------------------------------------------------------------------------------------------------#
 
 def item_validation(doc,method):
     if doc.item_group == "Jumbo Bag":
@@ -93,12 +97,13 @@ def item_validation(doc,method):
             if item_exists:
                 # Logic if the item exists
                 frappe.throw("An item with 'Mangal's Bag' already exists.")
+#------------------------------------------------------------------------------------------------------------------#
 
 #delivery note
 def delivery_note_on_submit(doc, method):
     entry_purpose = JumboBagEntryPurpose.DELIVERED.value
     reference_doctype = "Delivery Note"
-    reference_number = doc
+    reference_number = doc.name
     jumbo_bag_items = []  
     jumbo_bag_warehouse = None  
     for item in doc.items:
@@ -112,7 +117,8 @@ def delivery_note_on_submit(doc, method):
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
     update_delivered_qty(doc, method)
-    
+#------------------------------------------------------------------------------------------------------------------#
+   
     
 #Purchase reciept
 def purchase_receipt_on_submit(doc, method):
@@ -131,6 +137,7 @@ def purchase_receipt_on_submit(doc, method):
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
+#------------------------------------------------------------------------------------------------------------------#
 
  # Create a new Jumbo Bag document  
 def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, jumbo_bag_items, jumbo_bag_warehouse):    
@@ -149,6 +156,7 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
     # Save and submit the Jumbo Bag document
     jumbo_bag_doc.insert()
     jumbo_bag_doc.submit()
+#------------------------------------------------------------------------------------------------------------------#
     
 def update_delivered_qty(doc, method):
     delivery_note_item_qty = doc.items[0].qty
@@ -225,6 +233,7 @@ def update_delivered_qty(doc, method):
                 'parent': scheduler.name,
                 'total_qty': total_qty
             })
+#------------------------------------------------------------------------------------------------------------------#
             
 # Schedular at 12:01 AM
 def update_OPS_truck():
@@ -264,17 +273,21 @@ def update_OPS_truck():
                     parent_doc.save(ignore_permissions=True)
                     print("Added new item for today")
                     break
+#------------------------------------------------------------------------------------------------------------------#
 
 @frappe.whitelist()
 def get_items_from_blanket_order(blanket_order):
     items = frappe.get_all('Blanket Order Item', filters={'parent': blanket_order}, fields=['item_code'])
     return [item['item_code'] for item in items]
+#------------------------------------------------------------------------------------------------------------------#
 
 def before_delete(doc,method):
     if doc.item_code == "Diesel":
         frappe.throw("You cannot delete this item.")
+#------------------------------------------------------------------------------------------------------------------#
 
 def before_rename(doc, method,old_name, new_name, merge=False):
     if old_name == "Diesel":
         frappe.throw("You cannot rename this item.")
+#------------------------------------------------------------------------------------------------------------------#
     

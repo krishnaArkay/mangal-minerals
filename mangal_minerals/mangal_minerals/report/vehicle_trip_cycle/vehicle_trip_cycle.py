@@ -6,58 +6,51 @@ from frappe import _
 from datetime import datetime, timedelta
 
 def execute(filters=None):
-
+    
+    # Define columns
     columns = [
-        {"fieldname": "vehicle_type", "label": "<b>" + _("Vehicle Type") + "</b>", "fieldtype": "Data", "width": 150},
-        {"fieldname": "vehicle", "label": "<b>" + _("Vehicle") + "</b>", "fieldtype": "Data", "width": 150},
-        {"fieldname": "qty", "label": "<b>" + _("Liter") + "</b>", "fieldtype": "Float", "width": 100},
-        {"fieldname": "reading", "label": "<b>" + _("HRS/KM") + "</b>", "fieldtype": "Float", "width": 100},
-        {"fieldname": "avg", "label": "<b>" + _("Average") + "</b>", "fieldtype": "Float", "width": 100},
-        {"fieldname": "remarks", "label": "<b>" + _("Remarks") + "</b>", "fieldtype": "Data", "width": 350}
-    ]
+    {"label": "<b>Vehicle</b>", "fieldname": "vehicle", "fieldtype": "Data", "width": 150},
+    {"label": "<b>Vehicle Type</b>", "fieldname": "vehicle_type", "fieldtype": "Data", "width": 150},
+    {"label": "<b>Total Quantity</b>", "fieldname": "total_quantity", "fieldtype": "Float", "width": 150},
+    {"label": "<b>Total Trip</b>", "fieldname": "total_trip_cycles", "fieldtype": "Int", "width": 120},
+]
 
     data = []
-    entry_remarks_text = ""
-
     filters = get_filters(filters)
 
-    stock_outs = frappe.get_all("Store Management", filters=filters, fields=["name", "entry_type", "remarks"], order_by="date desc")
-
+    # Get list of Stock Transfer documents
+    stock_transfer = frappe.get_list(
+        "Stock Transfer",
+        filters=filters,
+        fields=["name", "date"]
+    )
+    
     vehicle_data = {}
 
-    for stock_out in stock_outs:
-        entry = frappe.get_doc("Store Management", stock_out.name)
-
+    for stock in stock_transfer:
+        entry = frappe.get_doc("Stock Transfer", stock.name)
+        
         for item in entry.items:
-            if item.item == "Diesel":
-                qty = item.quantity or 0.0
-                reading = item.reading or 0.0
-                avg = qty / reading if reading else 0
-
-                entry_remarks_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks}</span>, ' if entry.remarks else ''
-
-                if item.vehicle not in vehicle_data:
-                    vehicle_data[item.vehicle] = {
+            qty = item.quantity or 0.0
+            trip = item.trip_cycle or 0.0
+            
+            if item.vehicle not in vehicle_data:
+                vehicle_data[item.vehicle] = {
                         "vehicle_type": item.vehicle_type,
                         "vehicle": item.vehicle,
-                        "qty": 0,
-                        "reading": 0,
-                        "avg": 0,
-                        "remarks": entry_remarks_text
+                        "total_quantity": 0,
+                        "total_trip_cycles": 0
                     }
 
-                vehicle_data[item.vehicle]["qty"] += qty
-                vehicle_data[item.vehicle]["reading"] += reading
-                vehicle_data[item.vehicle]["avg"] = vehicle_data[item.vehicle]["qty"] / vehicle_data[item.vehicle]["reading"] if vehicle_data[item.vehicle]["reading"] else 0
-                vehicle_data[item.vehicle]["remarks"] += f"{entry_remarks_text}"
-
+            vehicle_data[item.vehicle]["total_quantity"] += qty
+            vehicle_data[item.vehicle]["total_trip_cycles"] += trip
     for vehicle, vehicle_info in vehicle_data.items():
         data.append(vehicle_info)
 
     return columns, data
 
 def get_filters(filters):
-    stock_filters = {"entry_type": "stock out", "docstatus": 1}
+    stock_filters = {"docstatus": 1}
     
     if filters.get("period"):
         start_date, end_date = calculate_date_range(filters["period"])
