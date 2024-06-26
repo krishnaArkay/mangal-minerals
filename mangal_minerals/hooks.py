@@ -31,7 +31,11 @@ app_license = "mit"
 doctype_js = {"Purchase Receipt" : "public/js/purchase_receipt_custom.js",
               "Customer" : "public/js/customer_custom.js",
               "Supplier" : "public/js/supplier_custom.js",
-              "Blanket Order":"public/js/open_order_custom.js"
+            #   "Blanket Order":"public/js/open_order_custom.js",
+              "Delivery Note":"public/js/delivery_note_custom.js",
+              "Purchase Order":"public/js/purchase_order_custom.js",
+              "Sales Order":"public/js/sales_order_custom.js",
+              "Blanket Order":"public/js/blanket_order_custom.js"
 			  }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -145,9 +149,9 @@ doc_events = {
     "Purchase Receipt":{
         "before_submit": "mangal_minerals.mangal_minerals.doctype.api.purchase_receipt_on_submit",
 	},
-    "Open Order Scheduler":{
-        "on_update":"mangal_minerals.mangal_minerals.doctype.api.submit_sche"
-	}
+    # "Open Order Scheduler":{
+    #     "on_update":"mangal_minerals.mangal_minerals.doctype.api.submit_sche"
+	# }
 }
 
 # Scheduled Tasks

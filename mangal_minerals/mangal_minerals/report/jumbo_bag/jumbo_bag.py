@@ -52,8 +52,8 @@ def get_data(filters):
     if filters.get("warehouse"):
         default_filters["warehouse"] = filters["warehouse"]
 
-    if filters.get("item"):
-        default_filters["item"] = filters["item"]
+    # if filters.get("item"):
+    #     default_filters["item"] = filters["item"]
 
     records = frappe.get_list(
         "Jumbo Bag Management",

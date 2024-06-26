@@ -70,12 +70,10 @@
    "in_standard_filter": 1,
    "label": "UOM",
    "link_filters": "[[\"UOM\",\"uom_name\",\"in\",[\"Kilometer\",\"Hour\"]]]",
-   "mandatory_depends_on": "eval:doc.reading",
    "options": "UOM"
   },
   {
    "columns": 1,
-   "fetch_from": "item.custom_stock_out_purpose",
    "fetch_if_empty": 1,
    "fieldname": "purpose",
    "fieldtype": "Link",
@@ -97,7 +95,6 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Vehicle",
-   "mandatory_depends_on": "eval:doc.item==\"Diesel\"",
    "options": "Mangal Vehicle"
   },
   {
@@ -105,14 +102,13 @@
    "fieldname": "vehicle_type",
    "fieldtype": "Data",
    "label": "Vehicle Type",
-   "mandatory_depends_on": "eval:doc.item==\"Diesel\"",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-11 17:27:20.139061",
+ "modified": "2024-06-24 12:55:43.832035",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Store Management Items",

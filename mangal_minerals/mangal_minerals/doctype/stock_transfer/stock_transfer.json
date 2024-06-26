@@ -86,7 +86,8 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Stock Transfer Item"
+   "options": "Stock Transfer Item",
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -107,7 +108,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-17 10:58:42.111279",
+ "modified": "2024-06-25 10:20:33.909577",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Stock Transfer",

@@ -49,8 +49,9 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
 #------------------------------------------------------------------------------------------------------------------#
 
 def cancel_stock_entry(voucher_number):
+    pass
     stock_entry = frappe.get_doc("Stock Entry", voucher_number)
-    if stock_entry.docstatus == 1:  # Check if the stock entry is submitted
+    if stock_entry and stock_entry.docstatus == 1:  # Check if the stock entry is submitted
         stock_entry.cancel()
 #------------------------------------------------------------------------------------------------------------------#
 
@@ -85,18 +86,20 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
 
 def item_validation(doc,method):
     if doc.item_group == "Jumbo Bag":
-        doc.allow_negative_stock = 1
+        if not doc.allow_negative_stock:
+            doc.allow_negative_stock = 1
         
         if doc.custom_mangals_bag:
-            item_exists = frappe.db.exists({
-            'doctype': 'Item',
-            'item_group': 'Jumbo Bag',
-            'custom_mangals_bag': 1
-            })
-        
-            if item_exists:
-                # Logic if the item exists
-                frappe.throw("An item with 'Mangal's Bag' already exists.")
+            if doc.name != "Mangal Bag":
+                item_exists = frappe.db.exists({
+                'doctype': 'Item',
+                'item_group': 'Jumbo Bag',
+                'custom_mangals_bag': 1
+                })
+            
+                if item_exists:
+                    # Logic if the item exists
+                    frappe.throw("An item with 'Mangal's Bag' already exists.")
 #------------------------------------------------------------------------------------------------------------------#
 
 #delivery note
@@ -172,36 +175,59 @@ def update_delivered_qty(doc, method):
             per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
 
             if method == "on_submit":
+                delivery_date_exists = frappe.db.exists("Open Order Scheduler Item", {
+                    "parent": scheduler.name,
+                    "date": doc.posting_date
+                })
+                if delivery_date_exists:
+                    frappe.msgprint("exists")
                 # Update delivered quantity, remaining_mt and reference number in open order scheduler items for submitted delivery note
+                    frappe.db.sql("""
+                        UPDATE `tabOpen Order Scheduler Item`
+                        SET delivered_mt = delivered_mt + %(qty)s,
+                            reference_number = CONCAT_WS(', ', reference_number, %(ref_num)s)
+                        WHERE parent = %(parent)s AND date = %(delivery_date)s
+                    """, {
+                        'qty': delivery_note_item_qty,
+                        'ref_num': doc.name,
+                        'parent': scheduler.name,
+                        'delivery_date': doc.posting_date
+                    })
+                else:
+                    frappe.msgprint("Dosent exists")
+                    parent_doc = frappe.get_doc("Open Order Scheduler", scheduler.name)
+                    new_child_row = frappe.new_doc("Open Order Scheduler Item")
+
+                    new_child_row.parent = parent_doc.name  # Parent document name
+                    new_child_row.parenttype = parent_doc.doctype  # Parent document type
+                    new_child_row.parentfield = "items"  # Child table field name in parent document
+                    new_child_row.date = doc.posting_date
+                    new_child_row.delivered_mt = delivery_note_item_qty
+                    new_child_row.reference_number = doc.name
+                    new_child_row.planned_mt = 0,
+                    new_child_row.planned_truck = 0,
+
+                    new_child_row.insert(ignore_permissions=True)
+                    frappe.db.commit()
+
                 frappe.db.sql("""
                     UPDATE `tabOpen Order Scheduler Item`
-                    SET delivered_mt = delivered_mt + %(qty)s,
-                        reference_number = CONCAT_WS(', ', reference_number, %(ref_num)s)
+                    SET remaining_mt = %(total_qty)s - (
+                                    SELECT COALESCE(SUM(delivered_mt), 0)
+                                    FROM `tabOpen Order Scheduler Item`
+                                    WHERE parent = %(parent)s
+                                ),
+                        difference = planned_mt - (delivered_mt),
+                        actual_truck = delivered_mt/%(per_truck_mt)s
                     WHERE parent = %(parent)s AND date = %(delivery_date)s
                 """, {
                     'qty': delivery_note_item_qty,
-                    'ref_num': doc.name,
+                    'total_qty': total_qty,
                     'parent': scheduler.name,
-                    'delivery_date': doc.posting_date
+                    'delivery_date':doc.posting_date,
+                    'per_truck_mt': per_truck_mt,
                 })
-                
-                frappe.db.sql("""
-                UPDATE `tabOpen Order Scheduler Item`
-                SET remaining_mt = %(total_qty)s - (
-                                SELECT COALESCE(SUM(delivered_mt), 0)
-                                FROM `tabOpen Order Scheduler Item`
-                                WHERE parent = %(parent)s
-                            ),
-                    difference = planned_mt - (delivered_mt),
-                    actual_truck = delivered_mt/%(per_truck_mt)s
-                WHERE parent = %(parent)s AND date = %(delivery_date)s
-            """, {
-                'qty': delivery_note_item_qty,
-                'total_qty': total_qty,
-                'parent': scheduler.name,
-                'delivery_date':doc.posting_date,
-                'per_truck_mt': per_truck_mt,
-            })
+            
 
             elif method == "on_cancel":
                 # Update delivered quantity and reference number in open order scheduler for cancelled delivery note
@@ -235,45 +261,76 @@ def update_delivered_qty(doc, method):
             })
 #------------------------------------------------------------------------------------------------------------------#
             
-# Schedular at 12:01 AM
+# Schedular at 01:01 AM
 def update_OPS_truck():
- 
+    frappe.logger().info("update_OPS_truck called")
     diff_truck = None
+    extra = None
+    extra_mt = None
     yesterday = getdate(add_days(nowdate(), -1))
+    frappe.logger().info(f"Calculated yesterday's date: {yesterday}")
     print(f"yesterday {yesterday}")
+
     parent_docs = frappe.get_all('Open Order Scheduler', fields=['name'], filters={'docstatus': 1})
+    frappe.logger().info(f"Fetched {len(parent_docs)} parent documents")
+
     for doc in parent_docs:
         parent_doc = frappe.get_doc('Open Order Scheduler', doc.name)
         per_truck_mt = parent_doc.per_truck_mt
+        frappe.logger().info(f"Processing document: {doc.name} with per_truck_mt: {per_truck_mt}")
+
         for item in parent_doc.items:
+            frappe.logger().info(f"Checking item with date: {item.date}")
             print(f"item {item.date}")
             if str(item.date) == str(yesterday):
+                frappe.logger().info(f"Item date matches yesterday: {yesterday}")
                 print(f"date")
+                if item.actual_truck:
+                    if item.delivered_mt:
+                        extra_mt = item.delivered_mt/parent_doc.per_truck_mt
+                        if item.actual_truck > extra_mt:
+                            extra_mt =  item.actual_truck -extra_mt
+                        else:
+                            extra_mt = None
+                    else:
+                        extra_mt = item.actual_truck
+                    diff_truck = extra_mt
+                    print(f"Delivery: {item.delivered_mt}, Extra: {extra_mt}")
+                    frappe.logger().info(f"Calculated extra_mt: {extra_mt}, actual_truck: {item.actual_truck}, delivered_mt: {item.delivered_mt}")
+                    # frappe.msgprint(f"Extra: {extra}")
                 if item.planned_truck > item.actual_truck:
                     diff_truck = item.planned_truck - item.actual_truck
-        
-            # If diff_mt is calculated, find the first item with date > yesterday
+                    frappe.logger().info(f"Calculated diff_truck: {diff_truck}, planned_truck: {item.planned_truck}, actual_truck: {item.actual_truck}")
+
         if diff_truck is not None:
+            found_future_item = False
+            frappe.logger().info(f"diff_truck is not None, looking for future items")
+
             for item in parent_doc.items:
+                frappe.logger().info(f"Checking future item with date: {item.date}")
+                print(f"item.date: {item.date}, yesterday: {yesterday}")
                 if item.date > yesterday:
                     item.planned_truck += diff_truck
                     item.planned_mt = item.planned_truck * per_truck_mt
                     parent_doc.save(ignore_permissions=True)
                     print(f"Updated item {item.idx} on {item.date} with new planned_truck: {item.planned_truck}")
+                    frappe.logger().info(f"Updated item {item.idx} on {item.date} with new planned_truck: {item.planned_truck}, planned_mt: {item.planned_mt}")
+                    found_future_item = True
                     break
-                else:
-                    print("else")
-                    new_item = parent_doc.append("items", {})
-                    new_item.date = frappe.utils.nowdate()
-                    new_item.planned_truck = 0
-                    new_item.planned_mt = 0
-                    new_item.actual_truck = diff_truck
-                    new_item.actual_mt = new_item.planned_truck * per_truck_mt
-                    new_item.delivered_mt = 0
-                    parent_doc.save(ignore_permissions=True)
-                    print("Added new item for today")
-                    break
-#------------------------------------------------------------------------------------------------------------------#
+                
+            if not found_future_item:
+                new_item = parent_doc.append("items", {})
+                new_item.date = nowdate()
+                new_item.planned_truck = 0
+                new_item.planned_mt = 0
+                new_item.actual_truck = diff_truck
+                new_item.actual_mt = new_item.planned_truck * per_truck_mt
+                new_item.delivered_mt = 0
+                parent_doc.save(ignore_permissions=True)
+                frappe.logger().info(f"Added new item for today with actual_truck: {diff_truck}, actual_mt: {new_item.actual_mt}")
+                print("Added new item for today")
+    frappe.logger().info("update_OPS_truck completed")
+# ---------------------------------------------------------------------------------------------------------------#
 
 @frappe.whitelist()
 def get_items_from_blanket_order(blanket_order):

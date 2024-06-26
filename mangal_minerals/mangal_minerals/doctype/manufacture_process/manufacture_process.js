@@ -20,7 +20,10 @@ frappe.ui.form.on("Manufacture Process", {
             // Add a custom button for Stock Transfer
             frm.add_custom_button(__('Stock Transfer'), function() {
                 create_stock_transfer(frm);
-            });
+            }, __('Create'));
+            // frm.add_custom_button(__('Delivery Note'), function() {
+            //     create_delivery_note(frm)
+            // }, __('Create'));
         }
     },
     before_save: function(frm) {
@@ -103,5 +106,31 @@ function create_stock_transfer(frm) {
 
             // Set other fields as needed
         });
+    });
+}
+function create_delivery_note(frm) {
+    // Create a new Delivery Note document
+    frappe.new_doc("Delivery Note", {}, doc => {
+        doc.set_warehouse = frm.doc.warehouse;
+        frappe.model.clear_table(doc, "items");
+
+        const add_item = (item) => {
+            let dn_item = frappe.model.add_child(doc, "items");
+            dn_item.item_code = item.item;
+            dn_item.qty = item.quantity;
+            frappe.db.get_value("Item", item.item, ["item_name", "item_group", "stock_uom"], (r) => {
+                if (r) {
+                    dn_item.item_name = r.item_name;
+                    dn_item.item_group = r.item_group;
+                    dn_item.uom = r.stock_uom;
+                }
+            });
+        };
+
+        frm.doc.material_output.forEach(add_item);
+
+        if (frm.doc.jumbo_bag_items && frm.doc.jumbo_bag_items.length > 0) {
+            frm.doc.jumbo_bag_items.forEach(add_item);
+        }
     });
 }
