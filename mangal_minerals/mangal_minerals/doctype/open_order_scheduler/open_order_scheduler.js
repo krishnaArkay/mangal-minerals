@@ -12,6 +12,7 @@ frappe.ui.form.on("Open Order Scheduler", {
             // User does not have the System Manager role
             console.log('User does not have the System Manager role');
         }
+        // calculate_percentage(frm)
 	},
     open_order(frm){
         if (frm.doc.open_order) {
@@ -52,3 +53,15 @@ frappe.ui.form.on('Open Order Scheduler Item', {
     }
 
 })
+
+function calculate_percentage(frm) {
+    if(frm.doc.docstatus !== 2){
+        if (frm.doc.total_quantity > 0) {
+            frm.set_value('delivered', (frm.doc.total_delivered_mt / frm.doc.total_quantity) * 100);
+            frm.save('Update');
+        } else {
+            frm.set_value('delivered', 0);
+            frm.doc.save("Update")
+        }
+    }
+}

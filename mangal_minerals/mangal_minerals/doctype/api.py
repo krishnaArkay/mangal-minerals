@@ -13,6 +13,7 @@ def create_stock_transfer_entry(items,stock_entry_type):
     return doc.name
 
 #------------------------------------------------------------------------------------------------------------------#
+# Manufacture Process
 def create_stock_entry_manufacture(input_items, output_items, target_warehouse, stock_entry_type):
     items = []
     
@@ -48,11 +49,24 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
     return stock_entry.name
 #------------------------------------------------------------------------------------------------------------------#
 
+
+#------------------------------------------------------------------------------------------------------------------#
+# Cancel Stock Entry
 def cancel_stock_entry(voucher_number):
-    pass
+
+    # frappe.db.sql(f"UPDATE `tabStock Entry` SET docstatus = 2 WHERE name = '{voucher_number}'")
+    # frappe.db.commit()
+    # original_user = frappe.session.user  # Save the original user
+    # try:
+    #     # Temporarily set user as Administrator to bypass permissions
+    #     frappe.set_user('Administrator')
     stock_entry = frappe.get_doc("Stock Entry", voucher_number)
     if stock_entry and stock_entry.docstatus == 1:  # Check if the stock entry is submitted
-        stock_entry.cancel()
+        stock_entry.cancel()    
+    # except Exception as e:
+    #     frappe.log_error(f"Error cancelling Stock Entry {voucher_number}: {str(e)}")
+    # finally:
+    #     frappe.set_user(original_user)
 #------------------------------------------------------------------------------------------------------------------#
 
 # Jumbo Bag Stock Effect
@@ -83,12 +97,13 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                 
                 frappe.msgprint(f"Stock updated to {mangal_bag_item} due to negative stock of {item_code}.")
 #------------------------------------------------------------------------------------------------------------------#
-
 def item_validation(doc,method):
+    if doc.item_group == "Services":
+        doc.is_stock_item = 0
     if doc.item_group == "Jumbo Bag":
         if not doc.allow_negative_stock:
             doc.allow_negative_stock = 1
-        
+            
         if doc.custom_mangals_bag:
             if doc.name != "Mangal Bag":
                 item_exists = frappe.db.exists({
@@ -100,9 +115,19 @@ def item_validation(doc,method):
                 if item_exists:
                     # Logic if the item exists
                     frappe.throw("An item with 'Mangal's Bag' already exists.")
+    else:
+        doc.custom_mangals_bag = 0
 #------------------------------------------------------------------------------------------------------------------#
 
 #delivery note
+def dn_before_save(doc,method):
+    for item in doc.items:
+        if item.item_group == "Jumbo Bag":
+            frappe.db.set_value("Item", item.item_code, "allow_negative_stock", 0)
+def dn_after_save(doc,method):
+    for item in doc.items:
+        if item.item_group == "Jumbo Bag":
+            frappe.db.set_value("Item", item.item_code, "allow_negative_stock", 1)
 def delivery_note_on_submit(doc, method):
     entry_purpose = JumboBagEntryPurpose.DELIVERED.value
     reference_doctype = "Delivery Note"
@@ -120,10 +145,10 @@ def delivery_note_on_submit(doc, method):
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
     update_delivered_qty(doc, method)
+    frappe.db.set_value("Item", item.item_code, "allow_negative_stock", 1)
 #------------------------------------------------------------------------------------------------------------------#
-   
-    
-#Purchase reciept
+
+#Purchase reciept Submit
 def purchase_receipt_on_submit(doc, method):
     entry_purpose = JumboBagEntryPurpose.INWARD.value
     reference_doctype = "Purchase Receipt"
@@ -140,6 +165,11 @@ def purchase_receipt_on_submit(doc, method):
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
+
+#------------------------------------------------------------------------------------------------------------------#
+
+#Purchase reciept Cancel
+
 #------------------------------------------------------------------------------------------------------------------#
 
  # Create a new Jumbo Bag document  
@@ -157,7 +187,7 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
             "quantity": item["qty"],
         })
     # Save and submit the Jumbo Bag document
-    jumbo_bag_doc.insert()
+    jumbo_bag_doc.save(ignore_permissions=True)
     jumbo_bag_doc.submit()
 #------------------------------------------------------------------------------------------------------------------#
     
@@ -168,19 +198,19 @@ def update_delivered_qty(doc, method):
                                              fieldname="blanket_order")
     
     if blanket_order_name:
-        open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name})
+        open_order_schedulers = frappe.get_list("Open Order Scheduler", {"open_order": blanket_order_name, "docstatus":1})
 
         for scheduler in open_order_schedulers:
             total_qty = frappe.db.get_value("Open Order Scheduler", scheduler.name, "total_quantity")
             per_truck_mt = frappe.db.get_value("Open Order Scheduler", scheduler.name, "per_truck_mt")
-
+            parent_doc = frappe.get_doc("Open Order Scheduler", scheduler.name)
             if method == "on_submit":
                 delivery_date_exists = frappe.db.exists("Open Order Scheduler Item", {
                     "parent": scheduler.name,
                     "date": doc.posting_date
                 })
                 if delivery_date_exists:
-                    frappe.msgprint("exists")
+                    
                 # Update delivered quantity, remaining_mt and reference number in open order scheduler items for submitted delivery note
                     frappe.db.sql("""
                         UPDATE `tabOpen Order Scheduler Item`
@@ -194,8 +224,6 @@ def update_delivered_qty(doc, method):
                         'delivery_date': doc.posting_date
                     })
                 else:
-                    frappe.msgprint("Dosent exists")
-                    parent_doc = frappe.get_doc("Open Order Scheduler", scheduler.name)
                     new_child_row = frappe.new_doc("Open Order Scheduler Item")
 
                     new_child_row.parent = parent_doc.name  # Parent document name
@@ -204,8 +232,8 @@ def update_delivered_qty(doc, method):
                     new_child_row.date = doc.posting_date
                     new_child_row.delivered_mt = delivery_note_item_qty
                     new_child_row.reference_number = doc.name
-                    new_child_row.planned_mt = 0,
-                    new_child_row.planned_truck = 0,
+                    new_child_row.planned_mt = 0
+                    new_child_row.planned_truck = 0
 
                     new_child_row.insert(ignore_permissions=True)
                     frappe.db.commit()
@@ -253,15 +281,24 @@ def update_delivered_qty(doc, method):
                     FROM `tabOpen Order Scheduler Item`
                     WHERE parent = %(parent)s
                 ),
-                total_remaining_mt = %(total_qty)s - total_delivered_mt
+                total_remaining_mt = %(total_qty)s - total_delivered_mt,
+                delivered = (total_delivered_mt/total_quantity)*100,
+                remaining = (total_remaining_mt/total_quantity)*100,
+                status = CASE
+                    WHEN total_quantity <= total_delivered_mt THEN 'Completed'
+                    WHEN total_delivered_mt > 0 AND total_quantity > total_delivered_mt THEN 'Partially Completed'
+                    ELSE status
+                END
                 WHERE name = %(parent)s
             """, {
                 'parent': scheduler.name,
                 'total_qty': total_qty
             })
-#------------------------------------------------------------------------------------------------------------------#
+            frappe.db.commit() 
             
+#------------------------------------------------------------------------------------------------------------------#
 # Schedular at 01:01 AM
+@frappe.whitelist()
 def update_OPS_truck():
     frappe.logger().info("update_OPS_truck called")
     diff_truck = None

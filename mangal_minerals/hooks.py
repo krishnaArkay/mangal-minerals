@@ -140,7 +140,7 @@ doc_events = {
         "before_rename": "mangal_minerals.mangal_minerals.doctype.api.before_rename"
 	},
     "Delivery Note": {
-        # "before_save": "mangal_minerals.mangal_minerals.doctype.api.update_delivered_qty",
+        "before_submit": "mangal_minerals.mangal_minerals.doctype.api.dn_before_save",
          "on_submit": "mangal_minerals.mangal_minerals.doctype.api.delivery_note_on_submit",
 		# "on_update": "method",
 		 "on_cancel": "mangal_minerals.mangal_minerals.doctype.api.update_delivered_qty",
@@ -148,6 +148,7 @@ doc_events = {
 	},
     "Purchase Receipt":{
         "before_submit": "mangal_minerals.mangal_minerals.doctype.api.purchase_receipt_on_submit",
+        
 	},
     # "Open Order Scheduler":{
     #     "on_update":"mangal_minerals.mangal_minerals.doctype.api.submit_sche"

@@ -35,13 +35,13 @@ frappe.query_reports["Open Order Report"] = {
 			"label": __("Item"),
 			"fieldtype": "Link",
 			"options": "Item",
-			// "get_query": function() {
-			// 	return {
-			// 		"filters": [
-			// 			["Item", "item_group", "not in", ["Jumbo Bag", "Store Item", "Consumable"]]
-			// 		]
-			// 	};
-			// },
+			"get_query": function() {
+				return {
+					"filters": [
+						["Item", "item_group", "in", ["Products", "Royalty", "Services"]]
+					]
+				};
+			},
 			"reqd": 0
 		},
 	]

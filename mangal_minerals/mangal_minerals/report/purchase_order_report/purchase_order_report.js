@@ -7,7 +7,7 @@ frappe.query_reports["Purchase Order Report"] = {
             "fieldname": "period",
             "label": __("Period"),
             "fieldtype": "Select",
-            "options": "\nToday\nWeekly\nMonthly\nQuarterly\nHalf-yearly\nYearly",
+            "options": "\nToday\nWeekly\nMonthly\nQuarterly\nYearly",
             "width": "100px",
             "default": "Weekly"
         },

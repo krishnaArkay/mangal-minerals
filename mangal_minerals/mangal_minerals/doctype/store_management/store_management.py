@@ -20,7 +20,7 @@ class StoreManagement(Document):
 			stock_entry_name = create_stock_transfer_entry(items, stock_entry_type)
 			self.voucher_number = stock_entry_name
 			self.save()
-			frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
+			# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
 		else:
 			purposes = {}
 			for row in self.items:
@@ -36,7 +36,7 @@ class StoreManagement(Document):
 					} for item in items_with_purpose]
 					stock_entry_name = create_stock_transfer_entry(stock_entry_items, stock_entry_type)
 					purposes[row.purpose] = stock_entry_name  # Track the created stock entry
-					frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully for purpose {row.purpose}.")
+					# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully for purpose {row.purpose}.")
 
 			for row in self.items:
 				row.voucher_number = purposes.get(row.purpose, '')

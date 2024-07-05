@@ -13,7 +13,7 @@ frappe.ui.form.on("Store Management", {
             frm.set_query("entry_for", function() {
                 return {
                     filters: [
-                        ["name", "in", ["Material Inward", "Return"]]
+                        ["name", "in", ["Material Inward", "Returned"]]
                     ]
                 };
             });
@@ -28,7 +28,7 @@ frappe.ui.form.on("Store Management", {
             frm.set_query("entry_for", function() {
                 return {
                     filters: [
-                        ["name", "in", ["Material Inward", "Return"]]
+                        ["name", "in", ["Material Inward", "Returned"]]
                     ]
                 };
             });
@@ -38,6 +38,11 @@ frappe.ui.form.on("Store Management", {
         setPurposeFilter(frm);
         
 	},
+    person_responsible(frm){
+        frm.doc.items.forEach((item) => {
+            item.person_name = frm.doc.person_responsible
+        })
+    },
     before_save: function(frm) {
         if (frm.doc.entry_type === "Stock Out") {
             
@@ -46,7 +51,6 @@ frappe.ui.form.on("Store Management", {
             frm.doc.items.forEach((item) => {
                 if (item.item === "Diesel") {
                     if(!item.vehicle){
-                        console.log("Avyuuu iddd",item.idx )
                         frappe.throw("Please add a vehicle number for item <b>Diesel</b> at <b>Row " + item.idx+"</b>")
                     }                 
                 }

@@ -65,8 +65,8 @@ def get_filters(filters):
     if filters.get("warehouse"):
         filter_conditions["warehouse"] = filters.get("warehouse")
     
-    if filters.get("process_name"):
-        filter_conditions["process_name"] = filters.get("process_name")
+    if filters.get("process"):
+        filter_conditions["process_name"] = filters.get("process")
         
     if filters.get("period"):
         start_date, end_date = calculate_date_range(filters["period"])

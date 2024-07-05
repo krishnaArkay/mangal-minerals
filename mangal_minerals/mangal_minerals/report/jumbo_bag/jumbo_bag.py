@@ -81,7 +81,7 @@ def get_data(filters):
             # Format text with HTML color and font-weight tags
             entry_purpose_text = f'<span style="color: {color}; font-weight: {font_weight};">{record.entry_purpose}</span>'
             quantity_text = f'<span style="color: {color}; font-weight: {font_weight};">{item.quantity}</span>'
-        
+            
             data.append({
                 "date": record.date,
                 "entry_purpose": entry_purpose_text,

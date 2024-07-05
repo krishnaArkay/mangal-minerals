@@ -21,10 +21,10 @@ class StockTransfer(Document):
 		stock_entry_name = create_stock_transfer_entry(items, stock_entry_type)
 		self.voucher_number = stock_entry_name
 		self.save()
-		frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
+		# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
 	
 	def on_cancel(self):
 		stock_entry_name = self.voucher_number
 		if stock_entry_name:
 			cancel_stock_entry(stock_entry_name)
-			frappe.msgprint(f"Stock Entry {stock_entry_name} canceled successfully.")
+			# frappe.msgprint(f"Stock Entry {stock_entry_name} canceled successfully.")

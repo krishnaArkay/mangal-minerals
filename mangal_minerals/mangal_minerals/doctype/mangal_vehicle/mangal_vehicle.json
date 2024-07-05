@@ -14,6 +14,8 @@
   {
    "fieldname": "vehicle_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Vehicle Type",
    "options": "Vehicle Type"
   },
@@ -28,6 +30,7 @@
    "fieldname": "uom",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "UOM",
    "link_filters": "[[\"UOM\",\"uom_name\",\"in\",[\"Hour\",\"Kilometer\"]]]",
    "options": "UOM",
@@ -36,7 +39,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-10 14:42:35.544518",
+ "modified": "2024-07-04 14:21:36.634459",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Mangal Vehicle",

@@ -6,7 +6,10 @@ from frappe.model.document import Document
 
 
 class OpenOrderScheduler(Document):
-	pass
+    pass
+	# def on_change(self):
+	# 	frappe.msgprint("Calllll")
+	# 	self.add_comment('Comment', text='Test Comment')
 
 	
 
