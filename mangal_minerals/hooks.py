@@ -93,7 +93,7 @@ doctype_js = {"Purchase Receipt" : "public/js/purchase_receipt_custom.js",
 # before_app_install = "mangal_minerals.utils.before_app_install"
 # after_app_install = "mangal_minerals.utils.after_app_install"
 
-# Integration Cleanup
+# Integration Cleanupd
 # -------------------
 # To clean up dependencies/integrations with other apps
 # Name of the app being uninstalled is passed as an argument
@@ -258,4 +258,10 @@ scheduler_events = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-
+fixtures = [
+    "Custom DocPerm","Custom Role",
+    {"dt":"Workspace","filters": [["module", "=", "Mangal Minerals"]]},
+    {"dt":"Role","filters": [["name", "in", ["Mangal Admin","Mangal's Sales Manager","Mangal's Purchase Manager","Manufacture Manager","Store Manager"]]]},
+    {"dt":"Property Setter","filters": [["module", "=", "Mangal Minerals"]]},
+    {"dt":"Custom Field","filters": [["module", "=", "Mangal Minerals"]]},
+]

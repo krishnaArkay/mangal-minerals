@@ -1,0 +1,681 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 17:39:57.456800",
+  "name": "9ks80hafr3",
+  "page": null,
+  "ref_doctype": "Jumbo Bag Management",
+  "report": "Jumbo Bag",
+  "roles": [
+   {
+    "parent": "9ks80hafr3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "9ks80hafr3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "9ks80hafr3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 17:39:48.956225",
+  "name": "qclcqssfts",
+  "page": null,
+  "ref_doctype": "Manufacture Process",
+  "report": "Manufacture Process Report",
+  "roles": [
+   {
+    "parent": "qclcqssfts",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "qclcqssfts",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "qclcqssfts",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 13:22:20.491898",
+  "name": "qcoo715cvb",
+  "page": null,
+  "ref_doctype": "Store Management",
+  "report": "Store Management Report",
+  "roles": [
+   {
+    "parent": "qcoo715cvb",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "qcoo715cvb",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "qcoo715cvb",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Store Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:06:44.026968",
+  "name": "qd5r2m5gfv",
+  "page": null,
+  "ref_doctype": "Store Management",
+  "report": "DIESEL CONSUMPTION REPORT",
+  "roles": [
+   {
+    "parent": "qd5r2m5gfv",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "qd5r2m5gfv",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "qd5r2m5gfv",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Store Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 17:39:12.469016",
+  "name": "qffqdhn2hf",
+  "page": null,
+  "ref_doctype": "Stock Ledger Entry",
+  "report": "Stock Ledger",
+  "roles": [
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Purchase Manager"
+   },
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   },
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   },
+   {
+    "parent": "qffqdhn2hf",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Store Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:07:22.443234",
+  "name": "he1o05c9ok",
+  "page": null,
+  "ref_doctype": "Store Management",
+  "report": "Group by Diesel Report",
+  "roles": [
+   {
+    "parent": "he1o05c9ok",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "he1o05c9ok",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "he1o05c9ok",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Store Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 17:40:20.016017",
+  "name": "hf8e02ft02",
+  "page": null,
+  "ref_doctype": "Stock Transfer",
+  "report": "Stock Transfer Report",
+  "roles": [
+   {
+    "parent": "hf8e02ft02",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "hf8e02ft02",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hf8e02ft02",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 17:40:29.064327",
+  "name": "hfeq1q8v54",
+  "page": null,
+  "ref_doctype": "Stock Transfer",
+  "report": "Vehicle Trip Cycle",
+  "roles": [
+   {
+    "parent": "hfeq1q8v54",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "hfeq1q8v54",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hfeq1q8v54",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacturing User"
+   },
+   {
+    "parent": "hfeq1q8v54",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:14:35.327468",
+  "name": "hhvefn2to3",
+  "page": null,
+  "ref_doctype": "Stock Entry",
+  "report": "Total Stock Summary",
+  "roles": [
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacturing User"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacturing Manager"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock Manager"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Store Manager"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Purchase Manager"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   },
+   {
+    "parent": "hhvefn2to3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:16:21.978918",
+  "name": "hjablhshmg",
+  "page": "stock-balance",
+  "ref_doctype": null,
+  "report": null,
+  "roles": [
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Store Manager"
+   },
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Manufacture Manager"
+   },
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   },
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Purchase Manager"
+   },
+   {
+    "parent": "hjablhshmg",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:17:55.151475",
+  "name": "hk7fctj377",
+  "page": null,
+  "ref_doctype": "Blanket Order",
+  "report": "Open Order Report",
+  "roles": [
+   {
+    "parent": "hk7fctj377",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "hk7fctj377",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hk7fctj377",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:18:28.833792",
+  "name": "hki0p8h1p5",
+  "page": null,
+  "ref_doctype": "Open Order Scheduler",
+  "report": "Scheduler Planned and Actual Report",
+  "roles": [
+   {
+    "parent": "hki0p8h1p5",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   },
+   {
+    "parent": "hki0p8h1p5",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hki0p8h1p5",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:19:16.079858",
+  "name": "hl0ona10ap",
+  "page": null,
+  "ref_doctype": "Purchase Order",
+  "report": "Purchase Order Report",
+  "roles": [
+   {
+    "parent": "hl0ona10ap",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hl0ona10ap",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Purchase Manager"
+   },
+   {
+    "parent": "hl0ona10ap",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Purchase User"
+   },
+   {
+    "parent": "hl0ona10ap",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hl0ona10ap",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Purchase Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:19:56.451722",
+  "name": "hlc8qiplt3",
+  "page": null,
+  "ref_doctype": "Purchase Order",
+  "report": "Purchase Order Trends",
+  "roles": [
+   {
+    "parent": "hlc8qiplt3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hlc8qiplt3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Purchase Manager"
+   },
+   {
+    "parent": "hlc8qiplt3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Purchase User"
+   },
+   {
+    "parent": "hlc8qiplt3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Purchase Manager"
+   },
+   {
+    "parent": "hlc8qiplt3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hlc8qiplt3",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "System Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:20:31.124120",
+  "name": "hlo7gr7gfr",
+  "page": null,
+  "ref_doctype": "Purchase Receipt",
+  "report": "Purchase Receipt Trends",
+  "roles": [
+   {
+    "parent": "hlo7gr7gfr",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock Manager"
+   },
+   {
+    "parent": "hlo7gr7gfr",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hlo7gr7gfr",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Purchase User"
+   },
+   {
+    "parent": "hlo7gr7gfr",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "hlo7gr7gfr",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Purchase Manager"
+   },
+   {
+    "parent": "hlo7gr7gfr",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:21:03.645937",
+  "name": "hm2c2tuv7j",
+  "page": null,
+  "ref_doctype": "Sales Order",
+  "report": "Sales Order Trends",
+  "roles": [
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Sales User"
+   },
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Sales Manager"
+   },
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Maintenance User"
+   },
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hm2c2tuv7j",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   }
+  ]
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Role",
+  "modified": "2024-07-01 15:21:25.544831",
+  "name": "hm97unctlp",
+  "page": null,
+  "ref_doctype": "Delivery Note",
+  "report": "Delivery Note Trends",
+  "roles": [
+   {
+    "parent": "hm97unctlp",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock User"
+   },
+   {
+    "parent": "hm97unctlp",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Stock Manager"
+   },
+   {
+    "parent": "hm97unctlp",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Sales User"
+   },
+   {
+    "parent": "hm97unctlp",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "hm97unctlp",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal Admin"
+   },
+   {
+    "parent": "hm97unctlp",
+    "parentfield": "roles",
+    "parenttype": "Custom Role",
+    "role": "Mangal's Sales Manager"
+   }
+  ]
+ }
+]

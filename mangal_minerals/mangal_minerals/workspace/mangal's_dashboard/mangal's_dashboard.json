@@ -1,0 +1,54 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"yvvwPfTUrf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal's Dashboard</span>\",\"col\":12}},{\"id\":\"OedAulNA1-\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Jumbo Bag\",\"col\":3}},{\"id\":\"eHesaBDODr\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Items\",\"col\":3}},{\"id\":\"NIUN8rTRMw\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Supplier\",\"col\":3}},{\"id\":\"OWe8QKXreW\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Customer\",\"col\":3}},{\"id\":\"H-AYWK4W4z\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"In-process Manufacturing Process\",\"col\":3}},{\"id\":\"bS9CtpR5G1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today's Completed Manufacturing Process\",\"col\":3}}]",
+ "creation": "2024-06-25 12:12:17.983187",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "dashboard",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Mangal's Dashboard",
+ "links": [],
+ "modified": "2024-07-06 11:57:10.122299",
+ "modified_by": "Administrator",
+ "module": "Mangal Minerals",
+ "name": "Mangal's Dashboard",
+ "number_cards": [
+  {
+   "label": "Today's Completed Manufacturing Process",
+   "number_card_name": "Today's Completed Manufacturing Process"
+  },
+  {
+   "label": "Jumbo Bag",
+   "number_card_name": "Jumbo Bag"
+  },
+  {
+   "label": "Items",
+   "number_card_name": "Items"
+  },
+  {
+   "label": "In-process Manufacturing Process",
+   "number_card_name": "In-process Manufacturing Process"
+  },
+  {
+   "label": "Supplier",
+   "number_card_name": "Supplier"
+  },
+  {
+   "label": "Customer",
+   "number_card_name": "Customer"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 29.0,
+ "shortcuts": [],
+ "title": "Mangal's Dashboard"
+}
