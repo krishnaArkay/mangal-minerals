@@ -14,6 +14,7 @@ def get_columns():
     return [
         {"fieldname": "open_order", "label": "<b>" + _("Open Order") + "</b>", "fieldtype": "Link", "options": "Blanket Order", "width": 190},
         {"fieldname": "customer", "label": "<b>" + _("Customer Name") + "</b>", "fieldtype": "Link", "options": "Customer", "width": 250},
+        {"fieldname": "status", "label": "<b>" + _("Status") + "</b>", "fieldtype": "Data", "width": 150},
         {"fieldname": "date", "label": "<b>" + _("Planned Date") + "</b>", "fieldtype": "Date", "width": 150},
         {"fieldname": "p_truck", "label": "<b>" + _("Planned Truck") + "</b>", "fieldtype": "Data", "width": 120},
         {"fieldname": "a_truck", "label": "<b>" + _("Actual Truck") + "</b>", "fieldtype": "Data", "width": 120},
@@ -67,10 +68,17 @@ def get_data(filters):
                 if not (from_date <= item_date <= to_date):
                     include_item = False
                     # continue
+            if item.status == "Pending":
+                status = f'<span style="color: blue;">{item.status}</span>'
+            elif item.status == "Completed":
+                status = f'<span style="color: green;">{item.status}</span>'
+            else:
+                status = f'<span style="color: orange;">{item.status}</span>'
             if include_item:
                 data.append({
                     "open_order": order_doc.open_order,
                     "customer": order_doc.customer,
+                    "status":status,
                     "date": item.date,
                     "p_truck":item.planned_truck,
                     "a_truck": item.actual_truck,

@@ -85,7 +85,7 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                     "entry_purpose":entry_purpose,
                     "warehouse": mangal_warehouse,
                     "jumbo_bag_reference": jumbo_bag_name,
-                    "remarks": f"{item_code} - this item has negative value that's why Mangal Minerals {mangal_bag_item} bag Stock Effect. Reference of Jumbo Bag {jumbo_bag_name}",
+                    "remarks": f"{item_code} has a negative value, causing the stock of Mangal Minerals {mangal_bag_item} bag to be affected. Reference: Jumbo Bag {jumbo_bag_name}.",
                     "items": [{
                         "item": mangal_bag_item,
                         "quantity": -stock,  # Deduct the negative stock from the Mangal Bag item
@@ -95,7 +95,7 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                 jumbo_bag_entry.save(ignore_permissions=True)
                 jumbo_bag_entry.submit()
                 
-                frappe.msgprint(f"Stock updated to {mangal_bag_item} due to negative stock of {item_code}.")
+                frappe.msgprint(f"Stock was updated from {mangal_bag_item} due to negative stock of {item_code}.")
 #------------------------------------------------------------------------------------------------------------------#
 def item_validation(doc,method):
     if doc.item_group == "Services":
