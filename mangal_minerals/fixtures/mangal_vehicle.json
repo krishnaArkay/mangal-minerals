@@ -1,0 +1,137 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:12.746126",
+  "name": "GJ12CM7584",
+  "uom": "Hour",
+  "vehicle_number": "GJ12CM7584",
+  "vehicle_type": "JCB"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:12.872615",
+  "name": "GJ12CM7444",
+  "uom": "Hour",
+  "vehicle_number": "GJ12CM7444",
+  "vehicle_type": "JCB"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:12.916047",
+  "name": "GJ12CM7191",
+  "uom": "Hour",
+  "vehicle_number": "GJ12CM7191",
+  "vehicle_type": "BULL"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:12.959295",
+  "name": "GJ12CM2721",
+  "uom": "Hour",
+  "vehicle_number": "GJ12CM2721",
+  "vehicle_type": "JONDEER LOADER"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:12.999834",
+  "name": "GJ12-CM-4321",
+  "uom": "Hour",
+  "vehicle_number": "GJ12-CM-4321",
+  "vehicle_type": "JONDEER LOADER"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.042039",
+  "name": "GJ12-CM-4695",
+  "uom": "Hour",
+  "vehicle_number": "GJ12-CM-4695",
+  "vehicle_type": "JONDEER LOADER"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.082065",
+  "name": "GJ12-CM-4178",
+  "uom": "Hour",
+  "vehicle_number": "GJ12-CM-4178",
+  "vehicle_type": "FORKLIFT"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.125660",
+  "name": "GJ12CM3529",
+  "uom": "Hour",
+  "vehicle_number": "GJ12CM3529",
+  "vehicle_type": "FORKLIFT"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.167904",
+  "name": "GJ12-DS-5382",
+  "uom": "Hour",
+  "vehicle_number": "GJ12-DS-5382",
+  "vehicle_type": "JONDEER TRACTOR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.208715",
+  "name": "GJ12-DM-9507",
+  "uom": "Hour",
+  "vehicle_number": "GJ12-DM-9507",
+  "vehicle_type": "SWARAJ TRACTOR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.251785",
+  "name": "GJ12FB1435",
+  "uom": "Hour",
+  "vehicle_number": "GJ12FB1435",
+  "vehicle_type": "SWARAJ TRACTOR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.292668",
+  "name": "GJ12DM9664",
+  "uom": "Hour",
+  "vehicle_number": "GJ12DM9664",
+  "vehicle_type": "SWARAJ TRACTOR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.334587",
+  "name": "GJ12BX4154",
+  "uom": "Kilometer",
+  "vehicle_number": "GJ12BX4154",
+  "vehicle_type": "ISUJU"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.375904",
+  "name": "GJ12BF7844",
+  "uom": "Kilometer",
+  "vehicle_number": "GJ12BF7844",
+  "vehicle_type": "SWIFT"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Mangal Vehicle",
+  "modified": "2024-07-06 16:55:13.417466",
+  "name": "GJ12-BZ-2714",
+  "uom": "Kilometer",
+  "vehicle_number": "GJ12-BZ-2714",
+  "vehicle_type": "BOLERO"
+ }
+]

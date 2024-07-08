@@ -1,0 +1,130 @@
+[
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:30.754384",
+  "name": "Material Issue",
+  "purpose": "Material Issue"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:30.819186",
+  "name": "Material Receipt",
+  "purpose": "Material Receipt"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:30.864322",
+  "name": "Material Transfer",
+  "purpose": "Material Transfer"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:30.915840",
+  "name": "Manufacture",
+  "purpose": "Manufacture"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:30.977593",
+  "name": "Repack",
+  "purpose": "Repack"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:31.024773",
+  "name": "Send to Subcontractor",
+  "purpose": "Send to Subcontractor"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:31.070108",
+  "name": "Material Transfer for Manufacture",
+  "purpose": "Material Transfer for Manufacture"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-06 12:28:31.119577",
+  "name": "Material Consumption for Manufacture",
+  "purpose": "Material Consumption for Manufacture"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:44:27.728120",
+  "name": "Returned",
+  "purpose": "Material Receipt"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:45:31.996699",
+  "name": "Jumbo Bag Damage",
+  "purpose": "Material Transfer"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:45:44.072244",
+  "name": "Jumbo Bag Filled",
+  "purpose": "Material Transfer"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:46:02.388268",
+  "name": "Jumbo Bag Delivered",
+  "purpose": "Material Consumption for Manufacture"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:46:19.034969",
+  "name": "Material Consumption",
+  "purpose": "Material Consumption for Manufacture"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:46:34.225481",
+  "name": "Issued for Usage",
+  "purpose": "Material Issue"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:46:46.213852",
+  "name": "Material Inward",
+  "purpose": "Material Receipt"
+ },
+ {
+  "add_to_transit": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "modified": "2024-07-08 09:46:53.964987",
+  "name": "Material Outward",
+  "purpose": "Material Issue"
+ }
+]

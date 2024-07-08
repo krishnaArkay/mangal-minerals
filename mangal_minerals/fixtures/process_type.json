@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:40:12.372879",
+  "name": "Outside Wet Screening Process",
+  "process_name": "Outside Wet Screening Process"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:40:29.034057",
+  "name": "Ball Mill Process",
+  "process_name": "Ball Mill Process"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:40:45.837490",
+  "name": "Blunger Process",
+  "process_name": "Blunger Process"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:40:55.854910",
+  "name": "Dry Process",
+  "process_name": "Dry Process"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:41:04.644349",
+  "name": "Dry Screening Process",
+  "process_name": "Dry Screening Process"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:41:11.504414",
+  "name": "Magnet Removal Process",
+  "process_name": "Magnet Removal Process"
+ }
+]

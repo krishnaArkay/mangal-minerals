@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "autoname": "field:vehicle_type",
  "creation": "2024-06-10 14:41:12.210390",
  "doctype": "DocType",
@@ -19,7 +20,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-04 14:22:30.397187",
+ "modified": "2024-07-06 15:45:42.000864",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Vehicle Type",

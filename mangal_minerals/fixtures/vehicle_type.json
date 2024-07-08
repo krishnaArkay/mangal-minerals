@@ -1,0 +1,65 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 15:47:21.884765",
+  "name": "BULL",
+  "vehicle_type": "BULL"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 15:47:32.694055",
+  "name": "JONDEER LOADER",
+  "vehicle_type": "JONDEER LOADER"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 15:47:39.589496",
+  "name": "FORKLIFT",
+  "vehicle_type": "FORKLIFT"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 15:47:48.005474",
+  "name": "JONDEER TRACTOR",
+  "vehicle_type": "JONDEER TRACTOR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 15:47:58.829898",
+  "name": "SWARAJ TRACTOR",
+  "vehicle_type": "SWARAJ TRACTOR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 16:54:38.291476",
+  "name": "ISUJU",
+  "vehicle_type": "ISUJU"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 16:54:47.197300",
+  "name": "SWIFT",
+  "vehicle_type": "SWIFT"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 16:54:53.131506",
+  "name": "BOLERO",
+  "vehicle_type": "BOLERO"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Vehicle Type",
+  "modified": "2024-07-06 15:46:24.355267",
+  "name": "JCB",
+  "vehicle_type": "JCB"
+ }
+]
