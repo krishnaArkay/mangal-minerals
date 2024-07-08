@@ -9,13 +9,6 @@
  {
   "docstatus": 0,
   "doctype": "Process Type",
-  "modified": "2024-07-06 15:40:29.034057",
-  "name": "Ball Mill Process",
-  "process_name": "Ball Mill Process"
- },
- {
-  "docstatus": 0,
-  "doctype": "Process Type",
   "modified": "2024-07-06 15:40:45.837490",
   "name": "Blunger Process",
   "process_name": "Blunger Process"
@@ -40,5 +33,12 @@
   "modified": "2024-07-06 15:41:11.504414",
   "name": "Magnet Removal Process",
   "process_name": "Magnet Removal Process"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Process Type",
+  "modified": "2024-07-06 15:40:29.034057",
+  "name": "Ball Mill Process",
+  "process_name": "Ball Mill Process"
  }
 ]
