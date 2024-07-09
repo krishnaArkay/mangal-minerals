@@ -1,13 +1,13 @@
 frappe.ui.form.on('Blanket Order', {
     refresh: function(frm) {
-        frm.get_docfield("items").grid.allow_bulk_edit = 0;
+        // frm.get_docfield("items").grid.allow_bulk_edit = 0;
         console.log("calll")
         // Add custom button
         $('div[data-doctype="Purchase Order"]').hide();
         $('div[data-doctype="Quotation"]').hide();
         setTimeout(() => {
             cur_frm.remove_custom_button('Quotation', 'Create');
-        }, 100);
+        }, 200);
     },
     before_save(frm){
         validate_order(frm)
