@@ -31,6 +31,7 @@ app_license = "mit"
 doctype_js = {"Purchase Receipt" : "public/js/purchase_receipt_custom.js",
               "Customer" : "public/js/customer_custom.js",
               "Supplier" : "public/js/supplier_custom.js",
+              "Item" : "public/js/item_custom.js",
             #   "Blanket Order":"public/js/open_order_custom.js",
               "Delivery Note":"public/js/delivery_note_custom.js",
               "Purchase Order":"public/js/purchase_order_custom.js",

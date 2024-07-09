@@ -1,5 +1,6 @@
 frappe.ui.form.on('Blanket Order', {
     refresh: function(frm) {
+        frm.get_docfield("items").grid.allow_bulk_edit = 0;
         console.log("calll")
         // Add custom button
         $('div[data-doctype="Purchase Order"]').hide();
@@ -10,6 +11,7 @@ frappe.ui.form.on('Blanket Order', {
     },
     before_save(frm){
         validate_order(frm)
+        total_qty(frm)
     }
 })
 frappe.ui.form.on('Blanket Order Item', {
@@ -20,6 +22,14 @@ frappe.ui.form.on('Blanket Order Item', {
         validate_order(frm)
     }
 })
+function total_qty(frm){
+    let total_qty = 0;
+        $.each(frm.doc.items || [], function(i, d) {
+            total_qty += d.qty;
+        });
+        frm.set_value('custom_total_qty', total_qty);
+}
+
 function validate_order(frm) {
     if (frm.doc.items && frm.doc.items.length > 1) {
         frappe.throw("A Open Order can only contain one item. Please remove the extra items and try again.");

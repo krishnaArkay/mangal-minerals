@@ -19,6 +19,8 @@ def get_columns():
         {"fieldname": "item_name", "label": _("<b>Item Name</b>"), "fieldtype": "Data", "width": 150},
         {"fieldname": "in_qty", "label": _("<b>In Quantity</b>"), "fieldtype": "Data", "width": 130},
         {"fieldname": "out_qty", "label": _("<b>Out Quantity</b>"), "fieldtype": "Data", "width": 130},
+        {"fieldname": "balance", "label": _("<b>Balance</b>"), "fieldtype": "Float", "width": 130},
+        {"fieldname": "per_responsible", "label": _("<b>Responsible</b>"), "fieldtype": "Data", "width": 150},
         {"fieldname": "remarks", "label": _("<b>Remarks</b>"), "fieldtype": "Data", "width": 250},
         {"fieldname": "id", "label": _("<b>Link</b>"), "fieldtype": "Link", "options": "Store Management", "width": 200},
     ]
@@ -42,7 +44,10 @@ def get_data(filters):
       
             in_qty = item.quantity if entry.entry_type == "Stock In" else 0.0
             out_qty = item.quantity if entry.entry_type == "Stock Out" else 0.0
-
+            if store_management_doc.voucher_number:
+                actual_qty = frappe.get_value("Stock Ledger Entry",filters={"voucher_no": store_management_doc.voucher_number,"item_code":item.item,"warehouse":store_management_doc.warehouse},fieldname="qty_after_transaction")
+            else:
+                actual_qty = frappe.get_value("Stock Ledger Entry",filters={"voucher_no": item.voucher_number,"item_code":item.item,"warehouse":store_management_doc.warehouse},fieldname="qty_after_transaction")
             # Apply green color if quantity is greater than 0
             in_qty_str = f'<span style="color: #007200;font-weight:bold">{in_qty}</span>' if in_qty > 0 else in_qty
             out_qty_str = f'<span style="color: #fb6107;font-weight:bold">{out_qty}</span>' if out_qty > 0 else out_qty
@@ -54,6 +59,8 @@ def get_data(filters):
                 "purpose": item.purpose,
                 "in_qty": in_qty_str,
                 "out_qty": out_qty_str,
+                "balance": actual_qty,
+                "per_responsible": item.person_name,
                 "remarks": store_management_doc.remarks,
                 "id": store_management_doc.name
             })
@@ -61,7 +68,8 @@ def get_data(filters):
             qty_out = int(out_qty)
             
             total_quantity_in += qty_in
-            total_quantity_out += qty_out      
+            total_quantity_out += qty_out
+            # total_blance += actual_qty    
                  
     if total_quantity_in != 0:
         total = f'<span style=" font-weight: bold;">Total</span>'
@@ -76,6 +84,8 @@ def get_data(filters):
             "purpose": "",
             "in_qty": total_qty_in,
             "out_qty": total_qty_out,
+            "balance": "",
+            "per_responsible": "",
             "remarks": "",
             "id": ""
         })

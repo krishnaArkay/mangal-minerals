@@ -16,6 +16,7 @@ frappe.ui.form.on("Open Order Scheduler", {
 	},
     open_order(frm){
         if (frm.doc.open_order) {
+            
             frappe.call({
                 method: 'mangal_minerals.mangal_minerals.doctype.api.get_items_from_blanket_order',
                 args: {

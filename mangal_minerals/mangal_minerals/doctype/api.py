@@ -225,7 +225,7 @@ def update_delivered_qty(doc, method):
                     })
                 else:
                     new_child_row = frappe.new_doc("Open Order Scheduler Item")
-
+                    new_child_row = frappe.get_doc("Blanket Order",scheduler.name)
                     new_child_row.parent = parent_doc.name  # Parent document name
                     new_child_row.parenttype = parent_doc.doctype  # Parent document type
                     new_child_row.parentfield = "items"  # Child table field name in parent document
@@ -236,7 +236,12 @@ def update_delivered_qty(doc, method):
                     new_child_row.planned_truck = 0
 
                     new_child_row.insert(ignore_permissions=True)
-                    frappe.db.commit()
+                    parent_doc.append("items", new_child_row)
+
+                    # Save the parent document
+                    parent_doc.save()
+                    
+                    # frappe.db.commit()
 
                 frappe.db.sql("""
                     UPDATE `tabOpen Order Scheduler Item`
