@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\":\"S5cYKVCZ66\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal Minerals</span>\",\"col\":12}},{\"id\":\"SLgoXWNjjH\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"Xb1uvOhVGT\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing Management \",\"col\":4}},{\"id\":\"bDf4ILIEz-\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Management\",\"col\":4}},{\"id\":\"gHTlLgoj9G\",\"type\":\"card\",\"data\":{\"card_name\":\"Sales Management \",\"col\":4}},{\"id\":\"fhl1EOmJf9\",\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Management\",\"col\":4}},{\"id\":\"p0yHMVjqN-\",\"type\":\"card\",\"data\":{\"card_name\":\"Additional Masters\",\"col\":4}},{\"id\":\"wno0NRAK5x\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"RLhgTsz_IC\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing and Production\",\"col\":3}},{\"id\":\"KXwIjPE_5a\",\"type\":\"card\",\"data\":{\"card_name\":\"Fuel and Vehicle Management\",\"col\":3}},{\"id\":\"3F7NbRmSmA\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase and Sales Reports\",\"col\":3}},{\"id\":\"1z0KcTqT_9\",\"type\":\"card\",\"data\":{\"card_name\":\"Store and Inventory Management\",\"col\":3}}]",
- "creation": "2024-05-28 17:18:51.344693",
+ "content": "[{\"id\":\"S5cYKVCZ66\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal Global Sand Solutions</span>\",\"col\":12}},{\"id\":\"SLgoXWNjjH\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"bDf4ILIEz-\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Management\",\"col\":4}},{\"id\":\"gHTlLgoj9G\",\"type\":\"card\",\"data\":{\"card_name\":\"Sales Management \",\"col\":4}},{\"id\":\"Xb1uvOhVGT\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing Management \",\"col\":4}},{\"id\":\"fhl1EOmJf9\",\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Management\",\"col\":4}},{\"id\":\"p0yHMVjqN-\",\"type\":\"card\",\"data\":{\"card_name\":\"Additional Masters\",\"col\":4}},{\"id\":\"wno0NRAK5x\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"RLhgTsz_IC\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing and Production\",\"col\":3}},{\"id\":\"KXwIjPE_5a\",\"type\":\"card\",\"data\":{\"card_name\":\"Fuel and Vehicle Management\",\"col\":3}},{\"id\":\"3F7NbRmSmA\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase and Sales Reports\",\"col\":3}},{\"id\":\"1z0KcTqT_9\",\"type\":\"card\",\"data\":{\"card_name\":\"Store and Inventory Management\",\"col\":3}}]",
+ "creation": "2024-07-09 17:52:56.766275",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -11,7 +11,7 @@
  "idx": 0,
  "indicator_color": "",
  "is_hidden": 0,
- "label": "Mangal Minerals",
+ "label": "Mangal Global Sand Solutions",
  "links": [
   {
    "hidden": 0,
@@ -465,10 +465,10 @@
    "type": "Link"
   }
  ],
- "modified": "2024-07-06 11:56:46.446669",
+ "modified": "2024-07-11 14:26:51.388874",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
- "name": "Mangal Minerals",
+ "name": "Mangal Global Sand Solutions",
  "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
@@ -477,5 +477,5 @@
  "roles": [],
  "sequence_id": 28.0,
  "shortcuts": [],
- "title": "Mangal Minerals"
+ "title": "Mangal Global Sand Solutions"
 }
