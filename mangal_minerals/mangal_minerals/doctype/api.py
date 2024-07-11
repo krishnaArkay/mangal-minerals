@@ -224,7 +224,7 @@ def update_delivered_qty(doc, method):
                         'delivery_date': doc.posting_date
                     })
                 else:
-                    new_child_row = frappe.new_doc("Open Order Scheduler Item")
+                    # new_child_row = frappe.new_doc("Open Order Scheduler Item")
                     new_child_row = frappe.get_doc("Blanket Order",scheduler.name)
                     new_child_row.parent = parent_doc.name  # Parent document name
                     new_child_row.parenttype = parent_doc.doctype  # Parent document type
