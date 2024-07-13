@@ -1,7 +1,7 @@
 {
  "charts": [],
  "content": "[{\"id\":\"S5cYKVCZ66\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal Minerals</span>\",\"col\":12}},{\"id\":\"SLgoXWNjjH\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"Xb1uvOhVGT\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing Management \",\"col\":4}},{\"id\":\"bDf4ILIEz-\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase Management\",\"col\":4}},{\"id\":\"gHTlLgoj9G\",\"type\":\"card\",\"data\":{\"card_name\":\"Sales Management \",\"col\":4}},{\"id\":\"fhl1EOmJf9\",\"type\":\"card\",\"data\":{\"card_name\":\"Inventory Management\",\"col\":4}},{\"id\":\"p0yHMVjqN-\",\"type\":\"card\",\"data\":{\"card_name\":\"Additional Masters\",\"col\":4}},{\"id\":\"wno0NRAK5x\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"RLhgTsz_IC\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing and Production\",\"col\":3}},{\"id\":\"KXwIjPE_5a\",\"type\":\"card\",\"data\":{\"card_name\":\"Fuel and Vehicle Management\",\"col\":3}},{\"id\":\"3F7NbRmSmA\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase and Sales Reports\",\"col\":3}},{\"id\":\"1z0KcTqT_9\",\"type\":\"card\",\"data\":{\"card_name\":\"Store and Inventory Management\",\"col\":3}}]",
- "creation": "2024-05-28 17:18:51.344693",
+ "creation": "2024-07-06 12:20:33.987352",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -87,65 +87,6 @@
    "label": "Scheduler Planned and Actual Report",
    "link_count": 0,
    "link_to": "Scheduler Planned and Actual Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Purchase and Sales Reports",
-   "link_count": 5,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Report",
-   "link_count": 0,
-   "link_to": "Purchase Order Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Order Trends",
-   "link_count": 0,
-   "link_to": "Purchase Order Trends",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Purchase Receipt Trends",
-   "link_count": 0,
-   "link_to": "Purchase Receipt Trends",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Sales Order Trends",
-   "link_count": 0,
-   "link_to": "Sales Order Trends",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Delivery Note Trends",
-   "link_count": 0,
-   "link_to": "Delivery Note Trends",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -463,9 +404,78 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase and Sales Reports",
+   "link_count": 6,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Report",
+   "link_count": 0,
+   "link_to": "Purchase Order Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Order Trends",
+   "link_count": 0,
+   "link_to": "Purchase Order Trends",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Purchase Receipt Trends",
+   "link_count": 0,
+   "link_to": "Purchase Receipt Trends",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Order Report",
+   "link_count": 0,
+   "link_to": "Sales Order Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sales Order Trends",
+   "link_count": 0,
+   "link_to": "Sales Order Trends",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Delivery Note Trends",
+   "link_count": 0,
+   "link_to": "Delivery Note Trends",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-07-06 11:56:46.446669",
+ "modified": "2024-07-12 17:08:03.016448",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Mangal Minerals",
