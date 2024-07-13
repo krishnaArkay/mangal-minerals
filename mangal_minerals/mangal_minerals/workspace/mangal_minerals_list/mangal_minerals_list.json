@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\":\"S5cYKVCZ66\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal Minerals</span>\",\"col\":12}},{\"id\":\"HKW2t1dRzv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"nc9lXOhpQh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"zEcoZ_kW2E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"-XWLhg7_pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"hGEAB48ByO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Receipt\",\"col\":3}},{\"id\":\"pkJzghrCMJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Manufacture Process\",\"col\":3}},{\"id\":\"MhzoQ34MLc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"id\":\"hgv-s5ukA-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Store Management\",\"col\":3}},{\"id\":\"-VH-62LeU4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Jumbo Bag Management\",\"col\":3}},{\"id\":\"zidzABhzCg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Blanket Order\",\"col\":3}},{\"id\":\"r1Ys10pUlM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Open Order Scheduler\",\"col\":3}},{\"id\":\"lfJ3ovONGO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"avVdcbFAiF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"iiC_vau4in\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Reconciliation\",\"col\":3}},{\"id\":\"arAYkPRibx\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"RLhgTsz_IC\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing and Production\",\"col\":5}},{\"id\":\"KXwIjPE_5a\",\"type\":\"card\",\"data\":{\"card_name\":\"Fuel and Vehicle Management\",\"col\":5}},{\"id\":\"3F7NbRmSmA\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase and Sales Reports\",\"col\":5}},{\"id\":\"1z0KcTqT_9\",\"type\":\"card\",\"data\":{\"card_name\":\"Store and Inventory Management\",\"col\":5}}]",
- "creation": "2024-07-04 15:01:00.616212",
+ "content": "[{\"id\":\"S5cYKVCZ66\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal Global Sand Solutions</span>\",\"col\":12}},{\"id\":\"HKW2t1dRzv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"nc9lXOhpQh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"zEcoZ_kW2E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"-XWLhg7_pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"hGEAB48ByO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Receipt\",\"col\":3}},{\"id\":\"pkJzghrCMJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Manufacture Process\",\"col\":3}},{\"id\":\"MhzoQ34MLc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"id\":\"hgv-s5ukA-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Store Management\",\"col\":3}},{\"id\":\"-VH-62LeU4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Jumbo Bag Management\",\"col\":3}},{\"id\":\"zidzABhzCg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Blanket Order\",\"col\":3}},{\"id\":\"r1Ys10pUlM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Open Order Scheduler\",\"col\":3}},{\"id\":\"lfJ3ovONGO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"avVdcbFAiF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"iiC_vau4in\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Reconciliation\",\"col\":3}},{\"id\":\"arAYkPRibx\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"RLhgTsz_IC\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing and Production\",\"col\":5}},{\"id\":\"KXwIjPE_5a\",\"type\":\"card\",\"data\":{\"card_name\":\"Fuel and Vehicle Management\",\"col\":5}},{\"id\":\"3F7NbRmSmA\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase and Sales Reports\",\"col\":5}},{\"id\":\"1z0KcTqT_9\",\"type\":\"card\",\"data\":{\"card_name\":\"Store and Inventory Management\",\"col\":5}}]",
+ "creation": "2024-07-09 17:52:57.444483",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -212,75 +212,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Additional Masters",
-   "link_count": 6,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Warehouse",
-   "link_count": 0,
-   "link_to": "Warehouse",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Vehicle",
-   "link_count": 0,
-   "link_to": "Mangal Vehicle",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Vehicle Type",
-   "link_count": 0,
-   "link_to": "Vehicle Type",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Item Group",
-   "link_count": 0,
-   "link_to": "Item Group",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Customer Group",
-   "link_count": 0,
-   "link_to": "Customer Group",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Supplier Group",
-   "link_count": 0,
-   "link_to": "Supplier Group",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Sales Management ",
    "link_count": 4,
    "link_type": "DocType",
@@ -326,48 +257,9 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Inventory Management",
-   "link_count": 3,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Jumbo Bag Management",
-   "link_count": 0,
-   "link_to": "Jumbo Bag Management",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Store Management",
-   "link_count": 0,
-   "link_to": "Store Management",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Stock Reconciliation",
-   "link_count": 0,
-   "link_to": "Stock Reconciliation",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
- "modified": "2024-07-06 11:56:58.680713",
+ "modified": "2024-07-11 12:53:58.003938",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Mangal Minerals List",
