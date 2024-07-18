@@ -23,7 +23,7 @@ frappe.ui.form.on('Purchase Receipt', {
     before_save: function(frm) {
         frm.doc.items.forEach(function(item) {
             if (item.item_group === "Jumbo Bag") {
-                item.warehouse = "Jumbo Bag Inward - MGSS";
+                item.warehouse = "Empty Jumbo Bag - MGSS";
             }
         });
     }

@@ -13,7 +13,7 @@ frappe.ui.form.on("Jumbo Bag Management", {
                 frm.set_value("warehouse","Rejected Warehouse - MGSS")
                 frm.set_df_property("warehouse","read_only",1)
             }else if(frm.doc.entry_purpose === "Inward"){
-                frm.set_value("warehouse","Jumbo Bag Inward - MGSS")
+                frm.set_value("warehouse","Empty Jumbo Bag - MGSS")
                 frm.set_df_property("warehouse","read_only",1)
             }else{
                 frm.set_value("warehouse","")
@@ -37,7 +37,7 @@ frappe.ui.form.on("Jumbo Bag Management", {
             frm.set_value("warehouse","Rejected Warehouse - MGSS")
             frm.set_df_property("warehouse","read_only",1)
         }else if(frm.doc.entry_purpose === "Inward"){
-            frm.set_value("warehouse","Jumbo Bag Inward - MGSS")
+            frm.set_value("warehouse","Empty Jumbo Bag - MGSS")
             frm.set_df_property("warehouse","read_only",1)
         }else{
             frm.set_value("warehouse","")

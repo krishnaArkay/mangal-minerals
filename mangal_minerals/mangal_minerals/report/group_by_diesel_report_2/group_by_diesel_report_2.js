@@ -1,7 +1,7 @@
 // Copyright (c) 2024, Arkay Apps and contributors
 // For license information, please see license.txt
 
-frappe.query_reports["Store Management Report"] = {
+frappe.query_reports["Group by Diesel Report 2"] = {
 	"filters": [
 		{
             "fieldname": "period",
@@ -25,39 +25,20 @@ frappe.query_reports["Store Management Report"] = {
             // "default": frappe.datetime.get_today(),
             "reqd": 0
         },
-		{
-            "fieldname": "item",
-            "label": __("Item"),
+        {
+            "fieldname": "vehicle",
+            "label": __("Vehicle"),
             "fieldtype": "Link",
-            "options":"Item",
-			"get_query": function() {
-				return {
-					"filters": [
-						["Item", "item_group", "in", ["Store Item", "Consumable"]]
-					]
-				};
-			},
-            "reqd": 0
-        },
-		{
-            "fieldname": "purpose",
-            "label": __("Purpose"),
-            "fieldtype": "Link",
-            "options":"Stock Entry Type",
-			"get_query": function() {
-				return {
-					"filters": [
-						["Stock Entry Type", "name", "in", ["Material Consumption", "Issued for Usage","Return", "Material Inward", "Material Outward"]]
-					]
-				};
-			},
+            "options":"Mangal Vehicle",
             "reqd": 0
         },
         {
-            "fieldname": "used_in",
-            "label": __("Used In"),
+            "fieldname": "vehicle_type",
+            "label": __("Vehicle Type"),
             "fieldtype": "Link",
-            "options":"Warehouse",
-        }
+            "options":"Vehicle Type",
+            "reqd": 0
+        },
 	]
+	
 };

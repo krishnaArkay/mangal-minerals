@@ -44,50 +44,76 @@ frappe.ui.form.on("Manufacture Process", {
 });
 frappe.ui.form.on('Material Input', {
     material_input_add: function(frm,cdt,cdn){
-        clear_table(frm)
     },
     material_input_remove: function(frm,cdt,cdn){
-        clear_table(frm);
+        calculation(frm)
     },
     item: function(frm,cdt,cdn){
-        clear_table(frm)
     },
     quantity: function(frm,cdt,cdn){
-        clear_table(frm)
+        let row = locals[cdt][cdn]
+        
+        if(row.quantity && row.quantity>0){
+            console.log("qty",row.quantity)
+            let total_input_qty = 0;
+        frm.doc.material_input.forEach(function(row) {
+            total_input_qty += row.quantity;
+        });
+        let total_percentage = 0;
+
+        frm.doc.material_output.forEach(function(row) {
+            total_percentage += row.percentage || 0;
+            var output_qty = total_input_qty * (row.percentage / 100);
+            frappe.model.set_value("Material Output", row.name, 'quantity', output_qty);
+        });
+
+        }
     }
 })
 
 frappe.ui.form.on('Material Output', {
     percentage: function(frm, cdt, cdn) {
-        var total_input_qty = 0;
+        let total_input_qty = 0;
 
-        // Calculate the total input quantity
         frm.doc.material_input.forEach(function(row) {
             total_input_qty += row.quantity;
         });
-        var total_percentage = 0;
-        // Loop through all material output rows
+        let total_percentage = 0;
+
         frm.doc.material_output.forEach(function(row) {
             total_percentage += row.percentage || 0;
-            // Calculate the output quantity based on the percentage
-            var output_qty = total_input_qty * (row.percentage / 100);
+            let output_qty = total_input_qty * (row.percentage / 100);
             frappe.model.set_value(cdt, row.name, 'quantity', output_qty);
         });
 
         if (total_percentage > 100) {
             frappe.throw("Total percentage cannot exceed 100%. Please adjust.");
-            // frappe.model.set_value(cdt, cdn, 'percentage', 0);
             return;
         }
     }
 });
-function clear_table(frm){
-    if (frm.doc.material_output && frm.doc.material_output.length > 0) {
-        cur_frm.clear_table("material_output"); 
-        cur_frm.refresh_fields();
-        console.log("Table Material Output cleared");
-    }
+function calculation(frm){
+    let total_input_qty = 0;
+
+    frm.doc.material_input.forEach(function(row) {
+        total_input_qty += row.quantity;
+    });
+
+    frm.doc.material_output.forEach(function(row) {
+        let output_qty = total_input_qty * (row.percentage / 100);
+        frappe.model.set_value("Material Output", row.name, 'quantity', output_qty);
+    });
 }
+
+
+// function clear_table(frm){
+//     // if (frm.doc.material_output && frm.doc.material_output.length > 0) {
+//     //     cur_frm.clear_table("material_output"); 
+//     //     cur_frm.refresh_fields();
+//     //     console.log("Table Material Output cleared");
+//     // }
+ 
+// }
 
 function create_stock_transfer(frm) {
     // Create a new Stock Transfer document

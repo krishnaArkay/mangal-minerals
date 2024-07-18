@@ -1,9 +1,6 @@
 // Copyright (c) 2024, Arkay Apps and contributors
 // For license information, please see license.txt
 
-// Copyright (c) 2024, Arkay Apps and contributors
-// For license information, please see license.txt
-
 frappe.ui.form.on("Store Management", {
 	refresh(frm) {
         if (frm.is_new()) {
@@ -60,7 +57,6 @@ frappe.ui.form.on("Store Management", {
             });
         }
     }
-
 });
 
 frappe.ui.form.on('Store Management Items', {
@@ -99,6 +95,32 @@ frappe.ui.form.on('Store Management Items', {
         }
         else{
             frm.fields_dict['items'].grid.grid_rows_by_docname[cdn].toggle_reqd('purpose', false);
+        }
+        frappe.db.get_list('Stock Ledger Entry', {
+            filters: {
+                item_code: row.item,
+                warehouse: frm.doc.warehouse
+            },
+            fields: ['qty_after_transaction'],
+            order_by: 'modified desc',
+            limit: 1
+        }).then(r => {
+            if (r.length > 0) {
+                let current_stock = r[0].qty_after_transaction;
+                console.log('current_stock', current_stock);
+                row.current_stock = current_stock
+            } else {
+                row.current_stock = 0
+                console.log('No stock ledger entries found');
+            }
+        });
+    },
+    quantity: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn]
+        if(frm.doc.entry_type === "Stock Out"){
+            if (row.current_stock <= row.quantity){
+                frappe.throw(`Not enough stock: Only ${row.current_stock} available for ${row.item}.`);
+            }
         }
     }
 });

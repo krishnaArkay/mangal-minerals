@@ -1,6 +1,6 @@
 frappe.ui.form.on('Item', {
 	refresh(frm) {
-        console.log("AVyu")
+        console.log("Avyu")
         $('div[data-doctype="Stock Entry"]').hide()
         }
     })

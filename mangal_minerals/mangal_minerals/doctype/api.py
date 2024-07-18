@@ -1,6 +1,88 @@
 import frappe
-from frappe.utils import now_datetime, add_days,nowdate,getdate
+from frappe.utils import now_datetime, add_days,nowdate,getdate, today, now
+
 from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
+#------------------------------------------------------------------------------------------------------------------#
+def get_daily_purchase_report():
+    """
+    Fetches the daily purchase receipt report for the previous day.
+    """
+    return frappe.db.sql("""
+        SELECT 
+            pr.supplier AS party_name, 
+            pri.item_name AS item_name, 
+            SUM(pri.qty) AS qty,
+            COALESCE(NULLIF(pr.custom_royalty_type, ''), ' ') AS royalty
+        FROM 
+            `tabPurchase Receipt` pr
+        JOIN 
+            `tabPurchase Receipt Item` pri ON pr.name = pri.parent
+        WHERE 
+            pr.docstatus = 0 AND pr.posting_date = %s
+        GROUP BY 
+            pr.supplier, pri.item_name, royalty
+        ORDER BY 
+            pr.supplier, royalty, pri.item_name
+    """, (add_days(today(), -1)), as_dict=1)
+
+def send_daily_report():
+    """
+    Sends the daily purchase receipt report via email.
+    """
+    data = get_daily_purchase_report()
+    
+    if not data:
+        frappe.msgprint("No purchase receipts found for the previous day.")
+        return
+    
+    total_qty = sum(row['qty'] for row in data)
+    report_content = f"""
+    <div style="font-family: Arial, sans-serif;">
+        <h2 style="text-align: left;">Daily Purchase Receipt Report</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">#</th>
+                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Party Name</th>
+                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Item</th>
+                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Quantity</th>
+                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Royalty</th>
+                </tr>
+            </thead>
+            <tbody>
+    """
+    
+    for idx, row in enumerate(data, 1):
+        report_content += f"""
+            <tr>
+                <td style="border: 1px solid #f0f0f0; padding: 8px;">{idx}</td>
+                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['party_name']}</td>
+                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['item_name']}</td>
+                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['qty']}</td>
+                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['royalty']}</td>
+            </tr>
+        """
+    
+    report_content += f"""
+        <tr>
+            <td style="border: 1px solid #f0f0f0; padding: 8px;" colspan="3"><b>Total</b></td>
+            <td style="border: 1px solid #f0f0f0; padding: 8px;" colspan="2">{total_qty}</td>
+        </tr>
+        </tbody>
+        </table>
+        <p style="font-size: 12px; color: #687178;">This report was generated on {now()}.</p>
+    </div>
+    """
+    
+    frappe.sendmail(
+        recipients=["krishna@arkayapps.com"],  # Update with actual email
+        subject="Daily Purchase Receipt Report",
+        message=report_content,
+        sender="krishna@arkayapps.com",
+        # is_html=True
+    )
+    
+    frappe.msgprint("Email sent successfully")
 #------------------------------------------------------------------------------------------------------------------#
 def create_stock_transfer_entry(items,stock_entry_type):
     doc = frappe.get_doc({
@@ -14,9 +96,12 @@ def create_stock_transfer_entry(items,stock_entry_type):
 
 #------------------------------------------------------------------------------------------------------------------#
 # Manufacture Process
-def create_stock_entry_manufacture(input_items, output_items, target_warehouse, stock_entry_type):
+def create_stock_entry_manufacture(input_items, output_items,jb_items, target_warehouse, stock_entry_type,j_b_flag, per_kg_jb):
     items = []
-    
+    jb_qty = 0
+    if j_b_flag:
+        for item, qty in jb_items:
+            jb_qty += qty
     # Add items from Material Input with s_warehouse set
     for item, qty in input_items:
         items.append({
@@ -28,12 +113,36 @@ def create_stock_entry_manufacture(input_items, output_items, target_warehouse, 
     
     # Add items from Material Output with t_warehouse set
     for item, qty, is_finished_good in output_items:
-        items.append({
-            "item_code": item,
-            "qty": qty,
-            "t_warehouse": target_warehouse,
-            "is_finished_item": is_finished_good  
-        })
+        if j_b_flag:
+            if is_finished_good == 1:
+                qty_kg = qty * 1000
+                jb_number_qty = qty_kg / per_kg_jb
+                total_bag = jb_qty * per_kg_jb
+                rem_qty = qty_kg - total_bag
+
+                total_bag_mt = total_bag / 1000
+                rem_qty_mt  = rem_qty / 1000
+
+                items.append({
+                    "item_code": item,
+                    "qty": rem_qty_mt,
+                    "t_warehouse": target_warehouse,
+                    "is_finished_item": is_finished_good  
+                })
+            else:
+                items.append({
+                    "item_code": item,
+                    "qty": qty,
+                    "t_warehouse": target_warehouse,
+                    "is_finished_item": is_finished_good  
+                })
+        else:
+                items.append({
+                    "item_code": item,
+                    "qty": qty,
+                    "t_warehouse": target_warehouse,
+                    "is_finished_item": is_finished_good  
+                })
     
     # Create stock entry document
     stock_entry = frappe.get_doc({
@@ -98,6 +207,7 @@ def deduct_stock(jumbo_bag_name, warehouse, mangal_bag_item,entry_purpose,mangal
                 frappe.msgprint(f"Stock was updated from {mangal_bag_item} due to negative stock of {item_code}.")
 #------------------------------------------------------------------------------------------------------------------#
 def item_validation(doc,method):
+    # send_daily_report()
     if doc.item_group == "Services":
         doc.is_stock_item = 0
     if doc.item_group == "Jumbo Bag":

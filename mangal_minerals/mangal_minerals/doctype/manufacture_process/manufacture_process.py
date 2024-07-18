@@ -10,24 +10,41 @@ class ManufactureProcess(Document):
 	def on_submit(self):
 		stock_entry_type = "Manufacture"
 		target_warehouse = self.warehouse
-		
+		jb_qty = 0
+		jb_kg = 0
+		jb_mt = 0
+		per_kg_jb = self.per_jumbo_bag_kg
+
+		if self.jumbo_bag_items:
+			j_b_flag = True
+		else:
+			j_b_flag = False
 		# Fetch items from Material Input and Material Output child tables
 		input_items = [(row.item, row.quantity) for row in self.material_input]
 		output_items = [(row.item, row.quantity,row.is_finished_good) for row in self.material_output]
-		
+		jb_items = [(row.item, row.quantity) for row in self.jumbo_bag_items]
 		# Create stock entry
-		stock_entry_name = create_stock_entry_manufacture(input_items, output_items, target_warehouse, stock_entry_type)
+		stock_entry_name = create_stock_entry_manufacture(input_items, output_items, jb_items, target_warehouse, stock_entry_type, j_b_flag, per_kg_jb)
 		self.voucher_number = stock_entry_name
 		self.save()
 		# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
 
+		# for row in self.material_output:
+        # if hasattr(row, 'is_finished_good') and row.is_finished_good:
+        #     qty_kg = row.quantity * 1000
+
 		# Create Jumbo Bag Management entry if jumbo bag items exist
 		if self.jumbo_bag_items:
 			bag_items = [(row.item, row.quantity) for row in self.jumbo_bag_items]
-			items = [{
-				"item": item,
-				"quantity": qty,
-			} for item, qty in bag_items]
+			items = []
+			for item, qty in bag_items:
+				jb_kg = qty * per_kg_jb  # Calculate kg for each bag
+				jb_mt = jb_kg / 1000
+				items = [{
+					"item": item,
+					"quantity": qty,
+					"qty_mt": jb_mt
+				} for item, qty in bag_items]
 			
 			doc = frappe.get_doc({
 				"doctype": "Jumbo Bag Management",

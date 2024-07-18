@@ -13,15 +13,19 @@ def execute(filters=None):
         {"fieldname": "qty", "label": "<b>" + _("Liter") + "</b>", "fieldtype": "Float", "width": 100},
         {"fieldname": "reading", "label": "<b>" + _("HRS/KM") + "</b>", "fieldtype": "Float", "width": 100},
         {"fieldname": "avg", "label": "<b>" + _("Average") + "</b>", "fieldtype": "Float", "width": 100},
+        {"fieldname": "diff", "label": "<b>" + _("Difference") + "</b>", "fieldtype": "Float", "width": 100},
         {"fieldname": "remarks", "label": "<b>" + _("Remarks") + "</b>", "fieldtype": "Data", "width": 350}
     ]
 
     data = []
-    entry_remarks_text = ""
-
     filters = get_filters(filters)
 
-    stock_outs = frappe.get_all("Store Management", filters=filters, fields=["name", "entry_type", "remarks"], order_by="date desc")
+    stock_outs = frappe.get_all(
+        "Store Management",
+        filters=filters,
+        fields=["name", "entry_type", "remarks"],
+        order_by="date asc"
+    )
 
     vehicle_data = {}
 
@@ -32,33 +36,44 @@ def execute(filters=None):
             if item.item == "Diesel":
                 qty = item.quantity or 0.0
                 reading = item.reading or 0.0
-                avg = qty / reading if reading else 0
 
-                entry_remarks_text = f'<span style="color: #f02d3a;font-weight:bold">{entry.remarks}</span>, ' if entry.remarks else ''
-
+                # Initialize vehicle data if not already
                 if item.vehicle not in vehicle_data:
                     vehicle_data[item.vehicle] = {
                         "vehicle_type": item.vehicle_type,
-                        "vehicle": item.vehicle,
-                        "qty": 0,
-                        "reading": 0,
-                        "avg": 0,
-                        "remarks": entry_remarks_text
+                        "first_entry": reading,
+                        "last_entry": reading,
+                        "total_qty": qty,
+                        "total_reading": reading,
+                        "remarks": entry.remarks or ""
                     }
+                else:
+                    # Update last entry and totals
+                    vehicle_data[item.vehicle]["last_entry"] = reading
+                    vehicle_data[item.vehicle]["total_qty"] += qty
+                    vehicle_data[item.vehicle]["total_reading"] += reading
 
-                vehicle_data[item.vehicle]["qty"] += qty
-                vehicle_data[item.vehicle]["reading"] += reading
-                vehicle_data[item.vehicle]["avg"] = vehicle_data[item.vehicle]["qty"] / vehicle_data[item.vehicle]["reading"] if vehicle_data[item.vehicle]["reading"] else 0
-                vehicle_data[item.vehicle]["remarks"] += f"{entry_remarks_text}"
-
-    for vehicle, vehicle_info in vehicle_data.items():
-        data.append(vehicle_info)
+    # Prepare final data and calculate averages and differences
+    for vehicle, info in vehicle_data.items():
+        
+        diff = info["last_entry"] - info["first_entry"]
+        avg = info["total_qty"] /diff if diff else 0
+        
+        data.append({
+            "vehicle_type": info["vehicle_type"],
+            "vehicle": vehicle,
+            "qty": info["total_qty"],
+            "reading": info["total_reading"],
+            "avg": avg,
+            "diff": diff,
+            "remarks": info["remarks"]
+        })
 
     return columns, data
 
 def get_filters(filters):
     stock_filters = {"entry_type": "stock out", "docstatus": 1}
-    
+
     if filters.get("period"):
         start_date, end_date = calculate_date_range(filters["period"])
         stock_filters["date"] = ["between", [start_date, end_date]]
@@ -93,6 +108,6 @@ def calculate_date_range(period):
         start_date = today.replace(month=1, day=1)
         end_date = today.replace(month=12, day=31)
     else:
-        start_date = end_date = today  # default to today if period is unknown
+        start_date = end_date = today  # Default to today if period is unknown
 
     return start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')

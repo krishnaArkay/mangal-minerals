@@ -17,6 +17,7 @@ def get_columns():
         {"fieldname": "warehouse", "label": "<b>" + _("Warehouse") + "</b>", "fieldtype": "Link", "options": "Warehouse", "width": 250},
         {"fieldname": "item", "label": "<b>" + _("Jumbo Bag Name") + "</b>", "fieldtype": "Link", "options":"Item", "width": 150},
         {"fieldname": "quantity", "label": "<b>" + _("Quantity") + "</b>", "fieldtype": "Data", "width": 100},
+        {"fieldname": "qty_mt", "label": "<b>" + _("QTY MT") + "</b>", "fieldtype": "Data", "width": 100},
         {"fieldname": "stock", "label": "<b>" + _("Stock") + "</b>", "fieldtype": "Float", "width": 110},
         {"fieldname": "remarks", "label": "<b>" + _("Remarks") + "</b>", "fieldtype": "Data", "width":350, "align": "Left"},
     ]
@@ -81,13 +82,15 @@ def get_data(filters):
             # Format text with HTML color and font-weight tags
             entry_purpose_text = f'<span style="color: {color}; font-weight: {font_weight};">{record.entry_purpose}</span>'
             quantity_text = f'<span style="color: {color}; font-weight: {font_weight};">{item.quantity}</span>'
-            
+            color = "green" if item.qty_mt > 0 else "red"
+            qty_mt = f'<span style="color: {color};">{item.qty_mt}</span>'
             data.append({
                 "date": record.date,
                 "entry_purpose": entry_purpose_text,
                 "warehouse": record.warehouse,
                 "item": item.item,
                 "quantity": quantity_text,
+                "qty_mt": qty_mt,
                 "stock":actual_qty,
                 "remarks":ji.remarks,
             })
