@@ -3,86 +3,86 @@ from frappe.utils import now_datetime, add_days,nowdate,getdate, today, now
 
 from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
 #------------------------------------------------------------------------------------------------------------------#
-def get_daily_purchase_report():
-    """
-    Fetches the daily purchase receipt report for the previous day.
-    """
-    return frappe.db.sql("""
-        SELECT 
-            pr.supplier AS party_name, 
-            pri.item_name AS item_name, 
-            SUM(pri.qty) AS qty,
-            COALESCE(NULLIF(pr.custom_royalty_type, ''), ' ') AS royalty
-        FROM 
-            `tabPurchase Receipt` pr
-        JOIN 
-            `tabPurchase Receipt Item` pri ON pr.name = pri.parent
-        WHERE 
-            pr.docstatus = 0 AND pr.posting_date = %s
-        GROUP BY 
-            pr.supplier, pri.item_name, royalty
-        ORDER BY 
-            pr.supplier, royalty, pri.item_name
-    """, (add_days(today(), -1)), as_dict=1)
+# def get_daily_purchase_report():
+#     """
+#     Fetches the daily purchase receipt report for the previous day.
+#     """
+#     return frappe.db.sql("""
+#         SELECT 
+#             pr.supplier AS party_name, 
+#             pri.item_name AS item_name, 
+#             SUM(pri.qty) AS qty,
+#             COALESCE(NULLIF(pr.custom_royalty_type, ''), ' ') AS royalty
+#         FROM 
+#             `tabPurchase Receipt` pr
+#         JOIN 
+#             `tabPurchase Receipt Item` pri ON pr.name = pri.parent
+#         WHERE 
+#             pr.docstatus = 0 AND pr.posting_date = %s
+#         GROUP BY 
+#             pr.supplier, pri.item_name, royalty
+#         ORDER BY 
+#             pr.supplier, royalty, pri.item_name
+#     """, (add_days(today(), -1)), as_dict=1)
 
-def send_daily_report():
-    """
-    Sends the daily purchase receipt report via email.
-    """
-    data = get_daily_purchase_report()
+# def send_daily_report():
+    # """
+    # Sends the daily purchase receipt report via email.
+    # """
+    # data = get_daily_purchase_report()
     
-    if not data:
-        frappe.msgprint("No purchase receipts found for the previous day.")
-        return
+    # if not data:
+    #     frappe.msgprint("No purchase receipts found for the previous day.")
+    #     return
     
-    total_qty = sum(row['qty'] for row in data)
-    report_content = f"""
-    <div style="font-family: Arial, sans-serif;">
-        <h2 style="text-align: left;">Daily Purchase Receipt Report</h2>
-        <table style="width: 100%; border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">#</th>
-                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Party Name</th>
-                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Item</th>
-                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Quantity</th>
-                    <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Royalty</th>
-                </tr>
-            </thead>
-            <tbody>
-    """
+    # total_qty = sum(row['qty'] for row in data)
+    # report_content = f"""
+    # <div style="font-family: Arial, sans-serif;">
+    #     <h2 style="text-align: left;">Daily Purchase Receipt Report</h2>
+    #     <table style="width: 100%; border-collapse: collapse;">
+    #         <thead>
+    #             <tr>
+    #                 <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">#</th>
+    #                 <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Party Name</th>
+    #                 <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Item</th>
+    #                 <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Quantity</th>
+    #                 <th style="border: 1px solid #f0f0f0; padding: 8px; text-align: left;">Royalty</th>
+    #             </tr>
+    #         </thead>
+    #         <tbody>
+    # """
     
-    for idx, row in enumerate(data, 1):
-        report_content += f"""
-            <tr>
-                <td style="border: 1px solid #f0f0f0; padding: 8px;">{idx}</td>
-                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['party_name']}</td>
-                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['item_name']}</td>
-                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['qty']}</td>
-                <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['royalty']}</td>
-            </tr>
-        """
+    # for idx, row in enumerate(data, 1):
+    #     report_content += f"""
+    #         <tr>
+    #             <td style="border: 1px solid #f0f0f0; padding: 8px;">{idx}</td>
+    #             <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['party_name']}</td>
+    #             <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['item_name']}</td>
+    #             <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['qty']}</td>
+    #             <td style="border: 1px solid #f0f0f0; padding: 8px;">{row['royalty']}</td>
+    #         </tr>
+    #     """
     
-    report_content += f"""
-        <tr>
-            <td style="border: 1px solid #f0f0f0; padding: 8px;" colspan="3"><b>Total</b></td>
-            <td style="border: 1px solid #f0f0f0; padding: 8px;" colspan="2">{total_qty}</td>
-        </tr>
-        </tbody>
-        </table>
-        <p style="font-size: 12px; color: #687178;">This report was generated on {now()}.</p>
-    </div>
-    """
+    # report_content += f"""
+    #     <tr>
+    #         <td style="border: 1px solid #f0f0f0; padding: 8px;" colspan="3"><b>Total</b></td>
+    #         <td style="border: 1px solid #f0f0f0; padding: 8px;" colspan="2">{total_qty}</td>
+    #     </tr>
+    #     </tbody>
+    #     </table>
+    #     <p style="font-size: 12px; color: #687178;">This report was generated on {now()}.</p>
+    # </div>
+    # """
     
-    frappe.sendmail(
-        recipients=["krishna@arkayapps.com"],  # Update with actual email
-        subject="Daily Purchase Receipt Report",
-        message=report_content,
-        sender="krishna@arkayapps.com",
-        # is_html=True
-    )
+    # frappe.sendmail(
+    #     recipients=["krishna@arkayapps.com"],  # Update with actual email
+    #     subject="Daily Purchase Receipt Report",
+    #     message=report_content,
+    #     sender="krishna@arkayapps.com",
+    #     # is_html=True
+    # )
     
-    frappe.msgprint("Email sent successfully")
+    # frappe.msgprint("Email sent successfully")
 #------------------------------------------------------------------------------------------------------------------#
 def create_stock_transfer_entry(items,stock_entry_type):
     doc = frappe.get_doc({
