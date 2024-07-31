@@ -23,6 +23,8 @@ def get_columns():
         {"fieldname": "material_input_qty", "label": _("<b>MI Qty</b>"), "fieldtype": "Data", "width": 100},
         {"fieldname": "material_output_item", "label": _("<b>MO Item</b>"), "fieldtype": "Data", "width": 150},
         {"fieldname": "material_output_qty", "label": _("<b>MO Qty</b>"), "fieldtype": "Data", "width": 100},
+        {"fieldname": "loose_mt", "label": _("<b>Loose MT</b>"), "fieldtype": "Data", "width": 100},
+        {"fieldname": "filled_mt", "label": _("<b>Filled MT</b>"), "fieldtype": "Data", "width": 100},
         {"fieldname": "jumbo_bag_item", "label": _("<b>JB Item</b>"), "fieldtype": "Data", "width": 150},
         {"fieldname": "jumbo_bag_qty", "label": _("<b>JB Qty</b>"), "fieldtype": "Data", "width": 100},
         # {"fieldname": "id", "label": _("<b>id</b>"), "fieldtype": "Link", "options":"Manufacture Process", "width": 100}
@@ -51,7 +53,9 @@ def get_data(filters):
                 "material_input_item": f'<span style="color:#fb6107;font-weight:bold">{material_input.get("item", "")}</span>',
                 "material_input_qty": f'<span style="color:#fb6107;font-weight:bold">{material_input.get("quantity", "")}</span>',
                 "material_output_item":f'<span style="color:#007200;font-weight:bold">{material_output.get("item", "")}</span>' ,
-                "material_output_qty": f'<span style="color:#007200;font-weight:bold">{material_output.get("quantity", "")}</span>' ,
+                "material_output_qty": f'<span style="color:#007200;font-weight:bold">{material_output.get("quantity", 0):.2f}</span>' ,
+                "filled_mt": f'<span style="color:#E76F51;font-weight:bold">{jumbo_bag.get("qty_mt", "")}</span>',
+                "loose_mt": f'<span style="color:#E76F51;font-weight:bold">{material_output.get("quantity", 0) - jumbo_bag.get("qty_mt", 0):.2f}</span>',
                 "jumbo_bag_item": f'<span style="color:#124076;font-weight:bold">{jumbo_bag.get("item", "")}</span>',
                 "jumbo_bag_qty":f'<span style="color:#124076;font-weight:bold">{jumbo_bag.get("quantity", "")}</span>',
                 # "id": entry.name if i == 0 else f'<span style="color:white">{entry.name}</span>'

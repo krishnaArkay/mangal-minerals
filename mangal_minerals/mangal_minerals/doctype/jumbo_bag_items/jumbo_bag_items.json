@@ -39,6 +39,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "qty_mt",
    "fieldtype": "Float",
    "label": "Qty MT"
@@ -47,7 +48,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-17 15:11:23.784283",
+ "modified": "2024-07-31 15:05:15.925985",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Jumbo Bag Items",
