@@ -118,7 +118,7 @@ frappe.ui.form.on('Store Management Items', {
     quantity: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn]
         if(frm.doc.entry_type === "Stock Out"){
-            if (row.current_stock <= row.quantity){
+            if (row.current_stock < row.quantity){
                 frappe.throw(`Not enough stock: Only ${row.current_stock} available for ${row.item}.`);
             }
         }

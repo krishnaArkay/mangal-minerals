@@ -43,7 +43,7 @@ def execute(filters=None):
         JOIN 
             `tabPurchase Receipt Item` pri ON pr.name = pri.parent
         WHERE 
-            pr.docstatus = 1 AND {date_condition}
+            pr.docstatus = 0 AND {date_condition}
         GROUP BY 
             pr.supplier, pri.item_name, royalty
         ORDER BY 
