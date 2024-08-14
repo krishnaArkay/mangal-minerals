@@ -1,30 +1,256 @@
 import frappe
-from frappe.utils import now_datetime, add_days,nowdate,getdate, today, now
-
+from frappe.utils import now_datetime, add_days,nowdate,getdate, today, now, get_first_day, nowdate, getdate
+from datetime import datetime
 from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
-#------------------------------------------------------------------------------------------------------------------#
-# def get_daily_purchase_report():
-#     """
-#     Fetches the daily purchase receipt report for the previous day.
-#     """
-#     return frappe.db.sql("""
-#         SELECT 
-#             pr.supplier AS party_name, 
-#             pri.item_name AS item_name, 
-#             SUM(pri.qty) AS qty,
-#             COALESCE(NULLIF(pr.custom_royalty_type, ''), ' ') AS royalty
-#         FROM 
-#             `tabPurchase Receipt` pr
-#         JOIN 
-#             `tabPurchase Receipt Item` pri ON pr.name = pri.parent
-#         WHERE 
-#             pr.docstatus = 0 AND pr.posting_date = %s
-#         GROUP BY 
-#             pr.supplier, pri.item_name, royalty
-#         ORDER BY 
-#             pr.supplier, royalty, pri.item_name
-#     """, (add_days(today(), -1)), as_dict=1)
 
+@frappe.whitelist()
+def get_sales_data():
+    # Today's date
+    today_date = getdate(today())  # Convert today's date to datetime object
+    
+    # Yesterday's date
+    yesterday_date = getdate(add_days(today_date, -1))  # Convert yesterday's date to datetime object
+    
+    # First day of the current month
+    first_day_of_month = getdate(get_first_day(nowdate()))  # Convert first day of the month to datetime object
+
+    # Fetch Sales Orders Items for today
+    today_sales = frappe.db.get_all('Sales Order Item', 
+        filters={'transaction_date': ['>=', today_date]}, 
+        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+
+    # Fetch Sales Orders Items for yesterday
+    yesterday_sales = frappe.db.get_all('Sales Order Item', 
+        filters={'transaction_date': ['>=', yesterday_date], 'transaction_date': ['<', today_date]},
+        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+
+    # Fetch Sales Orders Items for the current month
+    monthly_sales = frappe.db.get_all('Sales Order Item',
+        filters={'transaction_date': ['>=', first_day_of_month]}, 
+        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+
+    # Initialize dictionaries to hold aggregated data
+    today_summary = {}
+    yesterday_summary = {}
+    monthly_summary = {}
+
+    # Function to aggregate sales data
+    def aggregate_sales_data(sales, summary, date_range):
+        for sale in sales:
+            item_name = sale['item_name']
+            amount = sale['amount']
+            transaction_date = getdate(sale['transaction_date'])  # Convert transaction_date from string to datetime
+
+            if item_name not in summary:
+                summary[item_name] = {
+                    'item_name': item_name,
+                    'today_amount': 0,
+                    'yesterday_amount': 0,
+                    'monthly_amount': 0
+                }
+            
+            # Determine which period the sale falls into
+            if date_range == 'today' and transaction_date >= today_date:
+                summary[item_name]['today_amount'] += amount
+            elif date_range == 'yesterday' and yesterday_date <= transaction_date < today_date:
+                summary[item_name]['yesterday_amount'] += amount
+            elif date_range == 'monthly' and transaction_date >= first_day_of_month:
+                summary[item_name]['monthly_amount'] += amount
+
+    # Aggregate data
+    aggregate_sales_data(today_sales, today_summary, 'today')
+    aggregate_sales_data(yesterday_sales, yesterday_summary, 'yesterday')
+    aggregate_sales_data(monthly_sales, monthly_summary, 'monthly')
+
+    # Summarize the totals
+    today_total_qty = sum(item['today_amount'] for item in today_summary.values())
+    yesterday_total_qty = sum(item['yesterday_amount'] for item in yesterday_summary.values())
+    monthly_total_qty = sum(item['monthly_amount'] for item in monthly_summary.values())
+
+    today_total_amount = today_total_qty
+    yesterday_total_amount = yesterday_total_qty
+    monthly_total_amount = monthly_total_qty
+
+    return {
+        'today_sales': list(today_summary.values()),
+        'yesterday_sales': list(yesterday_summary.values()),
+        'monthly_sales': list(monthly_summary.values()),
+        'today_total_qty': today_total_qty,
+        'yesterday_total_qty': yesterday_total_qty,
+        'monthly_total_qty': monthly_total_qty,
+        'today_total_amount': today_total_amount,
+        'yesterday_total_amount': yesterday_total_amount,
+        'monthly_total_amount': monthly_total_amount
+    }
+#------------------------------------------------------------------------------------------------------------------#
+@frappe.whitelist()
+def get_purchase_order_data():
+    # Today's date
+    today_date = getdate(today())  # Convert today's date to datetime object
+    
+    # Yesterday's date
+    yesterday_date = getdate(add_days(today_date, -1))  # Convert yesterday's date to datetime object
+    
+    # First day of the current month
+    first_day_of_month = getdate(get_first_day(nowdate()))  # Convert first day of the month to datetime object
+
+    # Fetch Purchase Order Items for today
+    today_orders = frappe.db.get_all('Purchase Order Item',
+        filters={'transaction_date': ['>=', today_date]},
+        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+
+    # Fetch Purchase Order Items for yesterday
+    yesterday_orders = frappe.db.get_all('Purchase Order Item',
+        filters={'transaction_date': ['>=', yesterday_date], 'transaction_date': ['<', today_date]},
+        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+
+    # Fetch Purchase Order Items for the current month
+    monthly_orders = frappe.db.get_all('Purchase Order Item',
+        filters={'transaction_date': ['>=', first_day_of_month]},
+        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+
+    # Initialize dictionaries to hold aggregated data
+    today_summary = {}
+    yesterday_summary = {}
+    monthly_summary = {}
+
+    # Function to aggregate purchase order data
+    def aggregate_purchase_data(orders, summary, date_range):
+        for order in orders:
+            item_name = order['item_name']
+            amount = order['amount']
+            transaction_date = getdate(order['transaction_date'])  # Convert transaction_date from string to datetime
+
+            if item_name not in summary:
+                summary[item_name] = {
+                    'item_name': item_name,
+                    'today_amount': 0,
+                    'yesterday_amount': 0,
+                    'monthly_amount': 0
+                }
+            
+            # Determine which period the order falls into
+            if date_range == 'today' and transaction_date >= today_date:
+                summary[item_name]['today_amount'] += amount
+            elif date_range == 'yesterday' and yesterday_date <= transaction_date < today_date:
+                summary[item_name]['yesterday_amount'] += amount
+            elif date_range == 'monthly' and transaction_date >= first_day_of_month:
+                summary[item_name]['monthly_amount'] += amount
+
+    # Aggregate data
+    aggregate_purchase_data(today_orders, today_summary, 'today')
+    aggregate_purchase_data(yesterday_orders, yesterday_summary, 'yesterday')
+    aggregate_purchase_data(monthly_orders, monthly_summary, 'monthly')
+
+    # Summarize the totals
+    today_total_qty = sum(item['today_amount'] for item in today_summary.values())
+    yesterday_total_qty = sum(item['yesterday_amount'] for item in yesterday_summary.values())
+    monthly_total_qty = sum(item['monthly_amount'] for item in monthly_summary.values())
+
+    today_total_amount = today_total_qty
+    yesterday_total_amount = yesterday_total_qty
+    monthly_total_amount = monthly_total_qty
+
+    return {
+        'today_orders': list(today_summary.values()),
+        'yesterday_orders': list(yesterday_summary.values()),
+        'monthly_orders': list(monthly_summary.values()),
+        'today_total_qty': today_total_qty,
+        'yesterday_total_qty': yesterday_total_qty,
+        'monthly_total_qty': monthly_total_qty,
+        'today_total_amount': today_total_amount,
+        'yesterday_total_amount': yesterday_total_amount,
+        'monthly_total_amount': monthly_total_amount
+    }
+
+#------------------------------------------------------------------------------------------------------------------#
+@frappe.whitelist()
+def get_top_sales_data():
+    # Today's date
+    today_date = getdate(today())
+    
+    # Yesterday's date
+    yesterday_date = getdate(add_days(today_date, -1))
+    
+    # First day of the current month
+    first_day_of_month = getdate(get_first_day(nowdate()))
+
+    # Fetch Sales Orders Items for today
+    today_sales = frappe.db.get_all('Sales Order',
+        filters={'transaction_date': ['>=', today_date]},
+        fields=['customer', 'total', 'transaction_date'])
+
+    # Fetch Sales Orders Items for yesterday
+    yesterday_sales = frappe.db.get_all('Sales Order',
+        filters={'transaction_date': ['>=', yesterday_date], 'transaction_date': ['<', today_date]},
+        fields=['customer', 'total', 'transaction_date'])
+
+    # Fetch Sales Orders Items for the current month
+    monthly_sales = frappe.db.get_all('Sales Order',
+        filters={'transaction_date': ['>=', first_day_of_month]},
+        fields=['customer', 'total', 'transaction_date'])
+
+    # Initialize dictionaries to hold aggregated data
+    today_summary = {}
+    yesterday_summary = {}
+    monthly_summary = {}
+
+    # Function to aggregate sales data by customer
+    def aggregate_sales_data(sales, summary, date_range):
+        for sale in sales:
+            customer = sale['customer']
+            total = sale['total']
+            transaction_date = getdate(sale['transaction_date'])
+
+            if customer not in summary:
+                summary[customer] = {
+                    'customer': customer,
+                    'today_total': 0,
+                    'yesterday_total': 0,
+                    'monthly_total': 0
+                }
+            
+            if date_range == 'today' and transaction_date >= today_date:
+                summary[customer]['today_total'] += total
+            elif date_range == 'yesterday' and yesterday_date <= transaction_date < today_date:
+                summary[customer]['yesterday_total'] += total
+            elif date_range == 'monthly' and transaction_date >= first_day_of_month:
+                summary[customer]['monthly_total'] += total
+
+    # Aggregate data
+    aggregate_sales_data(today_sales, today_summary, 'today')
+    aggregate_sales_data(yesterday_sales, yesterday_summary, 'yesterday')
+    aggregate_sales_data(monthly_sales, monthly_summary, 'monthly')
+
+    # Combine all summaries into a single result
+    all_customers = set(today_summary.keys()) | set(yesterday_summary.keys()) | set(monthly_summary.keys())
+    combined_summary = {}
+
+    for customer in all_customers:
+        combined_summary[customer] = {
+            'customer': customer,
+            'today_total': today_summary.get(customer, {}).get('today_total', 0),
+            'yesterday_total': yesterday_summary.get(customer, {}).get('yesterday_total', 0),
+            'monthly_total': monthly_summary.get(customer, {}).get('monthly_total', 0)
+        }
+
+    # Sort by monthly_total and take the top 5 customers
+    top_customers = sorted(combined_summary.values(), key=lambda x: x['monthly_total'], reverse=True)[:5]
+
+    # Summarize the totals
+    today_total_total = sum(item['today_total'] for item in top_customers)
+    yesterday_total_total = sum(item['yesterday_total'] for item in top_customers)
+    monthly_total_total = sum(item['monthly_total'] for item in top_customers)
+
+    return {
+        'top_sales_by_customer': top_customers,
+        'today_total_total': today_total_total,
+        'yesterday_total_total': yesterday_total_total,
+        'monthly_total_total': monthly_total_total
+    }
+
+
+#------------------------------------------------------------------------------------------------------------------#
 # def send_daily_report():
     # """
     # Sends the daily purchase receipt report via email.
@@ -84,6 +310,15 @@ from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
     
     # frappe.msgprint("Email sent successfully")
 #------------------------------------------------------------------------------------------------------------------#
+def transaction_date(doc, method):
+    # Ensure that the parent document has a transaction_date
+    if doc.transaction_date:
+        # Iterate through the child table items
+        for item in doc.items:
+            # Set the transaction_date in the child table
+            item.transaction_date = doc.transaction_date
+#------------------------------------------------------------------------------------------------------------------#
+
 def create_stock_transfer_entry(items,stock_entry_type):
     doc = frappe.get_doc({
         "doctype": "Stock Entry",

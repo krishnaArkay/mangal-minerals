@@ -1,64 +1,27 @@
 {
  "charts": [],
- "content": "[{\"id\":\"yvvwPfTUrf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal's Dashboard</span>\",\"col\":12}},{\"id\":\"i62ppleXVt\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h5\\\"><b>Items</b></span>\",\"col\":12}},{\"id\":\"eHesaBDODr\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Items\",\"col\":4}},{\"id\":\"OedAulNA1-\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Jumbo Bag\",\"col\":4}},{\"id\":\"2hY8nAvIM2\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Store Item\",\"col\":4}},{\"id\":\"kCdz2KVCSc\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h5\\\"><b>Masters</b></span>\",\"col\":12}},{\"id\":\"NIUN8rTRMw\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Supplier\",\"col\":3}},{\"id\":\"OWe8QKXreW\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Customer\",\"col\":3}},{\"id\":\"GEiDwgPqDL\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Warehouse\",\"col\":3}},{\"id\":\"U_Wu9Y_Ef-\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Vehicles\",\"col\":3}},{\"id\":\"VqHf9AhlWo\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h5\\\"><b>Manufacturing and Production</b></span>\",\"col\":12}},{\"id\":\"H-AYWK4W4z\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"In-process Manufacturing Process\",\"col\":3}},{\"id\":\"bS9CtpR5G1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today's Completed Manufacturing Process\",\"col\":3}},{\"id\":\"19n9kkahTO\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today's Open Order Scheduler\",\"col\":3}}]",
+ "content": "[]",
  "creation": "2024-07-09 17:52:56.920396",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "Dashboard 1"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
  "icon": "dashboard",
  "idx": 0,
- "indicator_color": "green",
+ "indicator_color": "",
  "is_hidden": 0,
  "label": "Mangal's Dashboard",
  "links": [],
- "modified": "2024-07-10 16:43:21.113289",
+ "modified": "2024-08-13 15:28:46.298640",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Mangal's Dashboard",
- "number_cards": [
-  {
-   "label": "Warehouse",
-   "number_card_name": "Warehouse"
-  },
-  {
-   "label": "Vehicles",
-   "number_card_name": "Vehicles"
-  },
-  {
-   "label": "Today's Open Order Scheduler",
-   "number_card_name": "Today's Open Order Scheduler"
-  },
-  {
-   "label": "Today's Completed Manufacturing Process",
-   "number_card_name": "Today's Completed Manufacturing Process"
-  },
-  {
-   "label": "Store Item",
-   "number_card_name": "Store Item"
-  },
-  {
-   "label": "Jumbo Bag",
-   "number_card_name": "Jumbo Bag"
-  },
-  {
-   "label": "Items",
-   "number_card_name": "Items"
-  },
-  {
-   "label": "In-process Manufacturing Process",
-   "number_card_name": "In-process Manufacturing Process"
-  },
-  {
-   "label": "Supplier",
-   "number_card_name": "Supplier"
-  },
-  {
-   "label": "Customer",
-   "number_card_name": "Customer"
-  }
- ],
+ "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
