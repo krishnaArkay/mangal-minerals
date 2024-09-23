@@ -11,11 +11,13 @@
   "planned_truck",
   "planned_mt",
   "difference",
+  "tally_bill_number",
   "column_break_jttu",
   "actual_truck",
   "delivered_mt",
   "remaining_mt",
-  "reference_number"
+  "reference_number",
+  "vehicle_number"
  ],
  "fields": [
   {
@@ -106,12 +108,25 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Pending\nCompleted\nClosed"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "tally_bill_number",
+   "fieldtype": "Data",
+   "label": "Tally Bill Number"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "vehicle_number",
+   "fieldtype": "Small Text",
+   "label": "Vehicle Number",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-09 14:47:18.459524",
+ "modified": "2024-09-21 11:01:33.889176",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler Item",

@@ -485,7 +485,8 @@ def delivery_note_on_submit(doc, method):
                 jumbo_bag_warehouse = item.warehouse
             jumbo_bag_items.append({
                 "item_code": item.item_code,
-                "qty": item.qty
+                "qty": item.qty,
+                "qty_mt": item.custom_total_mt
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
@@ -530,6 +531,7 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
         jumbo_bag_doc.append("items", {
             "item": item["item_code"],
             "quantity": item["qty"],
+            "qty_mt":item["qty_mt"]
         })
     # Save and submit the Jumbo Bag document
     jumbo_bag_doc.save(ignore_permissions=True)
@@ -538,6 +540,7 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
     
 def update_delivered_qty(doc, method):
     delivery_note_item_qty = doc.items[0].qty
+    delivery_note_item_truck = doc.items[0].custom__number_of_trucks
     blanket_order_name = frappe.db.get_value("Sales Order Item",
                                              filters={"parent": doc.items[0].against_sales_order},
                                              fieldname="blanket_order")
@@ -560,23 +563,26 @@ def update_delivered_qty(doc, method):
                     frappe.db.sql("""
                         UPDATE `tabOpen Order Scheduler Item`
                         SET delivered_mt = delivered_mt + %(qty)s,
-                            reference_number = CONCAT_WS(', ', reference_number, %(ref_num)s)
+                            reference_number = CONCAT_WS(', ', reference_number, %(ref_num)s),
+                            vehicle_number = CONCAT_WS(', ', vehicle_number, %(vehicle_no)s)
                         WHERE parent = %(parent)s AND date = %(delivery_date)s
                     """, {
                         'qty': delivery_note_item_qty,
                         'ref_num': doc.name,
+                        'vehicle_no': doc.vehicle_no,
                         'parent': scheduler.name,
                         'delivery_date': doc.posting_date
                     })
                 else:
-                    # new_child_row = frappe.new_doc("Open Order Scheduler Item")
-                    new_child_row = frappe.get_doc("Blanket Order",scheduler.name)
+                    new_child_row = frappe.new_doc("Open Order Scheduler Item")
+                    # new_child_row = frappe.get_doc("Blanket Order",scheduler.name)
                     new_child_row.parent = parent_doc.name  # Parent document name
                     new_child_row.parenttype = parent_doc.doctype  # Parent document type
                     new_child_row.parentfield = "items"  # Child table field name in parent document
                     new_child_row.date = doc.posting_date
                     new_child_row.delivered_mt = delivery_note_item_qty
                     new_child_row.reference_number = doc.name
+                    new_child_row.vehicle_number = doc.vehicle_no
                     new_child_row.planned_mt = 0
                     new_child_row.planned_truck = 0
 
@@ -585,8 +591,6 @@ def update_delivered_qty(doc, method):
 
                     # Save the parent document
                     parent_doc.save()
-                    
-                    # frappe.db.commit()
 
                 frappe.db.sql("""
                     UPDATE `tabOpen Order Scheduler Item`
@@ -596,10 +600,11 @@ def update_delivered_qty(doc, method):
                                     WHERE parent = %(parent)s
                                 ),
                         difference = planned_mt - (delivered_mt),
-                        actual_truck = delivered_mt/%(per_truck_mt)s
+                        actual_truck = actual_truck +%(delivery_note_item_truck)s
                     WHERE parent = %(parent)s AND date = %(delivery_date)s
                 """, {
                     'qty': delivery_note_item_qty,
+                    'delivery_note_item_truck':delivery_note_item_truck,
                     'total_qty': total_qty,
                     'parent': scheduler.name,
                     'delivery_date':doc.posting_date,
@@ -613,12 +618,13 @@ def update_delivered_qty(doc, method):
                     UPDATE `tabOpen Order Scheduler Item`
                     SET delivered_mt = delivered_mt - %(qty)s, 
                         difference = planned_mt - delivered_mt, 
-                        actual_truck = delivered_mt/%(per_truck_mt)s, 
+                        actual_truck = actual_truck -%(delivery_note_item_truck)s, 
                         reference_number = REPLACE(reference_number, %(ref_num)s, ''), 
                         remaining_mt = remaining_mt + %(qty)s
                     WHERE reference_number LIKE CONCAT('%%', %(ref_num)s, '%%')
                 """, {
                     'qty': delivery_note_item_qty,
+                    'delivery_note_item_truck':delivery_note_item_truck,
                     'ref_num': doc.name,
                     'per_truck_mt': per_truck_mt
                 })

@@ -15,3 +15,17 @@ frappe.ui.form.on('Delivery Note', {
 
     }
 });
+
+frappe.ui.form.on('Delivery Note Item', {
+	refresh(frm) {
+		// your code here
+	},
+    custom_average_mt(frm, cdt, cdn){
+        let row = locals[cdt][cdn]
+        
+        if (row.custom_average_mt){
+            row.custom_total_mt = row.qty * row.custom_average_mt
+            frm.refresh_field('items');
+        }
+    }
+})

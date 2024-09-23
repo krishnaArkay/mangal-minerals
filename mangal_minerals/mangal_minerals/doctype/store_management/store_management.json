@@ -10,6 +10,8 @@
   "amended_from",
   "entry_type",
   "entry_for",
+  "party_name",
+  "bill_number",
   "column_break_suof",
   "date",
   "person_responsible",
@@ -107,12 +109,25 @@
    "fieldtype": "Data",
    "label": "Voucher Number",
    "read_only": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Link",
+   "label": "Party Name",
+   "mandatory_depends_on": "eval:doc.entry_type == \"Stock In\"",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "bill_number",
+   "fieldtype": "Data",
+   "label": "Bill Number",
+   "mandatory_depends_on": "eval:doc.entry_type == \"Stock In\""
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-04 17:07:53.779501",
+ "modified": "2024-09-21 11:22:05.713621",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Store Management",

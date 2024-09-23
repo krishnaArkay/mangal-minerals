@@ -135,7 +135,7 @@ function setPurposeFilter(frm) {
                 // Example: If entry_type is 'Stock In'
                 entryType === 'Stock In' ? ['name', 'in', ['Material Inward', 'Return']] : 
                 // Otherwise (if entry_type is 'Stock Out')
-                ['name', 'in', ['Material Outward', 'Issued for Usage', 'Material Consumption']]
+                ['name', 'in', ['Material Outward', 'Issued for Usage', 'Material Consumption', 'Material Damaged']]
             ]
         };
     };
@@ -150,7 +150,7 @@ function setPurposeQuery(frm) {
                 // Example: If entry_type is 'Stock In'
                 entryType === 'Stock In' ? ['name', 'in', ['Material Inward', 'Return']] : 
                 // Otherwise (if entry_type is 'Stock Out')
-                ['name', 'in', ['Material Outward', 'Issued for Usage', 'Material Consumption']]
+                ['name', 'in', ['Material Outward', 'Issued for Usage', 'Material Consumption','Material Damaged']]
             ]
         };
     });
