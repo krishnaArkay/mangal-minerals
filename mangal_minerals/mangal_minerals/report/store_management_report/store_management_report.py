@@ -59,6 +59,13 @@ def get_columns():
             "align": "left",
         },
         {
+            "fieldname": "item_remarks",
+            "label": _("<b>Item Remarks</b>"),
+            "fieldtype": "Data",
+            "width": 250,
+            "align": "left",
+        },
+        {
             "fieldname": "remarks",
             "label": _("<b>Remarks</b>"),
             "fieldtype": "Data",
@@ -89,6 +96,7 @@ def get_data(filters):
     total_quantity_out = 0
     total_qty_out = 0
     total = "Total"
+    total_blance = 0
     filter_conditions = get_filters(filters)
     store_management_entries = frappe.get_list(
         "Store Management",
@@ -156,6 +164,7 @@ def get_data(filters):
                     "balance": actual_qty,
                     "per_responsible": item.person_name,
                     "used_in": item.used_in,
+                    "item_remarks": item.remarks,
                     "remarks": store_management_doc.remarks,
                     "id": store_management_doc.name,
                 }
@@ -184,6 +193,7 @@ def get_data(filters):
             "out_qty": total_qty_out,
             "balance": "",
             "per_responsible": "",
+            "item_remarks": "",
             "remarks": "",
             "used_in": "",
             "id": "",
