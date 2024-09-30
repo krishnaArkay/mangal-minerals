@@ -110,6 +110,7 @@
   {
    "fieldname": "used_in",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Used In",
    "link_filters": "[]",
    "options": "Warehouse"
@@ -130,7 +131,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-21 11:23:28.399517",
+ "modified": "2024-09-30 10:55:24.648292",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Store Management Items",
