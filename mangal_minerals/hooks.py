@@ -263,10 +263,11 @@ scheduler_events = {
 # }
 
 fixtures = [
+    "Property Setter","Custom Field"
     # "Custom DocPerm",
     # "Custom Role","Item","Process Type","Stock Entry Type","Vehicle Type","Mangal Vehicle","Warehouse","Item Group",
     # {"dt":"Workspace","filters": [["module", "=", "Mangal Minerals"]]},
     # {"dt":"Role","filters": [["name", "in", ["Mangal Admin","Mangal's Sales Manager","Mangal's Purchase Manager","Manufacture Manager","Store Manager"]]]},
-    {"dt":"Property Setter","filters": [["module", "=", "Mangal Minerals"]]},
-    {"dt":"Custom Field","filters": [["module", "=", "Mangal Minerals"]]},
+    # {"dt":"Property Setter","filters": [["module", "=", "Mangal Minerals"]]},
+    # {"dt":"Custom Field","filters": [["module", "=", "Mangal Minerals"]]},
 ]
