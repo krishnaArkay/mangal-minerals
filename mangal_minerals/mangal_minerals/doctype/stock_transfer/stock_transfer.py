@@ -26,7 +26,6 @@ class StockTransfer(Document):
 	def on_cancel(self):
 		stock_entry_name = self.voucher_number
 		if stock_entry_name:
-			if frappe.db.exists("Stock Entry", stock_entry_name):
-				cancel_stock_entry(stock_entry_name)
-			# cancel_stock_entry(stock_entry_name)
-			# frappe.msgprint(f"Stock Entry {stock_entry_name} canceled successfully.")
+			# if frappe.db.exists("Stock Entry", stock_entry_name):
+			cancel_stock_entry(stock_entry_name)
+			

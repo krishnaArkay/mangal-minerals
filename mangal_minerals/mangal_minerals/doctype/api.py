@@ -397,20 +397,11 @@ def create_stock_entry_manufacture(input_items, output_items,jb_items, target_wa
 #------------------------------------------------------------------------------------------------------------------#
 # Cancel Stock Entry
 def cancel_stock_entry(voucher_number):
+    if frappe.db.exists("Stock Entry", voucher_number):
+        stock_entry = frappe.get_doc("Stock Entry", voucher_number)
+        if stock_entry.docstatus == 1:  # Check if the stock entry is submitted
+            stock_entry.cancel()    
 
-    # frappe.db.sql(f"UPDATE `tabStock Entry` SET docstatus = 2 WHERE name = '{voucher_number}'")
-    # frappe.db.commit()
-    # original_user = frappe.session.user  # Save the original user
-    # try:
-    #     # Temporarily set user as Administrator to bypass permissions
-    #     frappe.set_user('Administrator')
-    stock_entry = frappe.get_doc("Stock Entry", voucher_number)
-    if stock_entry and stock_entry.docstatus == 1:  # Check if the stock entry is submitted
-        stock_entry.cancel()    
-    # except Exception as e:
-    #     frappe.log_error(f"Error cancelling Stock Entry {voucher_number}: {str(e)}")
-    # finally:
-    #     frappe.set_user(original_user)
 #------------------------------------------------------------------------------------------------------------------#
 
 # Jumbo Bag Stock Effect
