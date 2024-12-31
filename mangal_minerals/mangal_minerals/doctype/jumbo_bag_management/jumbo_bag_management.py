@@ -10,7 +10,8 @@ class JumboBagManagement(Document):
     def on_submit(self):
         stock_entry_type = ""
         items = []
-
+        date = self.date
+        
         if self.entry_purpose == JumboBagEntryPurpose.INWARD.value:
             entry_purpose=JumboBagEntryPurpose.INWARD.value
             warehouse = self.warehouse
@@ -62,7 +63,7 @@ class JumboBagManagement(Document):
             pass
 
         if items:
-            stock_entry_name = create_stock_transfer_entry(items, stock_entry_type)
+            stock_entry_name = create_stock_transfer_entry(items,stock_entry_type, date)
             self.voucher_number = stock_entry_name
             self.save()
 

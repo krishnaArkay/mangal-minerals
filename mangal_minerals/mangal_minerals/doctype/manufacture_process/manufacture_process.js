@@ -121,6 +121,7 @@ function create_stock_transfer(frm) {
         doc.default_from_warehouse = frm.doc.warehouse;
         doc.defualt_to_warehouse = '';
         doc.reference_no = frm.doc.name;
+        doc.date = frm.doc.date;
         // Set other fields as needed
         frappe.model.clear_table(doc, "items");
 

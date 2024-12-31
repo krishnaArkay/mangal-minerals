@@ -1,6 +1,7 @@
 import frappe
-from frappe.utils import now_datetime, add_days,nowdate,getdate, today, now, get_first_day, nowdate, getdate
+from frappe.utils import now_datetime, add_days, nowdate, getdate, today, now, get_first_day, nowdate, getdate
 from datetime import datetime
+
 from mangal_minerals.mangal_minerals.enums.enums import JumboBagEntryPurpose
 
 @frappe.whitelist()
@@ -94,20 +95,20 @@ def get_purchase_order_data():
     # First day of the current month
     first_day_of_month = getdate(get_first_day(nowdate()))  # Convert first day of the month to datetime object
 
-    # Fetch Purchase Order Items for today
-    today_orders = frappe.db.get_all('Purchase Order Item',
-        filters={'transaction_date': ['>=', today_date]},
-        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+    # Fetch Purchse Receipt Items for today
+    today_orders = frappe.db.get_all('Purchase Receipt Item',
+        filters={'custom_transaction_date': ['>=', today_date]},
+        fields=['item_name', 'qty', 'amount', 'custom_transaction_date'])
 
-    # Fetch Purchase Order Items for yesterday
-    yesterday_orders = frappe.db.get_all('Purchase Order Item',
-        filters={'transaction_date': ['>=', yesterday_date], 'transaction_date': ['<', today_date]},
-        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+    # Fetch Purchase Receipt Items for yesterday
+    yesterday_orders = frappe.db.get_all('Purchase Receipt Item',
+        filters={'custom_transaction_date': ['>=', yesterday_date], 'custom_transaction_date': ['<', today_date]},
+        fields=['item_name', 'qty', 'amount', 'custom_transaction_date'])
 
-    # Fetch Purchase Order Items for the current month
-    monthly_orders = frappe.db.get_all('Purchase Order Item',
-        filters={'transaction_date': ['>=', first_day_of_month]},
-        fields=['item_name', 'qty', 'amount', 'transaction_date'])
+    # Fetch Purchase Receipt Items for the current month
+    monthly_orders = frappe.db.get_all('Purchase Receipt Item',
+        filters={'custom_transaction_date': ['>=', first_day_of_month]},
+        fields=['item_name', 'qty', 'amount', 'custom_transaction_date'])
 
     # Initialize dictionaries to hold aggregated data
     today_summary = {}
@@ -119,7 +120,7 @@ def get_purchase_order_data():
         for order in orders:
             item_name = order['item_name']
             amount = order['amount']
-            transaction_date = getdate(order['transaction_date'])  # Convert transaction_date from string to datetime
+            custom_transaction_date = getdate(order['custom_transaction_date'])  # Convert custom_transaction_date from string to datetime
 
             if item_name not in summary:
                 summary[item_name] = {
@@ -130,11 +131,11 @@ def get_purchase_order_data():
                 }
             
             # Determine which period the order falls into
-            if date_range == 'today' and transaction_date >= today_date:
+            if date_range == 'today' and custom_transaction_date >= today_date:
                 summary[item_name]['today_amount'] += amount
-            elif date_range == 'yesterday' and yesterday_date <= transaction_date < today_date:
+            elif date_range == 'yesterday' and yesterday_date <= custom_transaction_date < today_date:
                 summary[item_name]['yesterday_amount'] += amount
-            elif date_range == 'monthly' and transaction_date >= first_day_of_month:
+            elif date_range == 'monthly' and custom_transaction_date >= first_day_of_month:
                 summary[item_name]['monthly_amount'] += amount
 
     # Aggregate data
@@ -310,28 +311,40 @@ def get_top_sales_data():
     
     # frappe.msgprint("Email sent successfully")
 #------------------------------------------------------------------------------------------------------------------#
-def transaction_date(doc, method):
+def set_transaction_date(doc, method):
     # Ensure that the parent document has a transaction_date
     if doc.transaction_date:
         # Iterate through the child table items
         for item in doc.items:
             # Set the transaction_date in the child table
             item.transaction_date = doc.transaction_date
+
+def set_custom_transaction_date(doc, method):
+    # Ensure that the parent document has a transaction_date
+    if doc.posting_date:
+        # Iterate through the child table items
+        for item in doc.items:
+            # Set the transaction_date in the child table
+            item.custom_transaction_date = doc.posting_date
 #------------------------------------------------------------------------------------------------------------------#
 
-def create_stock_transfer_entry(items,stock_entry_type):
+def create_stock_transfer_entry(items,stock_entry_type, date):
+    # date = str(getdate(date))
     doc = frappe.get_doc({
         "doctype": "Stock Entry",
         "stock_entry_type": stock_entry_type,
+        "set_posting_time": 1,
+        "posting_date": date,
         "items": items
     })
     doc.save(ignore_permissions=True)
+
     doc.submit()
     return doc.name
 
 #------------------------------------------------------------------------------------------------------------------#
 # Manufacture Process
-def create_stock_entry_manufacture(input_items, output_items,jb_items, target_warehouse, stock_entry_type,j_b_flag, per_kg_jb):
+def create_stock_entry_manufacture(date, input_items, output_items,jb_items, target_warehouse, stock_entry_type,j_b_flag, per_kg_jb):
     items = []
     jb_qty = 0
     if j_b_flag:
@@ -383,6 +396,8 @@ def create_stock_entry_manufacture(input_items, output_items,jb_items, target_wa
     stock_entry = frappe.get_doc({
         "doctype": "Stock Entry",
         "stock_entry_type": stock_entry_type,
+        "set_posting_time": 1,
+        "posting_date": date,
         "items": items
     })
     
@@ -530,7 +545,7 @@ def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, 
 #------------------------------------------------------------------------------------------------------------------#
     
 def update_delivered_qty(doc, method):
-    delivery_note_item_qty = doc.items[0].qty
+    delivery_note_item_qty = doc.items[0].custom_total_mt or doc.items[0].qty
     delivery_note_item_truck = doc.items[0].custom__number_of_trucks
     blanket_order_name = frappe.db.get_value("Sales Order Item",
                                              filters={"parent": doc.items[0].against_sales_order},

@@ -150,10 +150,10 @@ doc_events = {
 	},
     "Purchase Receipt":{
         "before_submit": "mangal_minerals.mangal_minerals.doctype.api.purchase_receipt_on_submit",
-        
+        "before_save": "mangal_minerals.mangal_minerals.doctype.api.set_custom_transaction_date"
 	},
     "Purchase Order" :{
-        "before_save": "mangal_minerals.mangal_minerals.doctype.api.transaction_date"
+        "before_save": "mangal_minerals.mangal_minerals.doctype.api.set_transaction_date"
     }
     # "Open Order Scheduler":{
     #     "on_update":"mangal_minerals.mangal_minerals.doctype.api.submit_sche"

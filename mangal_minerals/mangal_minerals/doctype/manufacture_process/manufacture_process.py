@@ -9,6 +9,7 @@ class ManufactureProcess(Document):
     
     def on_submit(self):
         stock_entry_type = "Manufacture"
+        date = self.date
         target_warehouse = self.warehouse
         jb_qty = 0
         jb_kg = 0
@@ -24,7 +25,7 @@ class ManufactureProcess(Document):
         output_items = [(row.item, row.quantity,row.is_finished_good) for row in self.material_output]
         jb_items = [(row.item, row.quantity) for row in self.jumbo_bag_items]
         # Create stock entry
-        stock_entry_name = create_stock_entry_manufacture(input_items, output_items, jb_items, target_warehouse, stock_entry_type, j_b_flag, per_kg_jb)
+        stock_entry_name = create_stock_entry_manufacture(date, input_items, output_items, jb_items, target_warehouse, stock_entry_type, j_b_flag, per_kg_jb)
         self.voucher_number = stock_entry_name
         self.save()
         # frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
@@ -60,7 +61,8 @@ class ManufactureProcess(Document):
             doc = frappe.get_doc({
                 "doctype": "Jumbo Bag Management",
                 "entry_purpose": "Filled",
-                "warehouse":self.warehouse,
+                "warehouse": self.warehouse,
+                "date": self.date,
                 "reference_doctype":"Manufacture Process",
                 "reference_number": self.name,
                 "remarks": f"This Bag was filled during the manufacturing process - {self.name}",

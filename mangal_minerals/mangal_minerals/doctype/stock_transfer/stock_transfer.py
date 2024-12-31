@@ -10,6 +10,7 @@ class StockTransfer(Document):
 	def on_submit(self):
 		stock_entry_type = "Material Transfer"
 		items = []
+		date = self.date
 		for row in self.items:
 			item = {
 				"item_code": row.item,
@@ -18,7 +19,7 @@ class StockTransfer(Document):
 				"t_warehouse": row.to_warehouse
 			}
 			items.append(item)
-		stock_entry_name = create_stock_transfer_entry(items, stock_entry_type)
+		stock_entry_name = create_stock_transfer_entry(items,stock_entry_type, date)
 		self.voucher_number = stock_entry_name
 		self.save()
 		# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")

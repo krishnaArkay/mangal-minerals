@@ -10,6 +10,7 @@ class StoreManagement(Document):
 		if self.entry_type == "Stock In":
 			stock_entry_type = "Material Receipt" 
 			items = []
+			date = self.date
 			for row in self.items:
 				item = {
 					"item_code": row.item,
@@ -17,7 +18,7 @@ class StoreManagement(Document):
 					"t_warehouse": self.warehouse
 				}
 				items.append(item)
-			stock_entry_name = create_stock_transfer_entry(items, stock_entry_type)
+			stock_entry_name = create_stock_transfer_entry(items,stock_entry_type, date)
 			self.voucher_number = stock_entry_name
 			self.save()
 			# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully.")
