@@ -483,6 +483,7 @@ def delivery_note_on_submit(doc, method):
     entry_purpose = JumboBagEntryPurpose.DELIVERED.value
     reference_doctype = "Delivery Note"
     reference_number = doc.name
+    date = doc.posting_date
     jumbo_bag_items = []  
     jumbo_bag_warehouse = None  
     for item in doc.items:
@@ -495,7 +496,7 @@ def delivery_note_on_submit(doc, method):
                 "qty_mt": item.custom_total_mt
             })
     if jumbo_bag_items:
-        create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
+        create_jumbo_bag_document(date, reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
     update_delivered_qty(doc, method)
     frappe.db.set_value("Item", item.item_code, "allow_negative_stock", 1)
 #------------------------------------------------------------------------------------------------------------------#
@@ -504,6 +505,7 @@ def delivery_note_on_submit(doc, method):
 def purchase_receipt_on_submit(doc, method):
     entry_purpose = JumboBagEntryPurpose.INWARD.value
     reference_doctype = "Purchase Receipt"
+    date = doc.posting_date
     reference_number = doc.name
     jumbo_bag_items = []  
     jumbo_bag_warehouse = None  
@@ -516,7 +518,7 @@ def purchase_receipt_on_submit(doc, method):
                 "qty": item.qty
             })
     if jumbo_bag_items:
-        create_jumbo_bag_document(reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
+        create_jumbo_bag_document(date, reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
 
 #------------------------------------------------------------------------------------------------------------------#
 
@@ -525,19 +527,21 @@ def purchase_receipt_on_submit(doc, method):
 #------------------------------------------------------------------------------------------------------------------#
 
  # Create a new Jumbo Bag document  
-def create_jumbo_bag_document(reference_doctype,reference_number,entry_purpose, jumbo_bag_items, jumbo_bag_warehouse):    
+def create_jumbo_bag_document(date, reference_doctype,reference_number,entry_purpose, jumbo_bag_items, jumbo_bag_warehouse):    
     jumbo_bag_doc = frappe.new_doc("Jumbo Bag Management")
     # Set any relevant fields for the Jumbo Bag document
     jumbo_bag_doc.reference_doctype = reference_doctype
     jumbo_bag_doc.entry_purpose = entry_purpose
     jumbo_bag_doc.reference_number = reference_number
     jumbo_bag_doc.warehouse = jumbo_bag_warehouse
+    jumbo_bag_doc.date = date
     jumbo_bag_doc.remarks = f"Created From {reference_doctype} - {reference_number}"
     for item in jumbo_bag_items:
+        
         jumbo_bag_doc.append("items", {
             "item": item["item_code"],
             "quantity": item["qty"],
-            "qty_mt":item["qty_mt"]
+            "qty_mt": item.get("qty_mt", 0)
         })
     # Save and submit the Jumbo Bag document
     jumbo_bag_doc.save(ignore_permissions=True)
