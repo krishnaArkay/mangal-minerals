@@ -14,6 +14,10 @@ frappe.ui.form.on('Purchase Receipt', {
             cur_frm.remove_custom_button('Accounting Ledger', 'View');
             console.log("Call")
         }, 100);
+        if(frm.is_new()){
+            frm.set_value("set_posting_time", "1")
+            frm.set_value("posting_time", "00:00:01")
+        }
         if(frm.doc.docstatus === 1){
             frm.add_custom_button(__('Create Manufacture Process'), function() {
                 createManufactureProcess(frm);
