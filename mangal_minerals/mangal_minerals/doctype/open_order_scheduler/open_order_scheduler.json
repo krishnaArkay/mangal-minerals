@@ -21,9 +21,11 @@
   "section_break_cvam",
   "items",
   "section_break_zcoi",
+  "total_planned_truck",
   "total_delivered_mt",
   "delivered",
   "column_break_enzg",
+  "total_actual_truck",
   "total_remaining_mt",
   "remaining"
  ],
@@ -154,8 +156,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Pending\nPartially Completed\nCompleted\nClosed",
-   "read_only": 1
+   "options": "Pending\nPartially Completed\nCompleted\nClosed"
   },
   {
    "allow_on_submit": 1,
@@ -175,12 +176,22 @@
    "in_list_view": 1,
    "label": "%Remaining",
    "read_only": 1
+  },
+  {
+   "fieldname": "total_planned_truck",
+   "fieldtype": "Int",
+   "label": "Total Planned Truck"
+  },
+  {
+   "fieldname": "total_actual_truck",
+   "fieldtype": "Int",
+   "label": "Total Actual Truck"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-09 15:01:08.250829",
+ "modified": "2025-01-24 12:38:43.720626",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Open Order Scheduler",

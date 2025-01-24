@@ -547,7 +547,6 @@ def create_jumbo_bag_document(date, reference_doctype,reference_number,entry_pur
     jumbo_bag_doc.save(ignore_permissions=True)
     jumbo_bag_doc.submit()
 #------------------------------------------------------------------------------------------------------------------#
-    
 def update_delivered_qty(doc, method):
     delivery_note_item_qty = doc.items[0].custom_total_mt or doc.items[0].qty
     delivery_note_item_truck = doc.items[0].custom__number_of_trucks
@@ -620,7 +619,8 @@ def update_delivered_qty(doc, method):
                     'delivery_date':doc.posting_date,
                     'per_truck_mt': per_truck_mt,
                 })
-            
+
+               
 
             elif method == "on_cancel":
                 # Update delivered quantity and reference number in open order scheduler for cancelled delivery note
@@ -638,12 +638,39 @@ def update_delivered_qty(doc, method):
                     'ref_num': doc.name,
                     'per_truck_mt': per_truck_mt
                 })
+             # Update subsequent rows' remaining_mt
+            frappe.db.sql("""
+                UPDATE `tabOpen Order Scheduler Item`
+                SET remaining_mt = %(total_qty)s - (
+                                    SELECT COALESCE(SUM(delivered_mt), 0)
+                                    FROM `tabOpen Order Scheduler Item`
+                                    WHERE parent = %(parent)s
+                                )
+                WHERE parent = %(parent)s 
+                AND date > %(delivery_date)s
+                ORDER BY date ASC
+            """, {
+                'total_qty': total_qty,
+                'parent': scheduler.name,
+                'delivery_date': doc.posting_date,
+            })
 
             # Update total delivered and remaining quantities in the parent scheduler
             frappe.db.sql("""
                 UPDATE `tabOpen Order Scheduler`
                 SET total_delivered_mt = (
                     SELECT COALESCE(SUM(delivered_mt), 0) 
+                    FROM `tabOpen Order Scheduler Item`
+                    WHERE parent = %(parent)s
+                ),
+             
+                total_planned_truck = (
+                    SELECT COALESCE(SUM(planned_truck), 0) 
+                    FROM `tabOpen Order Scheduler Item`
+                    WHERE parent = %(parent)s
+                ),
+                total_actual_truck = (
+                    SELECT COALESCE(SUM(actual_truck), 0) 
                     FROM `tabOpen Order Scheduler Item`
                     WHERE parent = %(parent)s
                 ),
@@ -664,6 +691,7 @@ def update_delivered_qty(doc, method):
             
 #------------------------------------------------------------------------------------------------------------------#
 # Schedular at 01:01 AM
+# This scheduler is no longer needed, so I have commented out its call in the hooks.py file.
 @frappe.whitelist()
 def update_OPS_truck():
     frappe.logger().info("update_OPS_truck called")

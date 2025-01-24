@@ -164,11 +164,11 @@ doc_events = {
 # ---------------
 
 scheduler_events = {
-    "cron": {
-        "1 0 * * *": [
-            "mangal_minerals.mangal_minerals.doctype.api.update_OPS_truck"
-        ]
-    }
+    # "cron": {
+    #     "1 0 * * *": [
+    #         "mangal_minerals.mangal_minerals.doctype.api.update_OPS_truck"
+    #     ]
+    # }
 # 	"all": [
 # 		"mangal_minerals.tasks.all"
 # 	],
