@@ -7,10 +7,11 @@ from mangal_minerals.mangal_minerals.doctype.api import create_stock_transfer_en
 
 class StoreManagement(Document):
 	def on_submit(self):
+		date = self.date
 		if self.entry_type == "Stock In":
 			stock_entry_type = "Material Receipt" 
 			items = []
-			date = self.date
+			
 			for row in self.items:
 				item = {
 					"item_code": row.item,
@@ -35,7 +36,7 @@ class StoreManagement(Document):
 						"qty": item.quantity,
 						"s_warehouse": self.warehouse,  # Assuming "Stores" is the source warehouse
 					} for item in items_with_purpose]
-					stock_entry_name = create_stock_transfer_entry(stock_entry_items, stock_entry_type)
+					stock_entry_name = create_stock_transfer_entry(stock_entry_items, stock_entry_type, date)
 					purposes[row.purpose] = stock_entry_name  # Track the created stock entry
 					# frappe.msgprint(f"Stock Entry {stock_entry_name} created successfully for purpose {row.purpose}.")
 
