@@ -1,0 +1,36 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "",
+ "creation": "2024-08-05 14:48:50.861535",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Stock Ledger Entry",
+ "enabled": 0,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "test",
+ "message_type": "HTML",
+ "method": "on_update_after_submit",
+ "modified": "2024-09-18 12:44:24.141480",
+ "modified_by": "Administrator",
+ "module": "Mangal Minerals",
+ "name": "ROL Quantity reachedthe limit",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "condition": "doc.custom_rol_qty > 0 and doc.qty_after_transaction <= doc.custom_rol_qty",
+   "receiver_by_role": "Mangal Admin"
+  },
+  {
+   "condition": "doc.warehouse==\"Stores - MGSS\" and doc.custom_rol_qty > 0 and doc.qty_after_transaction <= doc.custom_rol_qty",
+   "receiver_by_role": "Store Manager"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "<b>Alert: Stock for item {{doc.item_code}}</b> in <b>{{doc.warehouse}}</b> is below the reorder level of <b>{{doc.custom_rol_qty}}</b>.",
+ "value_changed": "qty_after_transaction"
+}
