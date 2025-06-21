@@ -11,6 +11,7 @@
   "warehouse",
   "column_break_opum",
   "date",
+  "challan_number",
   "reference_doctype",
   "reference_number",
   "jumbo_bag_reference",
@@ -131,12 +132,18 @@
    "label": "Jumbo Bag Reference",
    "options": "Jumbo Bag Management",
    "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.entry_purpose == \"Inward\"",
+   "fieldname": "challan_number",
+   "fieldtype": "Data",
+   "label": "Challan Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-04 17:06:21.110916",
+ "modified": "2025-06-10 17:05:36.243688",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Jumbo Bag Management",

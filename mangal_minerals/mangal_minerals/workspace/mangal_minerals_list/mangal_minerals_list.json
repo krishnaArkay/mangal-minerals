@@ -1,7 +1,7 @@
 {
  "charts": [],
  "content": "[{\"id\":\"S5cYKVCZ66\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Mangal Minerals</span>\",\"col\":12}},{\"id\":\"HKW2t1dRzv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item\",\"col\":3}},{\"id\":\"nc9lXOhpQh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer\",\"col\":3}},{\"id\":\"zEcoZ_kW2E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier\",\"col\":3}},{\"id\":\"-XWLhg7_pr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"hGEAB48ByO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Receipt\",\"col\":3}},{\"id\":\"pkJzghrCMJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Manufacture Process\",\"col\":3}},{\"id\":\"MhzoQ34MLc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer\",\"col\":3}},{\"id\":\"hgv-s5ukA-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Store Management\",\"col\":3}},{\"id\":\"-VH-62LeU4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Jumbo Bag Management\",\"col\":3}},{\"id\":\"zidzABhzCg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Blanket Order\",\"col\":3}},{\"id\":\"r1Ys10pUlM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Open Order Scheduler\",\"col\":3}},{\"id\":\"lfJ3ovONGO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"avVdcbFAiF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"iiC_vau4in\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Reconciliation\",\"col\":3}},{\"id\":\"arAYkPRibx\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"RLhgTsz_IC\",\"type\":\"card\",\"data\":{\"card_name\":\"Manufacturing and Production\",\"col\":5}},{\"id\":\"KXwIjPE_5a\",\"type\":\"card\",\"data\":{\"card_name\":\"Fuel and Vehicle Management\",\"col\":5}},{\"id\":\"3F7NbRmSmA\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchase and Sales Reports\",\"col\":5}},{\"id\":\"1z0KcTqT_9\",\"type\":\"card\",\"data\":{\"card_name\":\"Store and Inventory Management\",\"col\":5}}]",
- "creation": "2024-10-01 10:15:31.009320",
+ "creation": "2025-01-24 15:09:57.431890",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -367,7 +367,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-10-05 17:50:39.925962",
+ "modified": "2025-06-11 17:36:24.078205",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Mangal Minerals List",

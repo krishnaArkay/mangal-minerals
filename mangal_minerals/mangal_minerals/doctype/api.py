@@ -493,7 +493,8 @@ def delivery_note_on_submit(doc, method):
             jumbo_bag_items.append({
                 "item_code": item.item_code,
                 "qty": item.qty,
-                "qty_mt": item.custom_total_mt
+                "qty_mt": item.custom_total_mt,
+                "vendor": item.custom_vendor
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(date, reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
@@ -515,7 +516,8 @@ def purchase_receipt_on_submit(doc, method):
                 jumbo_bag_warehouse = item.warehouse
             jumbo_bag_items.append({
                 "item_code": item.item_code,
-                "qty": item.qty
+                "qty": item.qty,
+                "vendor": item.custom_vendor
             })
     if jumbo_bag_items:
         create_jumbo_bag_document(date, reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)

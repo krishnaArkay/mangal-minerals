@@ -12,13 +12,20 @@
   "entry_for",
   "party_name",
   "bill_number",
+  "batch_number_series",
   "column_break_suof",
   "date",
   "person_responsible",
   "warehouse",
   "voucher_number",
+  "has_batch_no",
+  "item",
+  "uom",
+  "item_quantity",
+  "batch_count",
   "section_break_idxh",
   "items",
+  "batch_details",
   "remarks",
   "naming_series"
  ],
@@ -78,6 +85,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval: !doc.has_batch_no",
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
@@ -122,12 +130,67 @@
    "fieldtype": "Data",
    "label": "Bill Number",
    "mandatory_depends_on": "eval:doc.entry_type == \"Stock In\""
+  },
+  {
+   "default": "0",
+   "fieldname": "has_batch_no",
+   "fieldtype": "Check",
+   "label": "Has Batch No"
+  },
+  {
+   "depends_on": "eval: doc.has_batch_no",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "link_filters": "[[\"Item\",\"has_batch_no\",\"=\",1]]",
+   "mandatory_depends_on": "eval: doc.has_batch_no",
+   "options": "Item"
+  },
+  {
+   "depends_on": "eval: doc.has_batch_no",
+   "fetch_from": "item.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "mandatory_depends_on": "eval: doc.has_batch_no",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.has_batch_no",
+   "fieldname": "item_quantity",
+   "fieldtype": "Float",
+   "label": "Item Quantity",
+   "mandatory_depends_on": "eval: doc.has_batch_no"
+  },
+  {
+   "depends_on": "eval: doc.has_batch_no",
+   "fieldname": "batch_count",
+   "fieldtype": "Float",
+   "label": "Batch Count",
+   "mandatory_depends_on": "eval: doc.has_batch_no"
+  },
+  {
+   "depends_on": "eval: doc.has_batch_no",
+   "fieldname": "batch_details",
+   "fieldtype": "Table",
+   "label": "Batch Details",
+   "options": "Store Management Batch Details"
+  },
+  {
+   "depends_on": "eval: doc.has_batch_no",
+   "fetch_from": "item.batch_number_series",
+   "fieldname": "batch_number_series",
+   "fieldtype": "Data",
+   "label": "Batch Number Series",
+   "mandatory_depends_on": "eval: doc.has_batch_no",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-21 11:22:05.713621",
+ "modified": "2025-06-19 09:50:02.348609",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Store Management",

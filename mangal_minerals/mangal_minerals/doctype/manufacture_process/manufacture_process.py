@@ -46,7 +46,8 @@ class ManufactureProcess(Document):
                 items.append({
                     "item": row.item,
                     "quantity": row.quantity,
-                    "qty_mt": jb_mt
+                    "qty_mt": jb_mt,
+                    "vendor": row.vendor
                 })
             # for item, qty in bag_items:
                 # jb_kg = qty * per_kg_jb  # Calculate kg for each bag
