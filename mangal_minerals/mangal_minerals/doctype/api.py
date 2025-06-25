@@ -343,6 +343,23 @@ def create_stock_transfer_entry(items,stock_entry_type, date):
     return doc.name
 
 #------------------------------------------------------------------------------------------------------------------#
+
+def create_stock_reconcilliation_entry(items, stock_entry_type, date, time, company):
+    difference_account = frappe.db.get_value("Company", company, "stock_adjustment_account")
+    doc = frappe.get_doc({
+        "doctype": "Stock Reconciliation",
+        "purpose": stock_entry_type,
+        "difference_account": difference_account,
+        "set_posting_time": 1,
+        "posting_date": date,
+        "posting_time": time,
+        "items": items
+    })
+    doc.save(ignore_permissions=True)
+
+    doc.submit()
+    return doc.name
+#------------------------------------------------------------------------------------------------------------------#
 # Manufacture Process
 def create_stock_entry_manufacture(date, input_items, output_items,jb_items, target_warehouse, stock_entry_type,j_b_flag, per_kg_jb):
     items = []
@@ -417,6 +434,12 @@ def cancel_stock_entry(voucher_number):
         if stock_entry.docstatus == 1:  # Check if the stock entry is submitted
             stock_entry.cancel()    
 
+# Cancel Stock Reconciliation
+def cancel_stock_reconciliation(voucher_number):
+    if frappe.db.exists("Stock Reconciliation", voucher_number):
+        stock_entry = frappe.get_doc("Stock Reconciliation", voucher_number)
+        if stock_entry.docstatus == 1:  # Check if the stock entry is submitted
+            stock_entry.cancel()  
 #------------------------------------------------------------------------------------------------------------------#
 
 # Jumbo Bag Stock Effect
@@ -500,6 +523,22 @@ def delivery_note_on_submit(doc, method):
         create_jumbo_bag_document(date, reference_doctype, reference_number, entry_purpose, jumbo_bag_items,jumbo_bag_warehouse)
     update_delivered_qty(doc, method)
     frappe.db.set_value("Item", item.item_code, "allow_negative_stock", 1)
+
+    # Process Talpatri
+    talpatri_items = []  
+    if doc.custom_top_talpatri_item and float(doc.custom_top_talpatri_quantity) > 0:
+            talpatri_items.append({
+                "item": doc.custom_top_talpatri_item,
+                "quantity": doc.custom_top_talpatri_quantity,
+            })
+    if doc.custom_bottom_talpatri_item and float(doc.custom_bottom_talpatri_quantity) > 0:
+            talpatri_items.append({
+                "item": doc.custom_bottom_talpatri_item,
+                "quantity": doc.custom_bottom_talpatri_quantity,
+            })
+
+    if talpatri_items:
+        create_talpatri_document(date, reference_doctype, reference_number, "Delivered", talpatri_items, doc.set_warehouse, doc.customer, doc.company)
 #------------------------------------------------------------------------------------------------------------------#
 
 #Purchase reciept Submit
@@ -548,6 +587,32 @@ def create_jumbo_bag_document(date, reference_doctype,reference_number,entry_pur
     # Save and submit the Jumbo Bag document
     jumbo_bag_doc.save(ignore_permissions=True)
     jumbo_bag_doc.submit()
+
+ # Create a new Talpatri document  
+#------------------------------------------------------------------------------------------------------------------#
+
+def create_talpatri_document(talpatri_date, talpatri_reference_doctype, talpatri_reference_number, talpatri_entry_purpose, talpatri_items,talpatri_warehouse, talpatri_vendor, talpatri_company):    
+    talpatri_doc = frappe.new_doc("Talpatri Management")
+    
+    talpatri_doc.company = talpatri_company
+    talpatri_doc.vendor = talpatri_vendor
+    talpatri_doc.reference_document = talpatri_reference_doctype
+    talpatri_doc.entry_purpose = talpatri_entry_purpose
+    talpatri_doc.reference_number = talpatri_reference_number
+    talpatri_doc.warehouse = talpatri_warehouse
+    talpatri_doc.date = talpatri_date
+    talpatri_doc.remarks = f"Created From {talpatri_reference_doctype} - {talpatri_reference_number}"
+    
+    for item in talpatri_items:
+        talpatri_doc.append("items", {
+            "item": item["item"],
+            "quantity": item["quantity"],
+        })
+    # Save and submit the Jumbo Bag document
+    talpatri_doc.save(ignore_permissions=True)
+    talpatri_doc.submit()
+
+
 #------------------------------------------------------------------------------------------------------------------#
 def update_delivered_qty(doc, method):
     delivery_note_item_qty = doc.items[0].custom_total_mt or doc.items[0].qty

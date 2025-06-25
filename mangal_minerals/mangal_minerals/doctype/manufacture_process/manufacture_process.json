@@ -10,6 +10,8 @@
   "amended_from",
   "process_name",
   "warehouse",
+  "is_finished_good_process",
+  "vendor",
   "column_break_hkvt",
   "date",
   "voucher_number",
@@ -125,12 +127,27 @@
    "fieldname": "per_jumbo_bag_kg",
    "fieldtype": "Float",
    "label": "Per Jumbo Bag KG"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_finished_good_process",
+   "fieldtype": "Check",
+   "label": "Is Finished Good Process"
+  },
+  {
+   "depends_on": "is_finished_good_process",
+   "fieldname": "vendor",
+   "fieldtype": "Link",
+   "label": "Vendor",
+   "link_filters": "[[\"Customer\",\"custom_store_customer\",\"=\",0]]",
+   "mandatory_depends_on": "is_finished_good_process",
+   "options": "Customer"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-17 13:31:17.871565",
+ "modified": "2025-06-21 17:24:46.318194",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Manufacture Process",
