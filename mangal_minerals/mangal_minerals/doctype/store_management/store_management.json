@@ -24,8 +24,8 @@
   "item_quantity",
   "batch_count",
   "section_break_idxh",
-  "items",
   "batch_details",
+  "items",
   "remarks",
   "naming_series"
  ],
@@ -85,7 +85,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval: !doc.has_batch_no",
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
@@ -190,7 +189,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-06-19 09:50:02.348609",
+ "modified": "2025-06-23 12:23:35.979274",
  "modified_by": "Administrator",
  "module": "Mangal Minerals",
  "name": "Store Management",
