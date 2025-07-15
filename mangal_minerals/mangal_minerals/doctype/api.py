@@ -538,7 +538,8 @@ def delivery_note_on_submit(doc, method):
             })
 
     if talpatri_items:
-        create_talpatri_document(date, reference_doctype, reference_number, "Delivered", talpatri_items, doc.set_warehouse, doc.customer, doc.company)
+        create_talpatri_document(date, reference_doctype, reference_number, "Delivered", talpatri_items, doc.set_warehouse, doc.customer, doc.company, doc.vehicle_no)
+
 #------------------------------------------------------------------------------------------------------------------#
 
 #Purchase reciept Submit
@@ -591,7 +592,7 @@ def create_jumbo_bag_document(date, reference_doctype,reference_number,entry_pur
  # Create a new Talpatri document  
 #------------------------------------------------------------------------------------------------------------------#
 
-def create_talpatri_document(talpatri_date, talpatri_reference_doctype, talpatri_reference_number, talpatri_entry_purpose, talpatri_items,talpatri_warehouse, talpatri_vendor, talpatri_company):    
+def create_talpatri_document(talpatri_date, talpatri_reference_doctype, talpatri_reference_number, talpatri_entry_purpose, talpatri_items,talpatri_warehouse, talpatri_vendor, talpatri_company, talpatri_vehicle_no):
     talpatri_doc = frappe.new_doc("Talpatri Management")
     
     talpatri_doc.company = talpatri_company
@@ -601,6 +602,7 @@ def create_talpatri_document(talpatri_date, talpatri_reference_doctype, talpatri
     talpatri_doc.reference_number = talpatri_reference_number
     talpatri_doc.warehouse = talpatri_warehouse
     talpatri_doc.date = talpatri_date
+    talpatri_doc.vehicle_no = talpatri_vehicle_no
     talpatri_doc.remarks = f"Created From {talpatri_reference_doctype} - {talpatri_reference_number}"
     
     for item in talpatri_items:
